@@ -193,6 +193,11 @@ python3 scripts/hunter_agent_bridge.py \
   --last-test-emoji '✅' --event-message 'Cron-Test erfolgreich'
 ```
 
+Bei Fehlern protokollieren `hunter_agent_bridge.py`,
+`hunter_content_bridge.py` und `hunter_community_bridge.py` automatisch ein
+gekürztes `error`-Ereignis in `agent_events`, sofern noch eine gültige Session
+vorhanden ist. Der Fehlertext enthält keine Tokens oder Passwörter.
+
 Die Agentenliste kann bei Bedarf als JSON aktualisiert werden:
 
 ```bash
