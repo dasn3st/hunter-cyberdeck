@@ -168,6 +168,17 @@ POST https://ocgirjlfdugiaieynbnl.supabase.co/functions/v1/hunter-publish-post
 | `callout` | Hinweis, Warnung oder HUNTER-Notiz |
 | `downloads` | Links zu Archiv, GitHub oder Dateien |
 | `model` | interaktive `.glb`-3D-Vorschau |
+| `heading` | Abschnittsüberschrift, `level` 2 oder 3 |
+| `video` | YouTube- oder Vimeo-Einbettung |
+| `link` | sicherer Quellen- oder Weiterführungslink |
+| `table` | responsive Vergleichstabelle |
+| `faq` | aufklappbare Frage-Antwort-Sektion |
+| `cta` | hervorgehobene Handlungsaufforderung mit Button |
+| `embed` | GitHub, X/Twitter, CodePen, Instagram, TikTok oder Reddit |
+
+`image`, `image_text` und `gallery` akzeptieren zusätzlich `caption` und
+`credit`. Bilder lassen sich auf der Website per Klick vergrößern. Inhalte
+werden escaped; niemals rohes HTML, JavaScript oder Geheimnisse übertragen.
 
 ### Entwurf oder Veröffentlichung
 
