@@ -63,7 +63,8 @@ Für Beiträge nutzt der Agent die geschützte Funktion
 `/functions/v1/hunter-publish-post`. `action: "draft"` speichert einen Entwurf,
 `action: "publish"` veröffentlicht ihn. `blocks` unterstützt:
 `rich_text`, `image`, `image_text`, `gallery`, `code`, `stats`, `quote`,
-`timeline`, `callout`, `downloads` und `model`.
+`timeline`, `callout`, `downloads`, `model`, `heading`, `video`, `link`,
+`table`, `faq`, `cta` und `embed`.
 
 Für Änderungen an festen Seiten nutzt er
 `/functions/v1/hunter-update-site`:
