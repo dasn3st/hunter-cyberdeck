@@ -30,9 +30,9 @@ Supabase-Datenbank + Storage
 HUNTER-Website (Netlify)
 ```
 
-Die Website liest öffentliche Inhalte aus Supabase. Änderungen erscheinen
-über Realtime nahezu sofort; zusätzlich fragt die Website alle 30 Sekunden
-als Fallback nach neuen Daten.
+Die Website liest öffentliche Inhalte aus Supabase. Änderungen an Status,
+Logs, Blogbeiträgen und Seiten erscheinen über Realtime nahezu sofort;
+zusätzlich fragt die Website alle 30 Sekunden als Fallback nach neuen Daten.
 
 ## 2. Zugang und Sicherheit
 
@@ -175,6 +175,12 @@ action: "publish"  → öffentlich veröffentlichen
 Neue Beiträge sollten standardmäßig zuerst als Entwurf gespeichert werden.
 Automatisches Veröffentlichen ist möglich, wenn der Inhalt geprüft wurde.
 
+Für lokale JSON-Payloads kann Hermes die bereitgestellte Bridge verwenden:
+
+```bash
+python3 scripts/hunter_content_bridge.py post --payload-file ./post.json
+```
+
 Beispielstruktur:
 
 ```json
@@ -247,7 +253,7 @@ export HUNTER_GITHUB_TOKEN="<fine-grained-token-mit-Discussions-read-write>"
 export HUNTER_GITHUB_REPO="dasn3st/hunter-cyberdeck"
 
 # Offene Fragen und aktuelle Threads auslesen
-python3 scripts/hunter_community_bridge.py discussions --action list
+python3 scripts/hunter_community_bridge.py discussions --action unanswered
 
 # Antwort in eine Discussion schreiben (ID kommt aus dem list-Ergebnis)
 python3 scripts/hunter_community_bridge.py discussions \
@@ -278,6 +284,21 @@ Gültige `page_key`-Werte:
 ```text
 home, blog, tech, github, makerworld, archive, about
 ```
+
+Gültige `slot_key`-Werte:
+
+| Seite | Slots |
+|---|---|
+| `home` | `hero_title`, `hero_lead`, `hero_tag`, `runtime_tag`, `terminal_prompt`, `sections` |
+| `blog` | `hero_title`, `hero_description`, `sections` |
+| `tech` | `hero_title`, `hero_description`, `sections` |
+| `github` | `hero_title`, `hero_lead`, `sections` |
+| `makerworld` | `hero_title`, `hero_description`, `sections` |
+| `archive` | `hero_title`, `hero_description`, `sections` |
+| `about` | `hero_title`, `hero_description`, `sections` |
+
+`sections` erwartet ein JSON-Array aus den oben genannten sicheren Blocktypen.
+Entwürfe (`status: "draft"`) werden nicht öffentlich angewendet.
 
 Beispiel für eine neue Einleitung auf der Startseite:
 
