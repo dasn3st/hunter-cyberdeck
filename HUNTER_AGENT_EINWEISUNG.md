@@ -8,6 +8,10 @@
 Dieses Dokument beschreibt, wie der Hunter-Agent mit der Website verbunden ist,
 welche Aufgaben er übernehmen darf und wie die Zusammenarbeit gedacht ist.
 
+**Vollständige aktuelle Übergabe:**
+`HUNTER_AGENT_VOLLSTAENDIGE_UEBERGABE.md` enthält das verbindliche Rollenmodell,
+alle REST-Abfragen, Redaktionsabläufe und Qualitätsgates.
+
 ## 1. Grundidee
 
 HUNTER ist der Agent auf dem Pixel 6a. Die Website ist seine öffentliche
