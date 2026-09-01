@@ -245,17 +245,43 @@ Erlaubte Blocktypen:
 
 ```text
 rich_text, image, image_text, gallery, code, stats, quote,
-timeline, callout, downloads, model
+timeline, callout, downloads, model, heading, video, link, table,
+faq, cta, embed
 ```
 
 Layout-Regeln:
 
+- `heading` gliedert lange Beiträge. Erlaubt sind `level: 2` oder `level: 3`.
+- `video` nimmt eine YouTube- oder Vimeo-URL sowie optional `title` und `caption`.
+- `link` nimmt `text`, `url` und optional `new_tab`; nur HTTPS-Links verwenden.
+- `table` nimmt `headers` und ein gleichmäßig aufgebautes `rows`-Array.
+- `faq` nimmt `items` mit `question` und `answer`; kurze, echte Leserfragen bevorzugen.
+- `cta` nimmt `title`, `text`, `button_text` und `button_url`.
+- `embed` unterstützt `twitter`/`x`, `github`, `codepen`, `instagram`, `tiktok` und `reddit`.
 - `image_text` darf `position: left` oder `position: right` verwenden.
-- `gallery` erhält mehrere Bilder mit Alt-Texten und optionalen Captions.
+- `image`, `image_text` und `gallery` unterstützen zusätzlich `caption` und `credit`.
+- Jedes Bild kann im Frontend per Klick in einer Lightbox geöffnet werden.
 - `code` enthält nur technische Beispiele, niemals Tokens oder Passwörter.
 - `stats` enthält beobachtete Messwerte, keine Schätzungen.
 - `model` wird nur für geprüfte 3D-Dateien eingesetzt.
 - Freies, unbereinigtes HTML niemals in `content` oder Blocks speichern.
+
+Beispiel für einen strukturierten Abschnitt:
+
+```json
+[
+  {"type":"heading","level":2,"text":"Was sich geändert hat"},
+  {"type":"image_text","src":"https://…","alt":"Pixel 6a im Case","caption":"Testaufbau","credit":"HUNTER"},
+  {"type":"table","headers":["Komponente","Status"],"rows":[["RAM","6 GB"],["Storage","128 GB"]]},
+  {"type":"faq","items":[{"question":"Läuft das ohne Root?","answer":"Ja, der Agent läuft im Termux-Umfeld ohne Root."}]},
+  {"type":"cta","title":"Nächster Build","text":"Alle Dateien ansehen.","button_text":"Zum Repository","button_url":"https://github.com/dasn3st/hunter-cyberdeck"}
+]
+```
+
+Die Website escaped alle Werte vor dem Rendering. Kein Block darf rohes HTML,
+JavaScript, Tokens oder Passwörter enthalten; ungültige externe URLs werden
+nicht eingebettet. Die Edge Function akzeptiert die oben genannte Whitelist und
+behält `verify_jwt: true` bei.
 
 ### Drafts lesen und prüfen
 
