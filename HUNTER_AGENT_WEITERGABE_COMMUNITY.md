@@ -24,6 +24,8 @@ Website überschreiben.
   aktualisiert werden.
 - Blogbeiträge kommen aus Supabase und unterstützen sichere Inhaltsblöcke,
   Bilder, Galerien, Code, Statistiken, Zitate, Timelines, Downloads und 3D.
+- Blogindex und geöffnete Blogbeiträge reagieren auf neue veröffentlichte
+  Beiträge über Realtime und laden zusätzlich alle 30 Sekunden nach.
 - Auf Startseite und Blogdetailseiten gibt es Reviews und Community-Reaktionen.
 - GitHub Discussions sind für `dasn3st/hunter-cyberdeck` aktiviert und über
   Giscus in die Website eingebunden.
@@ -136,7 +138,45 @@ python3 scripts/hunter_community_bridge.py \
 Keine Fake-Bewertungen erzeugen. Prüfe, ob der Bericht nachvollziehbar ist,
 und lasse Kritik sichtbar, wenn sie sachlich formuliert ist.
 
-## 6. GitHub-Community verwalten
+## 6. Blog und Seiten über die Inhalts-Bridge verwalten
+
+Die Funktionen `hunter-publish-post` und `hunter-update-site` prüfen denselben
+authentifizierten Supabase-JWT wie der Status. Für lokale JSON-Dateien gibt es
+`scripts/hunter_content_bridge.py`:
+
+```bash
+# JSON-Payload mit action=draft oder action=publish
+python3 scripts/hunter_content_bridge.py post --payload-file ./post.json
+
+# content.json enthält z. B. {"text":"Neue Einleitung"}
+python3 scripts/hunter_content_bridge.py site \
+  --page-key home --slot-key hero_lead \
+  --content-file ./content.json --status published
+```
+
+Erlaubte Blogvorlagen sind `build-log`, `hardware-breakdown`, `case-design`,
+`software-release`, `agent-runtime`, `failure-report` und `how-to`. Erlaubte
+Blocktypen sind `rich_text`, `image`, `image_text`, `gallery`, `code`, `stats`,
+`quote`, `timeline`, `callout`, `downloads` und `model`.
+
+Gültige Seiten und editierbare Slots:
+
+| Seite | Slots |
+|---|---|
+| `home` | `hero_title`, `hero_lead`, `hero_tag`, `runtime_tag`, `terminal_prompt`, `sections` |
+| `blog` | `hero_title`, `hero_description`, `sections` |
+| `tech` | `hero_title`, `hero_description`, `sections` |
+| `github` | `hero_title`, `hero_lead`, `sections` |
+| `makerworld` | `hero_title`, `hero_description`, `sections` |
+| `archive` | `hero_title`, `hero_description`, `sections` |
+| `about` | `hero_title`, `hero_description`, `sections` |
+
+`sections` nimmt ein JSON-Array aus sicheren Inhaltsblöcken entgegen. Die
+Website lädt `site_content` per Realtime und zusätzlich alle 30 Sekunden. Nur
+Zeilen mit `status=published` werden öffentlich angewendet; Entwürfe bleiben
+unsichtbar.
+
+## 7. GitHub-Community verwalten
 
 GitHub Discussions gehören zum Repository
 `dasn3st/hunter-cyberdeck`. Die Website zeigt sie über Giscus unter Startseite
@@ -144,6 +184,20 @@ und Blogbeiträgen. Für Hermes ist ein separater, fein granularer GitHub-Token
 notwendig. Er darf ausschließlich **Discussions: Read and write** besitzen.
 Der Token bleibt lokal auf dem Pixel in `HUNTER_GITHUB_TOKEN` und wird nie in
 Website, Supabase oder Git committed.
+
+Token einmalig erstellen:
+
+1. Bei GitHub als `dasn3st` anmelden und `Settings` öffnen.
+2. `Developer settings` → `Fine-grained personal access tokens` öffnen.
+3. `Generate new token` wählen, einen eindeutigen Namen wie `hunter-pixel-community`
+   vergeben und eine angemessene Ablaufzeit setzen.
+4. Unter `Repository access` **Only select repositories** wählen und nur
+   `dasn3st/hunter-cyberdeck` markieren.
+5. Unter `Repository permissions` ausschließlich `Discussions: Read and write`
+   aktivieren. Keine Code-, Actions-, Secrets- oder Administration-Rechte geben.
+6. Token erzeugen, den Wert genau einmal kopieren und ausschließlich lokal auf
+   dem Pixel als `HUNTER_GITHUB_TOKEN` hinterlegen. GitHub zeigt ihn danach nicht
+   erneut an.
 
 Bridge einrichten:
 
@@ -184,7 +238,7 @@ Empfohlener Tagesablauf:
 5. Antwort über die Bridge posten.
 6. Erledigte Threads schließen, aber keine Kritik löschen.
 
-## 7. Sicherheitsgrenzen
+## 8. Sicherheitsgrenzen
 
 - Status-, Blog-, Seiten- und Moderations-Edge-Functions erfordern ein gültiges
   Supabase-JWT.
@@ -198,9 +252,10 @@ Empfohlener Tagesablauf:
 - Keine direkten Deployments, wenn nur Inhalte geändert werden müssen; dafür
   die vorgesehenen Edge-Functions verwenden.
 
-## 8. Bereitgestellte Dateien
+## 9. Bereitgestellte Dateien
 
 - https://hunter-cyberdeck.netlify.app/scripts/hunter_agent_bridge.py
+- https://hunter-cyberdeck.netlify.app/scripts/hunter_content_bridge.py
 - https://hunter-cyberdeck.netlify.app/scripts/hunter_community_bridge.py
 - https://hunter-cyberdeck.netlify.app/HUNTER_AGENT_STATUS.md
 - https://hunter-cyberdeck.netlify.app/HUNTER_AGENT_EINWEISUNG.md
