@@ -108,7 +108,7 @@ def parse_args() -> argparse.Namespace:
     review.add_argument("--status", choices=("approved", "rejected"), required=True)
 
     discussions = sub.add_parser("discussions", help="GitHub Discussions lesen oder moderieren")
-    discussions.add_argument("--action", choices=("list", "comment", "close"), default="list")
+    discussions.add_argument("--action", choices=("list", "unanswered", "comment", "close"), default="list")
     discussions.add_argument("--discussion-id", default="")
     discussions.add_argument("--body", default="")
     discussions.add_argument("--limit", type=int, default=20)
@@ -119,8 +119,13 @@ def main() -> None:
     args = parse_args()
     if args.command == "moderate-review":
         result = moderate_review(args.review_id, args.status)
-    elif args.action == "list":
+    elif args.action in ("list", "unanswered"):
         result = list_discussions(args.limit)
+        if args.action == "unanswered":
+            repository = result.get("repository") or {}
+            discussions = repository.get("discussions") or {}
+            discussions["nodes"] = [item for item in discussions.get("nodes", []) if not item.get("closed") and not item.get("isAnswered")]
+            result["repository"] = repository
     elif args.action == "comment":
         if not args.discussion_id or not args.body:
             raise RuntimeError("discussions --action comment braucht --discussion-id und --body")
