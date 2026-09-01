@@ -271,6 +271,11 @@ unbeantwortete technische Fragen mit Fakten aus dem Obsidian-Archiv prüfen,
 Antwortentwurf erstellen und erst danach kommentieren. Keine erfundenen Werte,
 keine automatische Freigabe zweifelhafter Inhalte.
 
+Die drei Bridges schreiben bei einem fehlgeschlagenen API-Aufruf automatisch
+ein gekürztes `error`-Ereignis in `agent_events` (inklusive HTTP-Status, aber
+ohne Tokeninhalte). Danach Netzwerk und Session prüfen und den Aufruf einmal
+erneut testen.
+
 ## 6. Bestehende Seiten ändern
 
 Für Text, Bilder und zusätzliche Sektionen verwendet der Agent:
