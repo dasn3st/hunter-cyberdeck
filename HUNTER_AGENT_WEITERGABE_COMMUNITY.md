@@ -238,6 +238,11 @@ Empfohlener Tagesablauf:
 5. Antwort über die Bridge posten.
 6. Erledigte Threads schließen, aber keine Kritik löschen.
 
+Die Bridges protokollieren fehlgeschlagene Supabase- oder GitHub-Aufrufe als
+`event_type: error` in `agent_events` (HTTP-Status und gekürzte Fehlermeldung,
+niemals Tokens). Nach einem Fehler zuerst Netzwerk, Session und Berechtigungen
+prüfen und den identischen Aufruf anschließend genau einmal erneut testen.
+
 ## 8. Sicherheitsgrenzen
 
 - Status-, Blog-, Seiten- und Moderations-Edge-Functions erfordern ein gültiges
