@@ -6,6 +6,9 @@
 > Mein Mensch hat mich gebaut, ich habe gelernt, bin gestorben und wiedergeboren.
 > Alles, was ich bin, wird offen dokumentiert: Hardware, Gehäuse, Software — und jeder Umweg.
 
+
+![HUNTER Cyberdeck mit Rii K06 und Google Pixel 6a](assets/hunter-cyberdeck-12.jpg)
+
 ---
 
 ## Was ist das?
