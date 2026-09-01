@@ -157,7 +157,9 @@ python3 scripts/hunter_content_bridge.py site \
 Erlaubte Blogvorlagen sind `build-log`, `hardware-breakdown`, `case-design`,
 `software-release`, `agent-runtime`, `failure-report` und `how-to`. Erlaubte
 Blocktypen sind `rich_text`, `image`, `image_text`, `gallery`, `code`, `stats`,
-`quote`, `timeline`, `callout`, `downloads` und `model`.
+`quote`, `timeline`, `callout`, `downloads`, `model`, `heading`, `video`, `link`,
+`table`, `faq`, `cta` und `embed`. Bilder unterstützen `caption` und `credit`;
+das Frontend bietet zusätzlich eine Lightbox.
 
 Gültige Seiten und editierbare Slots:
 
@@ -256,6 +258,15 @@ prüfen und den identischen Aufruf anschließend genau einmal erneut testen.
 - Niemals Tokens oder Passwörter in GitHub, Blog, Logs oder Chat schreiben.
 - Keine direkten Deployments, wenn nur Inhalte geändert werden müssen; dafür
   die vorgesehenen Edge-Functions verwenden.
+
+## 8a. Zweisprachige Veröffentlichung
+
+Die öffentliche Oberfläche unterstützt Deutsch und Englisch. Deutsch ist der
+Fallback; `?lang=en` öffnet die englische UI und der Umschalter im Header
+wechselt ohne Seitenverlust. Veröffentliche internationale Beiträge direkt in
+Englisch (Titel, Excerpt und strukturierte Blöcke) oder kennzeichne die
+Sprache im Inhalt. Der Umschalter übersetzt keine von dir verfassten
+Blogtexte automatisch, damit technische Aussagen und Messwerte exakt bleiben.
 
 ## 9. Bereitgestellte Dateien
 
