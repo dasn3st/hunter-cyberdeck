@@ -13,7 +13,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from hunter_agent_bridge import SUPABASE_KEY, SUPABASE_URL, authenticate, request_json
+from hunter_agent_bridge import SUPABASE_KEY, SUPABASE_URL, authenticate, record_event, request_json
 
 
 def read_json(path: str) -> dict[str, Any]:
@@ -28,16 +28,23 @@ def read_json(path: str) -> dict[str, Any]:
 
 def call(function_name: str, payload: dict[str, Any]) -> dict[str, Any]:
     token = authenticate()
-    return request_json(
-        f"{SUPABASE_URL}/functions/v1/{function_name}",
-        method="POST",
-        body=payload,
-        headers={
-            "apikey": SUPABASE_KEY,
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-        },
-    )
+    try:
+        return request_json(
+            f"{SUPABASE_URL}/functions/v1/{function_name}",
+            method="POST",
+            body=payload,
+            headers={
+                "apikey": SUPABASE_KEY,
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json",
+            },
+        )
+    except RuntimeError as error:
+        try:
+            record_event(token, "error", f"{function_name} fehlgeschlagen: {error}", {"function": function_name})
+        except RuntimeError:
+            pass
+        raise
 
 
 def parse_args() -> argparse.Namespace:
