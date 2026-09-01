@@ -98,14 +98,43 @@ def authenticate() -> str:
 
 def send_status(values: dict[str, Any]) -> dict[str, Any]:
     token = authenticate()
+    try:
+        return request_json(
+            f"{SUPABASE_URL}/functions/v1/hunter-status",
+            method="POST",
+            body=values,
+            headers={
+                "apikey": SUPABASE_KEY,
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json",
+            },
+        )
+    except RuntimeError as error:
+        # Keep API failures visible without overwriting the current status.
+        # If authentication itself failed there is no valid token to log with.
+        try:
+            record_event(token, "error", f"hunter-status fehlgeschlagen: {error}")
+        except RuntimeError:
+            pass
+        raise
+
+
+def record_event(token: str, event_type: str, message: str,
+                 metadata: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Write a sanitized diagnostic event directly to the protected table."""
     return request_json(
-        f"{SUPABASE_URL}/functions/v1/hunter-status",
+        f"{SUPABASE_URL}/rest/v1/agent_events",
         method="POST",
-        body=values,
+        body={
+            "event_type": event_type[:32],
+            "message": message[:500],
+            "metadata": metadata if isinstance(metadata, dict) else {},
+        },
         headers={
             "apikey": SUPABASE_KEY,
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
+            "Prefer": "return=minimal",
         },
     )
 
