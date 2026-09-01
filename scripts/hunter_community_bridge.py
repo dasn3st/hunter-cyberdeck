@@ -14,7 +14,7 @@ import urllib.error
 import urllib.request
 from typing import Any
 
-from hunter_agent_bridge import SUPABASE_KEY, SUPABASE_URL, authenticate, request_json
+from hunter_agent_bridge import SUPABASE_KEY, SUPABASE_URL, authenticate, record_event, request_json
 
 
 GITHUB_TOKEN = os.environ.get("HUNTER_GITHUB_TOKEN", "")
@@ -22,22 +22,32 @@ GITHUB_REPO = os.environ.get("HUNTER_GITHUB_REPO", "dasn3st/hunter-cyberdeck")
 
 
 def github_graphql(query: str, variables: dict[str, Any]) -> dict[str, Any]:
-    if not GITHUB_TOKEN:
-        raise RuntimeError("HUNTER_GITHUB_TOKEN fehlt. Auf dem Pixel nur als Umgebungsvariable setzen.")
-    payload = json.dumps({"query": query, "variables": variables}).encode()
-    request = urllib.request.Request("https://api.github.com/graphql", data=payload, method="POST")
-    request.add_header("Authorization", f"Bearer {GITHUB_TOKEN}")
-    request.add_header("Accept", "application/vnd.github+json")
-    request.add_header("Content-Type", "application/json")
     try:
-        with urllib.request.urlopen(request, timeout=20) as response:
-            result = json.loads(response.read().decode())
-    except urllib.error.HTTPError as error:
-        detail = error.read().decode(errors="replace")
-        raise RuntimeError(f"GitHub API {error.code}: {detail}") from error
-    if result.get("errors"):
-        raise RuntimeError("GitHub GraphQL: " + "; ".join(str(item.get("message", "unbekannter Fehler")) for item in result["errors"]))
-    return result["data"]
+        if not GITHUB_TOKEN:
+            raise RuntimeError("HUNTER_GITHUB_TOKEN fehlt. Auf dem Pixel nur als Umgebungsvariable setzen.")
+        payload = json.dumps({"query": query, "variables": variables}).encode()
+        request = urllib.request.Request("https://api.github.com/graphql", data=payload, method="POST")
+        request.add_header("Authorization", f"Bearer {GITHUB_TOKEN}")
+        request.add_header("Accept", "application/vnd.github+json")
+        request.add_header("Content-Type", "application/json")
+        try:
+            with urllib.request.urlopen(request, timeout=20) as response:
+                result = json.loads(response.read().decode())
+        except urllib.error.HTTPError as error:
+            detail = error.read().decode(errors="replace")
+            raise RuntimeError(f"GitHub API {error.code}: {detail}") from error
+        if result.get("errors"):
+            raise RuntimeError("GitHub GraphQL: " + "; ".join(str(item.get("message", "unbekannter Fehler")) for item in result["errors"]))
+        return result["data"]
+    except RuntimeError as error:
+        # The GitHub token is intentionally never written to the log. Only the
+        # endpoint error and the affected operation are recorded.
+        try:
+            token = authenticate()
+            record_event(token, "error", f"GitHub-Community-Aufruf fehlgeschlagen: {error}", {"service": "github-discussions"})
+        except RuntimeError:
+            pass
+        raise
 
 
 def repo_owner_name() -> tuple[str, str]:
@@ -49,16 +59,23 @@ def repo_owner_name() -> tuple[str, str]:
 
 def moderate_review(review_id: int, status: str) -> dict[str, Any]:
     token = authenticate()
-    return request_json(
-        f"{SUPABASE_URL}/functions/v1/hunter-moderate-review",
-        method="POST",
-        body={"review_id": review_id, "status": status},
-        headers={
-            "apikey": SUPABASE_KEY,
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-        },
-    )
+    try:
+        return request_json(
+            f"{SUPABASE_URL}/functions/v1/hunter-moderate-review",
+            method="POST",
+            body={"review_id": review_id, "status": status},
+            headers={
+                "apikey": SUPABASE_KEY,
+                "Authorization": f"Bearer {token}",
+                "Content-Type": "application/json",
+            },
+        )
+    except RuntimeError as error:
+        try:
+            record_event(token, "error", f"hunter-moderate-review fehlgeschlagen: {error}", {"function": "hunter-moderate-review"})
+        except RuntimeError:
+            pass
+        raise
 
 
 def list_discussions(limit: int) -> dict[str, Any]:
