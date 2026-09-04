@@ -78,6 +78,164 @@ Die kopierbaren Befehle stehen direkt im
 zwischen Termux und Ubuntu-Container liegt zusätzlich in
 [Cyberdeck-Befehle-Termux-vs-Container.md](Cyberdeck-Befehle-Termux-vs-Container.md).
 
+## Befehlskette // Schritt für Schritt
+
+Die Befehle werden in dieser Reihenfolge ausgeführt. Jeder Block ist einzeln
+kopierbar. Die Überschrift zeigt, ob der Befehl in Termux oder im Ubuntu-
+Container läuft.
+
+### 01 // TERMUX — Paketbasis und Grundwerkzeuge
+
+```bash
+pkg update -y && pkg upgrade -y
+```
+
+```bash
+pkg install -y proot-distro git curl nodejs-lts
+```
+
+```bash
+termux-setup-storage
+```
+
+Zusätzlich in Android: Termux unter **Einstellungen → Apps → Termux → Akku**
+auf **Nicht optimiert** setzen.
+
+### 02 // TERMUX — Ubuntu-Container
+
+```bash
+proot-distro install ubuntu
+```
+
+```bash
+proot-distro login ubuntu
+```
+
+Ab hier laufen die nächsten Befehle im Container. Mit `exit` geht es zurück in
+Termux.
+
+### 03 // CONTAINER — Hermes und Gateway
+
+```bash
+apt update && apt install -y tmux curl
+```
+
+```bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+```
+
+```bash
+hermes setup
+```
+
+```bash
+hermes doctor
+```
+
+```bash
+tmux new-session -d -s hermes-gw -x 200 -y 40 'hermes gateway run'
+```
+
+```bash
+tmux ls
+```
+
+### 04 // CONTAINER — private Werte
+
+Keys gehören niemals in Befehle, Skripte, Chat-Ausgaben oder GitHub:
+
+```bash
+nano /root/.hermes/.env
+```
+
+```text
+TELEGRAM_BOT_TOKEN=<bot-token>
+TELEGRAM_ALLOWED_USERS=<deine-chat-id>
+OLLAMA_API_KEY=<ollama-cloud-key>
+```
+
+```bash
+chmod 600 /root/.hermes/.env
+```
+
+### 05 // CONTAINER — Obsidian und Heartbeat
+
+```bash
+mkdir -p /storage/emulated/0/Documents/cyberdeck-log/"00 Inbox" \
+         /storage/emulated/0/Documents/cyberdeck-log/"02 Wissen" \
+         /storage/emulated/0/Documents/cyberdeck-log/"04 Tagesnotizen"
+```
+
+```bash
+hermes
+```
+
+In der Agenten-Session anschließend den stündlichen Heartbeat-Cron einrichten.
+
+### 06 // TERMUX — pi und Boot
+
+```bash
+exit
+```
+
+```bash
+npm install -g @earendil-works/pi-coding-agent
+```
+
+```bash
+pi --version
+```
+
+```bash
+chmod +x ~/.termux/boot/hermes-gateway.sh ~/.termux/boot/hermes-watchdog-termux.sh
+```
+
+Nach einem Neustart prüfen:
+
+```bash
+cat ~/.termux/boot/boot-log.txt
+```
+
+### 07 // TERMUX — herdr
+
+```bash
+mkdir -p ~/.local/bin
+```
+
+```bash
+curl -fsSL <herdr-release-url> -o ~/.local/bin/herdr && chmod +x ~/.local/bin/herdr
+```
+
+```bash
+herdr status
+```
+
+```bash
+herdr agent start pi --kind pi --pane <pane-id>
+```
+
+```bash
+herdr pane run <pane-id> "proot-distro login ubuntu -- bash -lc 'hermes'"
+```
+
+### 08 // optional — opencode im CONTAINER
+
+```bash
+proot-distro login ubuntu
+```
+
+```bash
+npm install -g opencode-ai@latest
+```
+
+```bash
+opencode auth login
+```
+
+```bash
+opencode
+```
+
 ## Scope and safety
 
 This repository contains the public project and frontend source only. Private operations, credentials, agent handover notes and server-side administration remain outside the public repository.
