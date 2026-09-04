@@ -1,7 +1,8 @@
 # HUNTER CYBERDECK // INSTALLATIONSVERLAUF
 
-Öffentliche, bewusst technische Kurzchronik des Aufbaus. Zugangsdaten, private
-Betriebsdetails und lokale Infrastruktur gehören nicht in dieses Repository.
+Öffentliche Aufbauchronik und nachvollziehbare Installationsanleitung.
+Zugangsdaten, private Betriebsdetails und lokale Infrastruktur gehören nicht
+in dieses Repository.
 
 ## 01 // Hardware-Basis
 
@@ -236,8 +237,6 @@ opencode
 | `herdr ...` | TERMUX |
 | `opencode ...` | CONTAINER |
 
-Die ausführliche Variante mit Erläuterungen ist in
+Die ausführliche Variante mit der Ebenentrennung ist in
 [Cyberdeck-Befehle-Termux-vs-Container.md](Cyberdeck-Befehle-Termux-vs-Container.md)
-und ebenfalls als kopierbare Schritt-für-Schritt-Datei in
-[Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md](Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md)
 verfügbar.

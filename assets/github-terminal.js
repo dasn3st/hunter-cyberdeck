@@ -13,7 +13,6 @@
     { path: "github.html", group: "root", label: "github.html", lang: "HTML" },
     { path: "index.html", group: "root", label: "index.html", lang: "HTML" },
     { path: "INSTALLATIONSVERLAUF.md", group: "root", label: "INSTALLATIONSVERLAUF.md", lang: "Markdown" },
-    { path: "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md", group: "root", label: "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md", lang: "Markdown" },
     { path: "Cyberdeck-Befehle-Termux-vs-Container.md", group: "root", label: "Cyberdeck-Befehle-Termux-vs-Container.md", lang: "Markdown" },
     { path: "makerworld.html", group: "root", label: "makerworld.html", lang: "HTML" },
     { path: "post.html", group: "root", label: "post.html", lang: "HTML" },
@@ -114,7 +113,7 @@
 
   const locale = () => labels[window.HUNTER_LANG === "en" ? "en" : "de"];
   const fileByPath = (path) => files.find((file) => file.path === path) || files[0];
-  const commandGuidePaths = new Set(["INSTALLATIONSVERLAUF.md", "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md", "Cyberdeck-Befehle-Termux-vs-Container.md"]);
+  const commandGuidePaths = new Set(["INSTALLATIONSVERLAUF.md", "Cyberdeck-Befehle-Termux-vs-Container.md"]);
   let activeFile = files.find((file) => file.path === "INSTALLATIONSVERLAUF.md") || files[0];
   let activeSource = "";
 

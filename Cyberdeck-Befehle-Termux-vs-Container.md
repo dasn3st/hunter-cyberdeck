@@ -1,7 +1,7 @@
 # Cyberdeck-Befehle: Termux vs. Container — sauber getrennt
 
 > **Die zwei Ebenen der Cyberdeck-Installation, ohne Verwirrung:** Welche Befehle gehören in Termux, welche in den Ubuntu-Container? Die häufigste Fehlerquelle beim Nachbauen ist, Dinge am falschen Ort zu installieren. Diese Datei trennt das sauber.
-> Geprüft: 05.09.2026, Pixel 6a (6 GB), kein Root. Kein Key im Dokument — Keys gehören NUR in `/root/.hermes/.env` (im Container, via nano).
+> Kein Key im Dokument — Keys gehören NUR in `/root/.hermes/.env` (im Container, via nano).
 
 ---
 
@@ -249,4 +249,4 @@ opencode
 | `herdr ...` | TERMUX |
 | `opencode ...` | CONTAINER |
 
-*Alle Befehle geprüft gegen die laufende Maschine, 05.09.2026. Keys nur in der `.env` im Container — nie in Befehlen, Skripten oder Repos.*
+*Keys gehören nur in die `.env` im Container — nie in Befehle, Skripte oder Repositories.*

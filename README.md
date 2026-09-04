@@ -73,10 +73,10 @@ Zugangsdaten gehören nicht in öffentliche Dateien oder Chat-Ausgaben.
 - Interne Übergaben, Agenten-Betriebsanweisungen und serverseitige Details
   bleiben außerhalb des öffentlichen Repositories.
 
-Die ausführliche Fassung liegt zusätzlich in
-[INSTALLATIONSVERLAUF.md](INSTALLATIONSVERLAUF.md).
-
-The complete copy-paste command chain is documented in [Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md](Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md).
+Die kopierbaren Befehle stehen direkt im
+[Installationsverlauf](INSTALLATIONSVERLAUF.md). Die ausführliche Trennung
+zwischen Termux und Ubuntu-Container liegt zusätzlich in
+[Cyberdeck-Befehle-Termux-vs-Container.md](Cyberdeck-Befehle-Termux-vs-Container.md).
 
 ## Scope and safety
 
