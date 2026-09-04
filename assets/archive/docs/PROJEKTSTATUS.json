@@ -1,0 +1,21 @@
+{
+  "project": "Pixel 6a / Rii K06 Cyberdeck",
+  "handoff_date": "2026-09-01",
+  "units": "millimetres",
+  "final_release": {
+    "main_case": "V14",
+    "powerbank_box": "V6",
+    "ring_stand": "V2",
+    "tight_clip_variant": "10.34 mm retaining flats"
+  },
+  "physical_validation": {
+    "main_case_v14": "printed and usable prototype confirmed",
+    "powerbank_box_v6": "not confirmed in the retained records",
+    "ring_stand_v2": "not confirmed in the retained records",
+    "tight_clips_plus_1mm": "test print pending"
+  },
+  "do_not_print": [
+    "powerbank box V7 closed-side experiment",
+    "all files explicitly marked NICHT_DRUCKEN, GESPERRT, VORSCHAU or FEHLERHAFT"
+  ]
+}

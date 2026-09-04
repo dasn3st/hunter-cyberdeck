@@ -1,0 +1,56 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/HUNTER_AGENT_EINWEISUNG.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/HUNTER_AGENT_STATUS.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/HUNTER_AGENT_VOLLSTAENDIGE_UEBERGABE.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/HUNTER_AGENT_WEITERGABE_COMMUNITY.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/NOTEBOOKLM_AGENT_WORKFLOW.md"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/BLOG_DELUXE_VORLAGE.json"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/scripts/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.git/*"
+  to = "/404.html"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.env*"
+  to = "/404.html"
+  status = 404
+  force = true

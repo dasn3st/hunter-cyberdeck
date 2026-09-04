@@ -1,30 +1,24 @@
-# HUNTER Cyberdeck
+# HUNTER CYBERDECK
 
-HUNTER ist ein mobiles Open-Hardware-Projekt: ein Cyberdeck aus einem gebrauchten Smartphone, einer kompakten Tastatur und selbst entwickelten 3D-gedruckten Bauteilen.
+Public source repository for the HUNTER CYBERDECK open-build project and its editorial website.
 
-![HUNTER Cyberdeck](assets/hunter-cyberdeck-12.jpg)
+## What is included
 
-## Das Projekt
+- Static website pages and the shared frontend styles/scripts
+- Public project documentation, measurements and release notes
+- Product photos, 3D previews and downloadable print files
+- GitHub Discussions entry point for community feedback
 
-Das Cyberdeck verbindet mobile Hardware mit einer persönlichen KI-Agenten-Oberfläche. Im Mittelpunkt stehen ein bezahlbarer Aufbau, nachvollziehbare Designentscheidungen und hochwertige Dokumentation des sichtbaren Builds.
+## Run locally
 
-- **Host:** Google Pixel 6a
-- **Eingabe:** Rii K06 Mini-Tastatur mit Touchpad
-- **Gehäuse:** eigene 3D-gedruckte Konstruktion
-- **Ansatz:** offen, modular und zum Weiterbauen gedacht
+Serve this directory with any static web server and open `index.html` in a browser. No build step is required.
 
-## Warum HUNTER?
+```bash
+python3 -m http.server 4173
+```
 
-HUNTER zeigt, dass ein alltagstaugliches Cyberdeck nicht groß oder teuer sein muss. Das Projekt verbindet Hardware-Design, mobile Interfaces und KI-Experimente in einem kompakten System.
+The public website is deployed at [hunter-cyberdeck.netlify.app](https://hunter-cyberdeck.netlify.app/).
 
-## Öffentliches Projekt
+## Scope and safety
 
-Die Website zeigt den Build, die veröffentlichten Modelle und ausgewählte technische Einblicke. Interne Betriebs-, Zugangs- und Übergabedokumente werden bewusst nicht in diesem öffentlichen Repository veröffentlicht.
-
-- [Projektwebsite](https://hunter-cyberdeck.netlify.app)
-- [MakerWorld-Modelle](https://makerworld.com)
-- [Community Discussions](https://github.com/dasn3st/hunter-cyberdeck/discussions)
-
-## Lizenz
-
-Die jeweils veröffentlichte Lizenz und der Status der einzelnen Dateien stehen bei den betreffenden Releases oder Modellen. Externe Referenzen bleiben davon unberührt.
+This repository contains the public project and frontend source only. Private operations, credentials, agent handover notes and server-side administration remain outside the public repository.

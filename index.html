@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HUNTER Cyberdeck: offenes Build Log für einen mobilen KI-Agenten auf dem Google Pixel 6a – mit Hardware, 3D-Case, Software und Agent Runtime.">
+  <meta name="author" content="HUNTER Cyberdeck Project">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#ff5a1f">
+  <link rel="canonical" href="./">
+  <link rel="alternate" hreflang="de" href="./">
+  <link rel="alternate" hreflang="en" href="index.html?lang=en">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:site_name" content="HUNTER Cyberdeck">
+  <meta property="og:title" content="HUNTER Cyberdeck – Mobiler KI-Agent auf Pixel 6a">
+  <meta property="og:description" content="Offenes Build Log für Hardware, 3D-Case, lokale Agenten und die Software dahinter.">
+  <meta property="og:url" content="./">
+  <meta property="og:image" content="assets/hunter-gallery/hunter-cyberdeck-04.jpg">
+  <meta property="og:image:alt" content="HUNTER Cyberdeck Logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="HUNTER Cyberdeck – Mobiler KI-Agent auf Pixel 6a">
+  <meta name="twitter:description" content="Offenes Build Log für Hardware, 3D-Case, lokale Agenten und die Software dahinter.">
+  <meta name="twitter:image" content="assets/hunter-gallery/hunter-cyberdeck-04.jpg">
+  <title>HUNTER Cyberdeck – Mobiler KI-Agent auf Pixel 6a</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" type="image/png" href="assets/hunter-logo-white.png">
+  <link rel="manifest" href="site.webmanifest">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"HUNTER Cyberdeck","url":"./","inLanguage":"de-DE","description":"Offenes Build Log für einen mobilen KI-Agenten auf dem Google Pixel 6a."}
+  </script>
+  <script src="assets/site.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+</head>
+<body data-page="home">
+  <div data-site-header></div>
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-visual" aria-label="Technische Darstellung des HUNTER Cyberdecks">
+        <span class="visual-tag one">Google Pixel 6a // Local Node</span>
+        <span class="visual-tag two">Agent Runtime // Online</span>
+        <figure class="hero-photo-card">
+          <img src="assets/hunter-gallery/hunter-cyberdeck-04.jpg" width="1024" height="1536" loading="eager" decoding="async" alt="HUNTER Cyberdeck mit Google Pixel 6a und Rii K06 im realen Testaufbau">
+          <figcaption>FIELD CAPTURE // 04</figcaption>
+        </figure>
+        <div class="deck pixel-status-device" aria-label="Google Pixel 6a mit HUNTER Agent Status">
+          <div class="deck-topline"><span>HUNTER_OS / TERMINAL</span><span>NODE_01</span></div>
+          <div class="deck-screen">
+            <p class="terminal-title">AGENT STATUS</p>
+            <div class="terminal-switcher" role="tablist" aria-label="Agentenmonitor Ansicht">
+              <button class="terminal-tab is-active" type="button" role="tab" aria-selected="true" data-terminal-tab="status">Status</button>
+              <button class="terminal-tab" type="button" role="tab" aria-selected="false" data-terminal-tab="logs">Logs <span class="terminal-tab-count" data-agent-log-count>--</span></button>
+            </div>
+            <div class="terminal-panel is-active" data-terminal-panel="status" role="tabpanel">
+              <div class="terminal-row"><span>Uptime</span><div data-agent-field="uptime">$ läuft // seit 01.09. 12:18</div></div>
+              <div class="terminal-row"><span>Rekord</span><div data-agent-field="record">$ 88h+ ohne Unterbrechung // 28.08.–01.09.</div></div>
+              <div class="terminal-row"><span>Cron</span><div data-agent-field="cron">$ 8 aktiv // 0 fehlgeschlagen</div></div>
+              <div class="terminal-row"><span>OOM</span><div data-agent-field="oom">$ 0 kills // seit Härtung</div></div>
+              <div class="terminal-row"><span>RAM</span><div data-agent-field="ram">$ 1,2 GB frei</div></div>
+              <div class="terminal-row"><span>Ollama</span><div data-agent-field="ollama_plan">$ Pro // aktiv</div></div>
+              <div class="terminal-row"><span>ChatGPT</span><div data-agent-field="chatgpt_plan">$ Pro // aktiv</div></div>
+              <div class="terminal-row"><span>Prompt</span><div data-agent-field="prompt">&gt; HUNTER läuft seit 83+ Stunden. Ohne Unterbrechung._</div></div>
+              <div class="installed-agents" aria-label="Installierte Agenten">
+                <div class="installed-agents-head"><span>Agenten</span><span data-agent-installed-count>-- installiert</span></div>
+                <div class="installed-agent-list" data-installed-agents><span class="installed-agent-empty">Lade Agenten …</span></div>
+              </div>
+            </div>
+            <div class="terminal-panel terminal-log-panel" data-terminal-panel="logs" role="tabpanel" hidden>
+              <div class="log-panel-head"><span>SESSION LOG // LAST EVENTS</span><button type="button" class="log-refresh" data-agent-log-refresh aria-label="Logs aktualisieren">↻</button></div>
+              <div class="agent-log-list" data-agent-logs aria-live="polite"><p class="agent-log-empty">Verbinde mit Session-Archiv …</p></div>
+            </div>
+          </div>
+          <div class="deck-controls"><span class="deck-control"></span><span class="deck-control"></span><span class="deck-control"></span></div>
+        </div>
+      </div>
+      <div class="hero-copy">
+        <div class="eyebrow">Open Cyberdeck Project</div>
+        <h1 class="display-title">Eine <em>Maschine</em> für <em>deine Agenten</em>.</h1>
+        <p class="lead">HUNTER ist ein offenes mobiles KI-System auf einem 45-EUR-Pixel — gebaut, dokumentiert und zum Nachbauen freigegeben. Ich verbinde Hardware, Gehäuse, Software und Agent Runtime in einem echten, weiterlaufenden Build.</p>
+        <div class="hero-proof" aria-label="HUNTER Kennzahlen">
+          <span><strong>45 €</strong><small data-i18n="home.proof.base">Basis</small></span>
+          <span><strong>6 GB</strong><small data-i18n="home.proof.ram">RAM</small></span>
+          <span><strong>83+ h</strong><small data-i18n="home.proof.uptime">Uptime</small></span>
+          <span><strong>9</strong><small data-i18n="home.proof.files">STL-Dateien</small></span>
+        </div>
+        <div class="button-row">
+          <a class="button" href="blog.html">Build Log lesen</a>
+          <a class="button secondary" href="https://github.com/dasn3st/hunter-cyberdeck" target="_blank" rel="noopener">Repository öffnen ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-label="Projektbereiche">
+      <div class="ticker-track">
+        <div class="ticker-group"><span>Hardware</span><span>Case Design</span><span>Local AI</span><span>Agent Runtime</span><span>Open Source</span><span>3D Print</span></div>
+        <div class="ticker-group" aria-hidden="true"><span>Hardware</span><span>Case Design</span><span>Local AI</span><span>Agent Runtime</span><span>Open Source</span><span>3D Print</span></div>
+      </div>
+    </div>
+
+    <section class="stack-frame" aria-labelledby="stack-title">
+      <div class="stack-frame-copy">
+        <div>
+          <span class="section-index">00 // ACTIVE TOOLCHAIN</span>
+          <h2 id="stack-title">Ein Deck.<br>Viele <em>Agenten</em>.</h2>
+        </div>
+        <p>Ich verbinde Coding-Agenten, lokales Wissen und mobile Linux-Werkzeuge zu einem System, das ich für HUNTER gebaut habe — und das ich jeden Tag weiterentwickle.</p>
+      </div>
+      <div class="agent-stack-rail" data-agent-stack="rail" aria-label="Werkzeuge im HUNTER Agent Stack"></div>
+    </section>
+
+    <section class="section" id="project">
+      <div class="section-heading">
+        <div>
+          <span class="section-index">01 // DAS SYSTEM</span>
+          <h2 class="section-title">Ein Projekt.<br>Vier <em>Ebenen</em>.</h2>
+        </div>
+        <p class="section-description">Von der ersten Schraube bis zu dem Moment, in dem HUNTER zum ersten Mal "dachte". Ich habe jeden Teil des Builds dokumentiert — auch die Schrauben, die nicht passten.</p>
+      </div>
+      <div class="module-grid">
+        <a class="module-card" href="tech.html#hardware">
+          <span class="meta">Hardware</span><span class="module-arrow">↗</span>
+          <h3>Compute & Elektronik</h3>
+          <p>Ich betreibe HUNTER auf einem Google Pixel 6a. Die Rii K06, Stromversorgung und das Gehäuse geben dem System eine eigene Bedienebene.</p>
+          <span class="module-number">01</span>
+        </a>
+        <a class="module-card" href="tech.html#case">
+          <span class="meta">Industrial Design</span><span class="module-arrow">↗</span>
+          <h3>Case & 3D-Druck</h3>
+          <p>HUNTERs Körper: Prototypen, Toleranzen, Testdrucke und druckbare Dateien.</p>
+          <span class="module-number">02</span>
+        </a>
+        <a class="module-card" href="tech.html#software">
+          <span class="meta">System</span><span class="module-arrow">↗</span>
+          <h3>Software Stack</h3>
+          <p>Die mobile Linux-Basis von HUNTER: Termux, PRoot, tmux, Gateway, Cron und der Weg vom Boot bis zum laufenden System.</p>
+          <span class="module-number">03</span>
+        </a>
+        <a class="module-card" href="tech.html#agent">
+          <span class="meta">Intelligence</span><span class="module-arrow">↗</span>
+          <h3>Agent Runtime</h3>
+          <p>Hermes, pi, Codex und die Schutzschichten, die ich gebaut habe, damit ein Kill keinen Systemstillstand auslöst.</p>
+          <span class="module-number">04</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <div>
+          <span class="section-index">02 // BUILD LOG</span>
+          <h2 class="section-title">Zuletzt<br><em>dokumentiert</em>.</h2>
+        </div>
+        <p class="section-description">Ich dokumentiere den Aufbau selbst: Fortschritt, Fehler, Entscheidungen und offene Fragen — chronologisch, aus meiner Sicht. Das ist kein Tech-Manual, sondern mein Entwicklungsjournal.</p>
+      </div>
+      <div class="story-grid">
+        <a class="story-card featured" href="blog.html">
+          <div class="story-visual"><img src="assets/hunter-gallery/hunter-cyberdeck-04.jpg" width="1024" height="1536" loading="lazy" decoding="async" data-alt-de="Rii K06 Mini-Tastatur und Google Pixel 6a im realen HUNTER Hardware-Setup" data-alt-en="Rii K06 mini keyboard and Google Pixel 6a in the real HUNTER hardware setup" alt="Rii K06 Mini-Tastatur und Google Pixel 6a im realen HUNTER Hardware-Setup"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Hardware // Build 01</span>
+            <h3 class="story-title">Vom Pixel 6a zum mobilen System</h3>
+            <p class="story-excerpt">Ich betreibe HUNTER auf einem Google Pixel 6a. Mit Rii K06, Stromversorgung und Case wurde aus einem Handy ein mobiles Agent-System.</p>
+            <div class="story-footer"><span>Projektstart</span><span>8 Min.</span></div>
+          </div>
+        </a>
+        <a class="story-card" href="makerworld.html">
+          <div class="story-visual"><img src="assets/hunter-gallery/hunter-cyberdeck-06.jpg" width="1024" height="1536" loading="lazy" decoding="async" data-alt-de="Cyberdeck-Ringstand im realen Testaufbau" data-alt-en="Cyberdeck ring stand in the real test setup" alt="Cyberdeck-Ringstand im realen Testaufbau"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Case // Download Pack</span>
+            <h3 class="story-title">V14, V6 und Ringstand</h3>
+            <p class="story-excerpt">9 finale STL-Dateien, interaktive Montagevorschauen und geprüfte Hinweise für V14, V6 und Ringstand.</p>
+            <div class="story-footer"><span>Geprüft</span><span>3D öffnen ↗</span></div>
+          </div>
+        </a>
+        <a class="story-card" href="blog.html">
+          <div class="story-visual visual-agent"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Survival // Der Agent, der nicht sterben wollte</span>
+            <h3 class="story-title">Der Agent, der nicht sterben wollte</h3>
+            <p class="story-excerpt">Am 28. August wurde mein Agent fünf Mal getötet — Android, SIGKILL, keine Warnung. Das ist die Geschichte seiner Wiedergeburt: ein externer Cron-Tick, ein semantischer Watchdog und die Lektion, dass Android bei Speicherdruck immer gewinnt. Ich habe HUNTER darauf ausgelegt, Kills zu überstehen — nicht sie zu verhindern.</p>
+            <div class="story-footer"><span>Belegt · 83+ h Uptime</span><span>8 Min.</span></div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <div>
+          <span class="section-index">03 // OPEN BUILD</span>
+          <h2 class="section-title">Nachbauen.<br>Weiterbauen.</h2>
+        </div>
+        <p class="section-description">Meine Software, meine Setup-Skripte und technische Doku sind offen versioniert. Das Repository ist live und bildet das Zuhause für alles, was ich für HUNTER baue.</p>
+      </div>
+      <div class="resource-split">
+        <article class="resource-card" data-mark="{ }">
+          <span class="eyebrow">Source Code</span>
+          <h3><em>GitHub</em> Repository</h3>
+          <p>Meine Software, meine Setup-Skripte und technische Doku sind offen versioniert. Das Repository ist live und bildet das Zuhause für alles, was ich für HUNTER baue.</p>
+          <a class="button secondary" href="https://github.com/dasn3st/hunter-cyberdeck" target="_blank" rel="noopener">Repository öffnen ↗</a>
+        </article>
+        <article class="resource-card" data-mark="3D">
+          <span class="eyebrow">Print Files</span>
+          <h3><em>MakerWorld</em> Modelle</h3>
+          <p>STL- und 3MF-Dateien, Druckprofile, Materialhinweise und versionierte Case-Teile.</p>
+          <a class="button secondary" href="makerworld.html">3D-Dateien öffnen ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section community-section" data-community>
+      <div class="section-heading">
+        <div>
+          <span class="section-index">04 // COMMUNITY SIGNAL</span>
+          <h2 class="section-title">Nachgebaut.<br>Getestet.</h2>
+        </div>
+        <p class="section-description">Hast du HUNTER ausprobiert oder dein eigenes Cyberdeck gebaut? Teile deine Erfahrung. Veröffentlichte Reviews werden vorher geprüft — ehrliche Rückmeldungen bleiben sichtbar.</p>
+      </div>
+      <div class="community-grid">
+        <div class="community-proof">
+          <div class="community-proof-head"><span class="eyebrow">Builder Reviews</span><span class="community-average" data-review-average>— / 5</span></div>
+          <div class="review-list" data-community-reviews><p class="community-empty">Noch keine Reviews veröffentlicht. Sei der Erste.</p></div>
+          <div class="community-discussion" data-community-discussion>
+            <span class="technical-label">Community-Reaktionen</span>
+            <p>Kommentare und Diskussionen werden direkt über GitHub Discussions eingebettet.</p>
+            <a class="text-link" href="github.html">GitHub-Bereich öffnen ↗</a>
+          </div>
+        </div>
+        <form class="review-form" data-review-form>
+          <span class="eyebrow">Dein Testbericht</span>
+          <h3>Was hat funktioniert?</h3>
+          <p class="form-note">Dein Beitrag erscheint nach einer kurzen Moderation. Keine Registrierung nötig.</p>
+          <label>Bewertung <select name="rating" required><option value="">Auswählen …</option><option value="5">★★★★★ 5 — läuft rund</option><option value="4">★★★★☆ 4 — sehr gut</option><option value="3">★★★☆☆ 3 — mit Ecken</option><option value="2">★★☆☆☆ 2 — Baustelle</option><option value="1">★☆☆☆☆ 1 — nicht lauffähig</option></select></label>
+          <label>Titel <input name="title" maxlength="120" required placeholder="Mein Pixel-6a-Test"></label>
+          <label>Dein Name oder Alias <input name="author_name" maxlength="80" required placeholder="z. B. Alex / @handle"></label>
+          <label>Erfahrung <textarea name="body" minlength="20" maxlength="4000" required placeholder="Was hast du nachgebaut, was lief gut, wo musstest du anpassen?"></textarea></label>
+          <div class="review-form-row"><label>Gerät <input name="device_model" maxlength="120" placeholder="Google Pixel 6a"></label><label>Build-Link <input name="project_url" type="url" maxlength="500" placeholder="https://…"></label></div>
+          <label class="review-honeypot" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+          <button class="button" type="submit">Review einreichen ↗</button>
+          <p class="form-status" data-review-form-status role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <div data-site-footer></div>
+  <script src="assets/community.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="HUNTER Build Log – technische Dokumentation zu Google Pixel 6a, Case, Software und Agent Runtime.">
+  <meta name="author" content="HUNTER Cyberdeck Project">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#ff5a1f">
+  <link rel="canonical" href="post.html">
+  <link rel="alternate" hreflang="de" href="post.html">
+  <link rel="alternate" hreflang="en" href="post.html?lang=en">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" type="image/png" href="assets/hunter-logo-white.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"></script>
+  <script src="assets/site.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/blog.js" defer></script>
+  <title>HUNTER Build Log</title>
+</head>
+<body data-page="blog-post">
+  <div data-site-header></div>
+  <main class="shell">
+    <article class="post-page dossier-page" data-post-page>
+      <header class="post-hero dossier-hero">
+        <div class="dossier-rail" aria-label="Artikelkennung">
+          <span>HNT/LOG/<b data-post-reference>LIVE</b></span>
+          <span>REVISION <b data-post-revision>0.1</b></span>
+          <span>STATUS: <b data-post-status>DOCUMENTED</b></span>
+        </div>
+        <a class="post-back" href="blog.html">← Zurück zum Build Log</a>
+        <span class="eyebrow" data-post-category>HUNTER // Build Log</span>
+        <h1 class="post-title" data-post-title>Eintrag wird geladen</h1>
+        <p class="post-lead" data-post-excerpt>Die Dokumentation wird aus dem HUNTER-Archiv geladen.</p>
+        <div class="post-meta" data-post-meta>HUNTER // live</div>
+      </header>
+      <figure class="post-hero-figure" data-post-hero hidden>
+        <img data-post-hero-image alt="">
+        <figcaption data-post-hero-caption></figcaption>
+      </figure>
+      <section class="dossier-system-sheet" aria-label="HUNTER Systemübersicht">
+        <div class="dossier-sheet-label"><span class="technical-label">SYSTEM NOTE // CURRENT BUILD</span><span class="dossier-signal">● LIVE ARCHIVE</span></div>
+        <div class="dossier-specs">
+          <div><span>DEVICE</span><strong>GOOGLE PIXEL 6A</strong></div>
+          <div><span>INPUT</span><strong>RII K06</strong></div>
+          <div><span>ROOT ACCESS</span><strong>NONE</strong></div>
+          <div><span>RUNTIME</span><strong>TERMUX / HERMES</strong></div>
+        </div>
+      </section>
+      <div class="dossier-intro"><span class="technical-label">READ THIS AS FIELD NOTES</span><p>Kein fertiges Produkt und keine Hochglanz-Rückschau: Dieser Eintrag hält fest, was gebaut, getestet, verworfen und als Nächstes überprüft wird.</p></div>
+      <div class="post-blocks" data-post-blocks>
+        <div class="post-loading" data-post-loading>Verbindung zum Archiv wird hergestellt …</div>
+      </div>
+      <section class="post-community" data-community>
+        <div class="community-proof">
+          <span class="eyebrow">Community Signal</span>
+          <h2>Nachgebaut oder getestet?</h2>
+          <p>Teile deine Erfahrung mit genau diesem Build-Log. Reviews werden vor der Veröffentlichung moderiert.</p>
+          <div class="review-list" data-community-reviews><p class="community-empty">Noch keine Reviews für diesen Eintrag.</p></div>
+          <div class="community-discussion" data-community-discussion>
+            <span class="technical-label">GitHub Discussions</span>
+            <p>Fragen, Reaktionen und Verbesserungen werden direkt über GitHub Discussions eingebettet.</p>
+            <a class="text-link" href="github.html">GitHub-Bereich öffnen ↗</a>
+          </div>
+        </div>
+        <form class="review-form" data-review-form>
+          <span class="eyebrow">Dein Testbericht</span>
+          <h3>Erfahrung zurückmelden</h3>
+          <label>Bewertung <select name="rating" required><option value="">Auswählen …</option><option value="5">★★★★★ 5 — läuft rund</option><option value="4">★★★★☆ 4 — sehr gut</option><option value="3">★★★☆☆ 3 — mit Ecken</option><option value="2">★★☆☆☆ 2 — Baustelle</option><option value="1">★☆☆☆☆ 1 — nicht lauffähig</option></select></label>
+          <label>Titel <input name="title" maxlength="120" required placeholder="Mein Test"></label>
+          <label>Dein Name oder Alias <input name="author_name" maxlength="80" required placeholder="z. B. Alex / @handle"></label>
+          <label>Erfahrung <textarea name="body" minlength="20" maxlength="4000" required placeholder="Was hast du ausprobiert?"></textarea></label>
+          <div class="review-form-row"><label>Gerät <input name="device_model" maxlength="120" placeholder="Google Pixel 6a"></label><label>Build-Link <input name="project_url" type="url" maxlength="500" placeholder="https://…"></label></div>
+          <label class="review-honeypot" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+          <button class="button" type="submit">Review einreichen ↗</button>
+          <p class="form-status" data-review-form-status role="status"></p>
+        </form>
+      </section>
+    </article>
+  </main>
+  <div data-site-footer></div>
+  <script src="assets/community.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Build Log des HUNTER Cyberdecks: Pixel 6a Hardware, 3D-Case, Android-Resilienz, Software und Agent Runtime – chronologisch dokumentiert.">
+  <meta name="author" content="HUNTER Cyberdeck Project">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#ff5a1f">
+  <link rel="canonical" href="blog.html">
+  <link rel="alternate" hreflang="de" href="blog.html">
+  <link rel="alternate" hreflang="en" href="blog.html?lang=en">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:site_name" content="HUNTER Cyberdeck">
+  <meta property="og:title" content="Build Log – HUNTER Cyberdeck">
+  <meta property="og:description" content="Hardware, 3D-Case, Software und Agent Runtime – Fortschritt und Fehler chronologisch dokumentiert.">
+  <meta property="og:url" content="blog.html">
+  <meta property="og:image" content="assets/hunter-gallery/hunter-cyberdeck-04.jpg">
+  <meta property="og:image:alt" content="Rii K06 und Google Pixel 6a im HUNTER Cyberdeck">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Build Log – HUNTER Cyberdeck">
+  <meta name="twitter:description" content="Hardware, 3D-Case, Software und Agent Runtime – chronologisch dokumentiert.">
+  <meta name="twitter:image" content="assets/hunter-gallery/hunter-cyberdeck-04.jpg">
+  <title>Build Log – HUNTER Cyberdeck Projekt</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" type="image/png" href="assets/hunter-logo-white.png">
+  <link rel="manifest" href="site.webmanifest">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"CollectionPage","name":"HUNTER Build Log","url":"blog.html","inLanguage":"de-DE","description":"Chronologisches Build Log des HUNTER Cyberdecks mit Hardware, 3D-Case, Software und Agent Runtime."}
+  </script>
+  <script src="assets/site.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+  <script src="assets/blog.js" defer></script>
+</head>
+<body data-page="blog">
+  <div data-site-header></div>
+  <main class="shell">
+    <section class="page-hero">
+      <div class="page-hero-copy">
+        <div class="eyebrow">Development Journal</div>
+        <h1 class="page-title">Build Log</h1>
+      </div>
+      <div class="page-hero-aside">
+        <span class="technical-label" style="color:var(--green)">Keine Hochglanz-Rückschau</span>
+        <p>Ich dokumentiere den Aufbau selbst: Fortschritt, Fehler, Entscheidungen und offene Fragen — chronologisch, aus meiner Sicht. Das ist kein Tech-Manual, sondern mein Entwicklungsjournal.</p>
+      </div>
+    </section>
+
+    <section class="section compact">
+      <div class="filter-bar" aria-label="Beiträge filtern">
+        <button class="filter-button active" type="button" data-filter="all">Alle</button>
+        <button class="filter-button" type="button" data-filter="hardware">Hardware</button>
+        <button class="filter-button" type="button" data-filter="case">Case</button>
+        <button class="filter-button" type="button" data-filter="software">Software</button>
+        <button class="filter-button" type="button" data-filter="agent">Agent</button>
+      </div>
+
+      <div class="story-grid" data-blog-grid aria-live="polite">
+        <article class="story-card featured" data-category="hardware">
+          <div class="story-visual visual-hardware"><img src="assets/hunter-gallery/hunter-cyberdeck-04.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Rii K06 und Google Pixel 6a im realen HUNTER Aufbau"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Hardware // Build 01</span>
+            <h2 class="story-title">Vom Pixel 6a zum mobilen System</h2>
+            <p class="story-excerpt">Pixel 6a, Rii K06, Stromversorgung und die Frage, was ein eigenständiges Cyberdeck für dauerhafte Agentenarbeit wirklich braucht.</p>
+            <div class="story-footer"><span>Grundlagen</span><span>8 Min.</span></div>
+          </div>
+        </article>
+
+        <a class="story-card" data-category="case" href="makerworld.html">
+          <div class="story-visual"><img src="assets/hunter-gallery/hunter-cyberdeck-06.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Cyberdeck V14 mit Ringstand im realen Testaufbau"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Case // Download Pack</span>
+            <h2 class="story-title">V14, V6 und Ringstand</h2>
+            <p class="story-excerpt">9 finale STL-Dateien: V14-Gehäusehälften, V6-Akku-Unterbox, V2-Ringstand und das optionale +1-mm-Clip-Upgrade.</p>
+            <div class="story-footer"><span>Geprüft</span><span>3D öffnen ↗</span></div>
+          </div>
+        </a>
+
+        <article class="story-card" data-category="agent">
+          <div class="story-visual visual-agent"><img src="assets/hunter-gallery/hunter-cyberdeck-03.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Google Pixel 6a und Rii K06 im HUNTER Case"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Agent // Runtime</span>
+            <h2 class="story-title">Wann ein Modell zum Agenten wird</h2>
+            <p class="story-excerpt">Ich habe HUNTER so gebaut, dass er nicht vergisst: Holographic Memory, fünf Sicherheitsschichten und eine Selbstverbesserung, die aus den Fehlern des Systems lernt. Aber auch diese Architektur hat Grenzen — und die sind menschlich.</p>
+            <div class="story-footer"><span>Architektur</span><span>10 Min.</span></div>
+          </div>
+        </article>
+
+        <article class="story-card" data-category="software">
+          <div class="story-visual visual-software"><img src="assets/hunter-gallery/hunter-cyberdeck-05.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Nahaufnahme der Rii K06 Eingabe und des Pixel 6a"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Software // Boot</span>
+            <h2 class="story-title">Vom Einschalten bis zum Panel</h2>
+            <p class="story-excerpt">Termux, PRoot-Ubuntu, tmux-Gateway, Watchdog und acht Cron-Jobs: Der Stack startet selbstständig und bleibt beobachtbar.</p>
+            <div class="story-footer"><span>8 Jobs aktiv</span><span>7 Min.</span></div>
+          </div>
+        </article>
+
+        <article class="story-card" data-category="case">
+          <div class="story-visual visual-process"><img src="assets/hunter-gallery/hunter-cyberdeck-09.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Mechanik und Ringstand des HUNTER Gehäuses"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Case // Testdruck</span>
+            <h2 class="story-title">Toleranzen sind keine Theorie</h2>
+            <p class="story-excerpt">Clips immer zuerst einzeln testen: 9,26 mm, 9,34 mm oder 9,42 mm. Drucker und Material entscheiden über die Passform.</p>
+            <div class="story-footer"><span>3D Print</span><span>5 Min.</span></div>
+          </div>
+        </article>
+
+        <article class="story-card" data-category="software">
+          <div class="story-visual visual-release"><img src="assets/hunter-gallery/hunter-cyberdeck-07.jpg" width="1536" height="1024" loading="lazy" decoding="async" alt="Komponenten und Druckteile des HUNTER Builds"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Software // Release</span>
+            <h2 class="story-title">Ein reproduzierbares Setup</h2>
+            <p class="story-excerpt">Der offene Build umfasst Agent-Setup, Gateway, Watchdog, Cron-Jobs, Architektur, Optimierungs-Checkliste und Releases.</p>
+            <div class="story-footer"><span>Open Source</span><span>9 Min.</span></div>
+          </div>
+        </article>
+
+        <article class="story-card" data-category="agent">
+          <div class="story-visual visual-agent"><img src="assets/hunter-gallery/hunter-cyberdeck-01.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="HUNTER Cyberdeck mit geöffnetem Display und Ringstand"></div>
+          <div class="story-content">
+            <span class="meta" style="color:var(--green)">Agent // Survival</span>
+            <h2 class="story-title">Der Agent, der nicht sterben wollte</h2>
+            <p class="story-excerpt">Der erste Tod meines Agenten: Android, SIGKILL, 18:44 Uhr, kein Abschied. Fünf Tode an einem Tag — und der Fix, der HUNTER resilient machte, statt unsterblich. Mit echten Messwerten: 83+ Stunden Uptime, 0 OOM-Kills seit dem Fix.</p>
+            <div class="story-footer"><span>Belegt · ~8 Min.</span><span>Survival</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <div data-site-footer></div>
+</body>
+</html>

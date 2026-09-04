@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Technische Dokumentation des HUNTER Cyberdecks auf Google Pixel 6a: Rii K06, 3D-Case, Termux, PRoot-Ubuntu, Agent Runtime und Survival Layer.">
+  <meta name="author" content="HUNTER Cyberdeck Project">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#ff5a1f">
+  <link rel="canonical" href="tech.html">
+  <link rel="alternate" hreflang="de" href="tech.html">
+  <link rel="alternate" hreflang="en" href="tech.html?lang=en">
+  <meta property="og:type" content="article">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:site_name" content="HUNTER Cyberdeck">
+  <meta property="og:title" content="Tech-Dokumentation – HUNTER Cyberdeck">
+  <meta property="og:description" content="Hardware, Case, Termux, Software Stack, Memory und resiliente Agent Runtime im Detail.">
+  <meta property="og:url" content="tech.html">
+  <meta property="og:image" content="assets/hunter-gallery/hunter-cyberdeck-02.jpg">
+  <meta property="og:image:alt" content="Rii K06 und Google Pixel 6a im HUNTER Hardware-Setup">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tech-Dokumentation – HUNTER Cyberdeck">
+  <meta name="twitter:description" content="Hardware, Case, Termux, Software Stack, Memory und resiliente Agent Runtime im Detail.">
+  <meta name="twitter:image" content="assets/hunter-gallery/hunter-cyberdeck-02.jpg">
+  <title>Tech-Dokumentation – HUNTER Cyberdeck auf Pixel 6a</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" type="image/png" href="assets/hunter-logo-white.png">
+  <link rel="manifest" href="site.webmanifest">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"TechArticle","headline":"Technische Dokumentation des HUNTER Cyberdecks","url":"tech.html","inLanguage":"de-DE","about":["Google Pixel 6a","Rii K06","Termux","Agent Runtime","3D-Druck"]}
+  </script>
+  <script src="assets/site.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+</head>
+<body data-page="tech">
+  <div data-site-header></div>
+  <main class="shell">
+    <section class="page-hero">
+      <div class="page-hero-copy">
+        <div class="eyebrow">System Documentation</div>
+        <h1 class="page-title">Tech</h1>
+      </div>
+      <div class="page-hero-aside">
+        <span class="technical-label" style="color:var(--green)">Build 01 // Messbar dokumentiert</span>
+        <p>Meine technische Dokumentation — die Organe des Systems, wie ich sie als Erbauer sehe. Noch nicht vollständig, aber so strukturiert, dass ich jede neue Version von HUNTER ergänzen kann.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="docs-layout">
+        <nav class="docs-nav" aria-label="Technische Bereiche">
+          <a href="#hardware">01 // Hardware</a>
+          <a href="#case">02 // Case</a>
+          <a href="#software">03 // Software</a>
+          <a href="#agent">04 // Agent Runtime</a>
+          <a href="#architecture">05 // Architektur</a>
+        </nav>
+
+        <div>
+          <article class="docs-block" id="hardware">
+            <span class="eyebrow">01 // Compute & Electronics</span>
+            <h2>Hardware</h2>
+            <p>Die Stückliste zeigt nicht nur Produkte, sondern ihren Zweck im System: Ein gebrauchtes Pixel 6a betreibt die Runtime, die Rii K06 liefert Eingabe und Touchpad.</p>
+            <div class="spec-grid">
+              <div class="spec"><span class="meta" style="color:var(--green)">Compute</span><strong>Pixel 6a · 45 €</strong><p>128 GB Speicher und 6 GB RAM für Termux, PRoot-Ubuntu, Gateway und Agent Runtime – ohne Root.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Interface</span><strong>Rii K06 + Touchpad</strong><p>Kompakte Eingabe für Terminal, Kontrolle und direkte Rückmeldung am Deck.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Power</span><strong>Mobile Versorgung</strong><p>Die Energieversorgung ist auf einen nutzbaren, mobilen Dauerbetrieb und einen sauberen Shutdown ausgelegt.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Connectivity</span><strong>WLAN & Bluetooth</strong><p>Netzwerkzugriff für Tools und lokale Geräte; die Runtime bleibt dabei auf dem mobilen Knoten.</p></div>
+            </div>
+            <figure class="hardware-feature">
+              <div class="hardware-feature-image">
+                <img src="assets/hunter-gallery/hunter-cyberdeck-02.jpg" width="1536" height="1024" loading="lazy" decoding="async" data-alt-de="Rii K06 Mini-Tastatur und Google Pixel 6a in einem realen HUNTER Hardware-Setup" data-alt-en="Rii K06 mini keyboard and Google Pixel 6a in a real HUNTER hardware setup" alt="Rii K06 Mini-Tastatur und Google Pixel 6a in einem realen HUNTER Hardware-Setup">
+                <span class="hardware-image-tag">Input + Mobile Node // Field Kit</span>
+              </div>
+              <figcaption class="hardware-feature-copy">
+                <span class="eyebrow">Core Interface</span>
+                <h3>Rii K06 +<br>Pixel 6a</h3>
+                <p>Ein gebrauchtes Pixel 6a betreibt im Termux-Umfeld einen Hermes-Agenten. Die Rii K06 bildet die kompakte Bedienebene mit Tastatur und Touchpad.</p>
+                <dl class="hardware-metrics">
+                  <div><dt>Input</dt><dd>Rii K06</dd></div>
+                  <div><dt>Storage</dt><dd>128 GB</dd></div>
+                  <div><dt>Memory</dt><dd>6 GB RAM</dd></div>
+                </dl>
+              </figcaption>
+            </figure>
+          </article>
+
+          <article class="docs-block" id="case">
+            <span class="eyebrow">02 // Industrial Design</span>
+            <h2>Case & 3D-Druck</h2>
+            <p>Das Gehäuse wird in Versionen dokumentiert. Dazu gehören Außenmaße, Einbauräume, Verschraubung, Material und die Druckparameter, die tatsächlich funktioniert haben.</p>
+            <div class="spec-grid">
+              <div class="spec"><span class="meta" style="color:var(--green)">Format</span><strong>Modularer Aufbau</strong><p>Komponenten sollen austauschbar bleiben, ohne das gesamte Case neu zu drucken.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Files</span><strong>Finale STL-Dateien</strong><p>9 freigegebene Druckdateien für V14, V6, Ringstand V2 und das optionale +1-mm-Clip-Upgrade.</p></div>
+            </div>
+            <div class="button-row" style="margin-top:24px"><a class="button secondary" href="makerworld.html">3D-Modelle ansehen</a></div>
+          </article>
+
+          <article class="docs-block" id="software">
+            <span class="eyebrow">03 // Operating Layer</span>
+            <h2>Software Stack</h2>
+            <p>Termux bildet die mobile Basis; im PRoot-Ubuntu-Container laufen Gateway und Agent. tmux hält die Sessions, Cron und Watchdog sorgen für einen überprüfbaren Dauerbetrieb.</p>
+            <div class="spec-grid">
+              <div class="spec"><span class="meta" style="color:var(--green)">Base</span><strong>Termux + PRoot-Ubuntu</strong><p>Mobile Linux-Umgebung ohne Root, mit klar getrennter Agent- und Systemebene.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Services</span><strong>tmux Gateway</strong><p>Geplante Aufgaben warten im Gateway; ein Watchdog überwacht den Herzschlag.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Control</span><strong>8 Cron-Jobs</strong><p>Lebenszeichen, 30-Minuten-Health-Check und tägliche Berichte – bisher ohne fehlgeschlagene Jobs.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Release</span><strong>Bash statt Token</strong><p>Der Status- und Recovery-Teil läuft mit Bash, ohne laufende Modellkosten.</p></div>
+            </div>
+          </article>
+
+          <article class="docs-block" id="agent">
+            <span class="eyebrow">04 // Intelligence Layer</span>
+            <h2>Agent Runtime</h2>
+            <p>Die Runtime besteht aus mehr als einem Modell: Ziel, Tools, persistentes Wissen und Verifikation. Entscheidend ist ihre Resilienz gegen Androids Speicherverwaltung – Kills verhindern lässt sich nicht immer, aber ein einzelner Kill darf nicht alles stoppen.</p>
+            <div class="spec-grid">
+              <div class="spec"><span class="meta" style="color:var(--green)">Reasoning</span><strong>Hermes plant, pi baut</strong><p>Im Multi-Agent-Workflow plant Hermes, pi implementiert und Hermes verifiziert unabhängig.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Context</span><strong>Holographic Memory</strong><p>HUNTERs Memory fasst nur 2.200 Zeichen — deshalb habe ich ein Holographic-Gedächtnis ergänzt: eine lokale SQLite-Datenbank ohne Limit. Dazu fünf Sicherheitsschichten, damit nichts verloren geht: AGENTS.md bei jedem Erwachen, die Obsidian-Vault als Gehirn, Skills als prozedurales Wissen und eine Volltextsuche über alle vergangenen Gespräche. Ein Background-Review lernt aus den Fehlern des Systems — reaktiv, nicht proaktiv. Den Unterschied habe ich beim Betrieb selbst erfahren.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Action</span><strong>Externer Cron-Tick</strong><p>Der Tick feuert aus Termux unabhängig vom internen Gateway-Thread.</p></div>
+              <div class="spec"><span class="meta" style="color:var(--green)">Survival</span><strong>Semantischer Watchdog</strong><p>Prüft Herzschlag, letzten erfolgreichen Tick und überfällige Jobs – mit 30-Minuten-Cooldown gegen Restart-Loops.</p></div>
+            </div>
+            <div class="agent-stack-intro">
+              <span class="technical-label">Runtime // Toolchain</span>
+              <h3>Der aktive Agent Stack</h3>
+              <p>Gemessen: 83+ Stunden Uptime und 0 OOM-Kills seit dem Fix. Die ehrliche Grenze bleibt: Bei Speicherdruck gewinnt Android; das System ist darauf ausgelegt, Kills zu überstehen.</p>
+            </div>
+            <div class="agent-stack-grid" data-agent-stack="grid" aria-label="Komponenten des HUNTER Agent Stacks"></div>
+            <div class="spec-grid">
+              <div class="spec"><span class="meta" style="color:var(--green)">Agent // Survival</span><strong>Survival Layer</strong><p>Ich habe drei Schichten gebaut, damit HUNTER Androids Speicherverwaltung übersteht. Erstens: ein externer Cron-Tick aus Termux, der unabhängig vom internen Scheduler-Thread feuert — stirbt der Ticker, laufen die Jobs trotzdem. Zweitens: ein semantischer Watchdog, der nicht fragt „läuft der Prozess?“, sondern „arbeitet das System wirklich?“ — Herzschlag, letzter erfolgreicher Tick, überfällige Jobs, mit 30-Minuten-Cooldown gegen Restart-Loops. Drittens: bewusste RAM-Disziplin — Browser nur manuell, kurz, bei genug freiem Speicher.<br><br>Gemessen: 83+ Stunden Uptime, 0 OOM-Kills seit dem Fix am 28.08. Ehrliche Grenze: Bei Speicherdruck gewinnt Android immer. HUNTER ist darauf gebaut, Kills zu überstehen — nicht sie zu verhindern.</p></div>
+            </div>
+          </article>
+
+          <article class="docs-block" id="architecture">
+            <span class="eyebrow">05 // System Flow</span>
+            <h2>Architektur</h2>
+            <p>Die Ebenen bleiben getrennt: Hardware, mobile Linux-Basis, Agent und Interface. Dadurch kann ein interner Ticker ausfallen, ohne dass der externe Tick, die Jobs und die Verifikation verschwinden.</p>
+            <div class="architecture" aria-label="Systemarchitektur">
+              <div class="architecture-node"><span class="meta" style="color:var(--green)">01</span><strong>Hardware</strong></div>
+              <div class="architecture-node"><span class="meta" style="color:var(--green)">02</span><strong>System</strong></div>
+              <div class="architecture-node"><span class="meta" style="color:var(--green)">03</span><strong>Agent</strong></div>
+              <div class="architecture-node"><span class="meta" style="color:var(--green)">04</span><strong>Interface</strong></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div data-site-footer></div>
+</body>
+</html>

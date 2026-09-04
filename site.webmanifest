@@ -1,0 +1,11 @@
+{
+  "name": "HUNTER Cyberdeck",
+  "short_name": "HUNTER",
+  "description": "Offenes Build Log für ein mobiles Cyberdeck und lokale KI-Agenten.",
+  "lang": "de-DE",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#090a0a",
+  "theme_color": "#ff5a1f",
+  "icons": [{"src":"assets/hunter-logo.png","sizes":"1200x710","type":"image/png"}]
+}
