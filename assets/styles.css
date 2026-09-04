@@ -4964,6 +4964,50 @@ body[data-page="tech"] .agent-stack-grid .agent-card {
   background: var(--ink);
 }
 
+/* Blog language tabs ----------------------------------------------------- */
+.blog-language-tabs {
+  display: inline-flex;
+  gap: 1px;
+  margin-bottom: 22px;
+  padding: 1px;
+  border: 1px solid var(--ink);
+  background: var(--ink);
+}
+
+.blog-language-tab {
+  min-width: 86px;
+  padding: 13px 22px;
+  border: 1px solid transparent;
+  color: var(--ink);
+  background: var(--paper);
+  cursor: pointer;
+  font: 13px/1 var(--mono);
+  font-weight: 700;
+  letter-spacing: .12em;
+}
+
+.blog-language-tab:hover,
+.blog-language-tab:focus-visible {
+  border-color: var(--hunter-orange);
+  color: var(--ink);
+}
+
+.blog-language-tab.active {
+  color: var(--paper);
+  background: var(--ink);
+}
+
+@media (max-width: 560px) {
+  .blog-language-tabs {
+    display: flex;
+    width: 100%;
+  }
+
+  .blog-language-tab {
+    flex: 1;
+  }
+}
+
 .community-discussion {
   border-color: var(--hunter-orange);
   background: var(--ink);

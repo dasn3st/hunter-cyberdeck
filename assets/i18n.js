@@ -122,6 +122,8 @@
       ".page-hero .technical-label": ["Keine Hochglanz-Rückschau", "No polished retrospective"],
       ".page-hero-aside p": ["Ich dokumentiere den Aufbau selbst: Fortschritt, Fehler, Entscheidungen und offene Fragen — chronologisch, aus meiner Sicht. Das ist kein Tech-Manual, sondern mein Entwicklungsjournal.", "I document the build myself: progress, failures, decisions and open questions — chronologically, from my perspective. This is not a tech manual, but my development journal."],
       ".filter-bar": ["Beiträge filtern", "Filter posts"],
+      '.blog-language-tab[data-blog-language="de"]': ["Deutsch", "German"],
+      '.blog-language-tab[data-blog-language="en"]': ["Englisch", "English"],
       '[data-filter="all"]': ["Alle", "All"],
       ".story-card:nth-child(1) .story-title": ["Vom Pixel 6a zum mobilen System", "From Pixel 6a to mobile system"],
       ".story-card:nth-child(1) .story-excerpt": ["Pixel 6a, Rii K06, Stromversorgung und die Frage, was ein eigenständiges Cyberdeck für dauerhafte Agentenarbeit wirklich braucht.", "Pixel 6a, Rii K06, power and the question of what an independent cyberdeck really needs for continuous agent work."],

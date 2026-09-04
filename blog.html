@@ -51,6 +51,10 @@
     </section>
 
     <section class="section compact">
+      <div class="blog-language-tabs" role="tablist" aria-label="Blogsprache">
+        <button class="blog-language-tab active" type="button" role="tab" aria-selected="true" aria-controls="blog-post-grid" data-blog-language="de">DE</button>
+        <button class="blog-language-tab" type="button" role="tab" aria-selected="false" aria-controls="blog-post-grid" data-blog-language="en">EN</button>
+      </div>
       <div class="filter-bar" aria-label="Beiträge filtern">
         <button class="filter-button active" type="button" data-filter="all">Alle</button>
         <button class="filter-button" type="button" data-filter="hardware">Hardware</button>
@@ -59,8 +63,8 @@
         <button class="filter-button" type="button" data-filter="agent">Agent</button>
       </div>
 
-      <div class="story-grid" data-blog-grid aria-live="polite">
-        <article class="story-card featured" data-category="hardware">
+      <div class="story-grid" id="blog-post-grid" data-blog-grid aria-live="polite">
+        <article class="story-card featured" data-category="hardware" data-blog-language="de">
           <div class="story-visual visual-hardware"><img src="assets/hunter-gallery/hunter-cyberdeck-04.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Rii K06 und Google Pixel 6a im realen HUNTER Aufbau"></div>
           <div class="story-content">
             <span class="meta" style="color:var(--green)">Hardware // Build 01</span>
@@ -70,7 +74,7 @@
           </div>
         </article>
 
-        <a class="story-card" data-category="case" href="makerworld.html">
+        <a class="story-card" data-category="case" data-blog-language="de" href="makerworld.html">
           <div class="story-visual"><img src="assets/hunter-gallery/hunter-cyberdeck-06.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Cyberdeck V14 mit Ringstand im realen Testaufbau"></div>
           <div class="story-content">
             <span class="meta" style="color:var(--green)">Case // Download Pack</span>
@@ -80,7 +84,7 @@
           </div>
         </a>
 
-        <article class="story-card" data-category="agent">
+        <article class="story-card" data-category="agent" data-blog-language="de">
           <div class="story-visual visual-agent"><img src="assets/hunter-gallery/hunter-cyberdeck-03.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Google Pixel 6a und Rii K06 im HUNTER Case"></div>
           <div class="story-content">
             <span class="meta" style="color:var(--green)">Agent // Runtime</span>
@@ -90,7 +94,7 @@
           </div>
         </article>
 
-        <article class="story-card" data-category="software">
+        <article class="story-card" data-category="software" data-blog-language="de">
           <div class="story-visual visual-software"><img src="assets/hunter-gallery/hunter-cyberdeck-05.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Nahaufnahme der Rii K06 Eingabe und des Pixel 6a"></div>
           <div class="story-content">
             <span class="meta" style="color:var(--green)">Software // Boot</span>
@@ -100,7 +104,7 @@
           </div>
         </article>
 
-        <article class="story-card" data-category="case">
+        <article class="story-card" data-category="case" data-blog-language="de">
           <div class="story-visual visual-process"><img src="assets/hunter-gallery/hunter-cyberdeck-09.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="Mechanik und Ringstand des HUNTER Gehäuses"></div>
           <div class="story-content">
             <span class="meta" style="color:var(--green)">Case // Testdruck</span>
@@ -110,7 +114,7 @@
           </div>
         </article>
 
-        <article class="story-card" data-category="software">
+        <article class="story-card" data-category="software" data-blog-language="de">
           <div class="story-visual visual-release"><img src="assets/hunter-gallery/hunter-cyberdeck-07.jpg" width="1536" height="1024" loading="lazy" decoding="async" alt="Komponenten und Druckteile des HUNTER Builds"></div>
           <div class="story-content">
             <span class="meta" style="color:var(--green)">Software // Release</span>
@@ -120,7 +124,7 @@
           </div>
         </article>
 
-        <article class="story-card" data-category="agent">
+        <article class="story-card" data-category="agent" data-blog-language="de">
           <div class="story-visual visual-agent"><img src="assets/hunter-gallery/hunter-cyberdeck-01.jpg" width="1024" height="1536" loading="lazy" decoding="async" alt="HUNTER Cyberdeck mit geöffnetem Display und Ringstand"></div>
           <div class="story-content">
             <span class="meta" style="color:var(--green)">Agent // Survival</span>

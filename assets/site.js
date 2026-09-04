@@ -148,25 +148,37 @@ document.addEventListener("keydown", (event) => {
 
 const filterButtons = [...document.querySelectorAll("[data-filter]")];
 
+const applyBlogFilters = (animate = false) => {
+  const filter = document.querySelector("[data-filter].active")?.dataset.filter || "all";
+  const language = document.querySelector("[data-blog-language].active")?.dataset.blogLanguage;
+  const stories = [...document.querySelectorAll("[data-category]")];
+  stories.forEach((story) => {
+    const languageVisible = !language || !story.dataset.blogLanguage || story.dataset.blogLanguage === language;
+    const categoryVisible = filter === "all" || story.dataset.category === filter;
+    const visible = languageVisible && categoryVisible;
+    story.hidden = !visible;
+    if (visible && animate && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      story.animate(
+        [
+          { opacity: 0, transform: "translateY(14px) scale(.985)" },
+          { opacity: 1, transform: "translateY(0) scale(1)" },
+        ],
+        { duration: 280, easing: "cubic-bezier(.2,.8,.2,1)" },
+      );
+    }
+  });
+};
+
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    const filter = button.dataset.filter;
-    const stories = [...document.querySelectorAll("[data-category]")];
     filterButtons.forEach((candidate) => candidate.classList.toggle("active", candidate === button));
-    stories.forEach((story) => {
-      story.hidden = filter !== "all" && story.dataset.category !== filter;
-      if (!story.hidden && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        story.animate(
-          [
-            { opacity: 0, transform: "translateY(14px) scale(.985)" },
-            { opacity: 1, transform: "translateY(0) scale(1)" },
-          ],
-          { duration: 280, easing: "cubic-bezier(.2,.8,.2,1)" },
-        );
-      }
-    });
+    applyBlogFilters(true);
   });
 });
+
+document.addEventListener("hunter-blog-language-change", () => applyBlogFilters(true));
+document.addEventListener("hunter-blog-content-change", () => applyBlogFilters());
+applyBlogFilters();
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

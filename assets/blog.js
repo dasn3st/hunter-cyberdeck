@@ -23,6 +23,18 @@
     return "";
   };
 
+  const postLanguage = (post = {}) => {
+    const explicit = String(post.language || post.lang || post.locale || "").toLowerCase();
+    if (explicit.startsWith("en")) return "en";
+    if (explicit.startsWith("de")) return "de";
+    const source = [post.slug, post.title, post.excerpt, post.content].filter(Boolean).join(" ");
+    const german = (source.match(/\b(der|die|das|und|ein|eine|zum|vom|für|ohne|mit|ich|wird|ist|des|auf|über|nach|handy|prozesse|läuft|werden)\b/giu) || []).length;
+    const english = (source.match(/\b(the|this|and|a|an|from|built|runs|when|i|with|without|phone|processes|survives|becomes|is|on)\b/gi) || []).length;
+    if (english > german) return "en";
+    if (german > english) return "de";
+    return window.HUNTER_LANG === "en" ? "en" : "de";
+  };
+
   const imageMarkup = (src, alt, className = "") => {
     const url = safeUrl(src);
     return url
@@ -107,7 +119,7 @@
     const visual = image
       ? `<div class="story-visual">${imageMarkup(image, post.title)}</div>`
       : `<div class="story-visual visual-${category}"></div>`;
-    return `<a class="story-card ${index === 0 ? "featured" : ""} blog-dynamic-card" data-category="${category}" href="post.html?slug=${encodeURIComponent(post.slug)}">
+    return `<a class="story-card ${index === 0 ? "featured" : ""} blog-dynamic-card" data-category="${category}" data-blog-language="${postLanguage(post)}" href="post.html?slug=${encodeURIComponent(post.slug)}">
       ${visual}
       <div class="story-content">
         <span class="meta" style="color:var(--green)">${categoryLabel(category)} // ${escapeHtml(post.template || (window.HUNTER_LANG === "en" ? "Build log" : "Build Log"))}</span>
@@ -232,6 +244,31 @@
     document.body.appendChild(script);
   };
 
+  const blogLanguageTabs = [...document.querySelectorAll("[data-blog-language]")].filter((node) => node.matches("button"));
+  const initialBlogLanguage = new URLSearchParams(window.location.search).get("blog_lang");
+  let activeBlogLanguage = initialBlogLanguage === "en" || initialBlogLanguage === "de"
+    ? initialBlogLanguage
+    : (window.HUNTER_LANG === "en" ? "en" : "de");
+
+  const applyBlogLanguage = (language, updateUrl = true) => {
+    activeBlogLanguage = language === "en" ? "en" : "de";
+    blogLanguageTabs.forEach((tab) => {
+      const selected = tab.dataset.blogLanguage === activeBlogLanguage;
+      tab.classList.toggle("active", selected);
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      url.searchParams.set("blog_lang", activeBlogLanguage);
+      window.history.replaceState({}, "", url);
+    }
+    document.dispatchEvent(new CustomEvent("hunter-blog-language-change", { detail: { language: activeBlogLanguage } }));
+  };
+
+  blogLanguageTabs.forEach((tab) => tab.addEventListener("click", () => applyBlogLanguage(tab.dataset.blogLanguage)));
+  applyBlogLanguage(activeBlogLanguage, false);
+
   const request = async (path) => {
     const response = await fetch(`${config.url}/rest/v1/${path}`, {
       headers: { apikey: config.key, Authorization: `Bearer ${config.key}` },
@@ -245,10 +282,11 @@
     const grid = document.querySelector("[data-blog-grid]");
     if (!grid) return;
     try {
-      const posts = await request("blog_posts?select=slug,title,excerpt,category,tags,template,hero_image,blocks,reading_time_minutes&status=eq.published&order=published_at.desc,created_at.desc");
+      const posts = await request("blog_posts?select=*&status=eq.published&order=published_at.desc,created_at.desc");
       // Static cards are a no-network fallback only; once Supabase responds,
       // the database becomes the single source of truth for the grid.
       if (posts.length) grid.innerHTML = posts.map(cardMarkup).join("");
+      document.dispatchEvent(new CustomEvent("hunter-blog-content-change"));
     } catch (error) {
       console.info("HUNTER Blog nutzt lokale Fallback-Beiträge.", error);
     }
@@ -305,7 +343,10 @@
   // an open detail page fresh without a deploy; the REST filters still ensure
   // that drafts never render publicly.
   const refreshBlog = () => { loadIndex(); loadPost(); };
-  window.addEventListener("hunter-language-change", refreshBlog);
+  window.addEventListener("hunter-language-change", () => {
+    applyBlogLanguage(window.HUNTER_LANG === "en" ? "en" : "de");
+    refreshBlog();
+  });
   if (document.querySelector("[data-blog-grid], [data-post-page]")) {
     window.setInterval(refreshBlog, 30000);
     import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm")
