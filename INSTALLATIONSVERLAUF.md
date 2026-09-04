@@ -49,7 +49,18 @@ python3 -m http.server 4173
 
 Danach ist die Startseite unter `http://127.0.0.1:4173/` erreichbar.
 
-## 06 // Öffentliche Sicherheitsgrenze
+## 06 // Agent als Setup-Begleiter
+
+Nach der Termux-Installation wird ein Agent wie `pi` eingerichtet. Er dient
+als interaktiver Setup-Begleiter und kann die nächsten Schritte erklären und
+ausführen, Abhängigkeiten und Konfigurationen prüfen, weitere Werkzeuge
+einrichten sowie Fehlermeldungen einordnen und bei der Behebung helfen.
+
+Der Agent begleitet den praktischen Installationsverlauf, ersetzt aber nicht
+die Freigabe des Nutzers. Passwörter, Tokens und andere private Zugangsdaten
+gehören nicht in öffentliche Dateien oder Chat-Ausgaben.
+
+## 07 // Öffentliche Sicherheitsgrenze
 
 - Keine Passwörter, Access-Tokens, Refresh-Tokens oder Service-Keys committen.
 - Keine lokalen IPs oder privaten Hostnamen in Issues, Dokumentation oder Logs
