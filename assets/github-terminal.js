@@ -36,6 +36,8 @@
       tree: "REPOSITORY // HIERARCHIE",
       code: "DATEI // CODE-VORSCHAU",
       copy: "CODE KOPIEREN",
+      commandCopy: "BEFEHL KOPIEREN",
+      commandCopied: "KOPIERT",
       copied: "KOPIERT",
       github: "DATEI AUF GITHUB ↗",
       loading: "DATEI WIRD GELADEN …",
@@ -50,6 +52,8 @@
       tree: "REPOSITORY // HIERARCHY",
       code: "FILE // CODE PREVIEW",
       copy: "COPY CODE",
+      commandCopy: "COPY COMMAND",
+      commandCopied: "COPIED",
       copied: "COPIED",
       github: "OPEN FILE ON GITHUB ↗",
       loading: "LOADING FILE …",
@@ -74,9 +78,42 @@
     });
   };
 
+  const commandBlocks = (source) => {
+    const entries = [];
+    const lines = source.split(/\r?\n/);
+    let section = "Befehls-Kette";
+    let language = "bash";
+    let inFence = false;
+    let block = [];
+    lines.forEach((line) => {
+      if (!inFence) {
+        const heading = line.match(/^##\s+(.+)/);
+        if (heading) {
+          section = heading[1].trim();
+          return;
+        }
+        const fence = line.match(/^```\s*([\w+-]*)/);
+        if (fence) {
+          inFence = true;
+          language = fence[1] || "bash";
+          block = [];
+        }
+        return;
+      }
+      if (/^```/.test(line)) {
+        const command = block.join("\n").trim();
+        if (command) entries.push({ section, language, command });
+        inFence = false;
+        return;
+      }
+      block.push(line);
+    });
+    return entries;
+  };
+
   const locale = () => labels[window.HUNTER_LANG === "en" ? "en" : "de"];
   const fileByPath = (path) => files.find((file) => file.path === path) || files[0];
-  let activeFile = files.find((file) => file.path === "assets/site.js") || files[0];
+  let activeFile = files.find((file) => file.path === "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md") || files[0];
   let activeSource = "";
 
   host.innerHTML = `
@@ -98,7 +135,7 @@
       </aside>
       <section class="github-code-window" aria-label="Code preview">
         <div class="github-terminal-bar github-code-bar"><span data-terminal-label="code"></span><div class="github-code-actions"><span class="github-code-path" data-code-path></span><span class="github-code-lang" data-code-lang></span><button type="button" class="github-copy-button" data-copy-code></button><a class="github-file-link" data-github-file target="_blank" rel="noopener"></a></div></div>
-        <div class="github-code-body"><div class="github-code-loading" data-code-loading></div><pre class="github-code-pre" data-code-output tabindex="0" aria-label="Codezeilen"></pre></div>
+        <div class="github-code-body"><div class="github-code-loading" data-code-loading></div><pre class="github-code-pre" data-code-output tabindex="0" aria-label="Codezeilen"></pre><div class="github-command-guide" data-command-guide hidden></div></div>
         <div class="github-terminal-status"><span class="status-dot"></span><span data-terminal-label="ready"></span></div>
       </section>
     </div>`;
@@ -113,6 +150,9 @@
     if (fileLink) fileLink.textContent = current.github;
     const copyButton = host.querySelector("[data-copy-code]");
     if (copyButton && !copyButton.dataset.copied) copyButton.textContent = current.copy;
+    host.querySelectorAll("[data-command-copy]").forEach((button) => {
+      if (!button.dataset.copied) button.textContent = current.commandCopy;
+    });
   };
 
   const render = (source) => {
@@ -121,6 +161,34 @@
     const loading = host.querySelector("[data-code-loading]");
     loading.hidden = true;
     output.innerHTML = source.split("\n").map((line, index) => `<span class="github-code-line"><span class="github-line-number">${String(index + 1).padStart(3, "0")}</span><span class="github-line-text">${highlight(line) || " "}</span></span>`).join("");
+    output.hidden = false;
+    host.querySelector("[data-command-guide]").hidden = true;
+  };
+
+  const renderCommandGuide = (source) => {
+    activeSource = source;
+    const output = host.querySelector("[data-code-output]");
+    const guide = host.querySelector("[data-command-guide]");
+    const entries = commandBlocks(source);
+    output.hidden = true;
+    guide.hidden = false;
+    guide.innerHTML = entries.map((entry, index) => `
+      <article class="github-command-step">
+        <div class="github-command-meta"><span>STEP ${String(index + 1).padStart(2, "0")}</span><span>${escapeHtml(entry.language.toUpperCase())}</span></div>
+        <h3>${escapeHtml(entry.section)}</h3>
+        <pre class="github-command-block"><code>${escapeHtml(entry.command)}</code></pre>
+        <button type="button" class="github-copy-command" data-command-copy>${locale().commandCopy}</button>
+      </article>`).join("");
+  };
+
+  const copyText = async (value) => {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch (_) {
+      const helper = document.createElement("textarea");
+      helper.value = value; helper.setAttribute("readonly", ""); helper.style.position = "fixed"; helper.style.opacity = "0";
+      document.body.appendChild(helper); helper.select(); document.execCommand("copy"); helper.remove();
+    }
   };
 
   const loadFile = async (path) => {
@@ -135,7 +203,8 @@
     try {
       const response = await fetch(activeFile.path, { cache: "no-store" });
       if (!response.ok) throw new Error(`file ${response.status}`);
-      render(await response.text());
+      const source = await response.text();
+      activeFile.path === "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md" ? renderCommandGuide(source) : render(source);
     } catch (error) {
       render(`# ${activeFile.path}\n# Datei ist im Repository verlinkt.\n# Öffne den GitHub-Link für die vollständige Version.`);
       console.info("HUNTER Code-Vorschau konnte die lokale Datei nicht laden.", error);
@@ -145,15 +214,19 @@
   host.addEventListener("click", async (event) => {
     const fileButton = event.target.closest("[data-file]");
     if (fileButton) { await loadFile(fileButton.dataset.file); return; }
+    const commandButton = event.target.closest("[data-command-copy]");
+    if (commandButton) {
+      const command = commandButton.closest(".github-command-step")?.querySelector(".github-command-block")?.textContent || "";
+      if (!command) return;
+      await copyText(command);
+      commandButton.dataset.copied = "true";
+      commandButton.textContent = locale().commandCopied;
+      window.setTimeout(() => { delete commandButton.dataset.copied; commandButton.textContent = locale().commandCopy; }, 1500);
+      return;
+    }
     const copyButton = event.target.closest("[data-copy-code]");
     if (!copyButton || !activeSource) return;
-    try {
-      await navigator.clipboard.writeText(activeSource);
-    } catch (_) {
-      const helper = document.createElement("textarea");
-      helper.value = activeSource; helper.setAttribute("readonly", ""); helper.style.position = "fixed"; helper.style.opacity = "0";
-      document.body.appendChild(helper); helper.select(); document.execCommand("copy"); helper.remove();
-    }
+    await copyText(activeSource);
     copyButton.dataset.copied = "true";
     copyButton.textContent = locale().copied;
     window.setTimeout(() => { delete copyButton.dataset.copied; copyButton.textContent = locale().copy; }, 1500);
