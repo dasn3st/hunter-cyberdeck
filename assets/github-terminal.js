@@ -14,6 +14,7 @@
     { path: "index.html", group: "root", label: "index.html", lang: "HTML" },
     { path: "INSTALLATIONSVERLAUF.md", group: "root", label: "INSTALLATIONSVERLAUF.md", lang: "Markdown" },
     { path: "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md", group: "root", label: "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md", lang: "Markdown" },
+    { path: "Cyberdeck-Befehle-Termux-vs-Container.md", group: "root", label: "Cyberdeck-Befehle-Termux-vs-Container.md", lang: "Markdown" },
     { path: "makerworld.html", group: "root", label: "makerworld.html", lang: "HTML" },
     { path: "post.html", group: "root", label: "post.html", lang: "HTML" },
     { path: "tech.html", group: "root", label: "tech.html", lang: "HTML" },
@@ -113,7 +114,8 @@
 
   const locale = () => labels[window.HUNTER_LANG === "en" ? "en" : "de"];
   const fileByPath = (path) => files.find((file) => file.path === path) || files[0];
-  let activeFile = files.find((file) => file.path === "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md") || files[0];
+  const commandGuidePaths = new Set(["INSTALLATIONSVERLAUF.md", "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md", "Cyberdeck-Befehle-Termux-vs-Container.md"]);
+  let activeFile = files.find((file) => file.path === "INSTALLATIONSVERLAUF.md") || files[0];
   let activeSource = "";
 
   host.innerHTML = `
@@ -204,7 +206,7 @@
       const response = await fetch(activeFile.path, { cache: "no-store" });
       if (!response.ok) throw new Error(`file ${response.status}`);
       const source = await response.text();
-      activeFile.path === "Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md" ? renderCommandGuide(source) : render(source);
+      commandGuidePaths.has(activeFile.path) ? renderCommandGuide(source) : render(source);
     } catch (error) {
       render(`# ${activeFile.path}\n# Datei ist im Repository verlinkt.\n# Öffne den GitHub-Link für die vollständige Version.`);
       console.info("HUNTER Code-Vorschau konnte die lokale Datei nicht laden.", error);

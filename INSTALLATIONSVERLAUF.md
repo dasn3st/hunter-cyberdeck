@@ -39,17 +39,7 @@ Betriebsdetails und lokale Infrastruktur gehören nicht in dieses Repository.
 - Die öffentliche Quelle liegt in diesem Repository und kann lokal ohne Build-
   Schritt mit einem statischen Webserver geöffnet werden.
 
-## 05 // Lokaler Start
-
-```bash
-git clone https://github.com/dasn3st/hunter-cyberdeck.git
-cd hunter-cyberdeck
-python3 -m http.server 4173
-```
-
-Danach ist die Startseite unter `http://127.0.0.1:4173/` erreichbar.
-
-## 06 // Agent als Setup-Begleiter
+## 05 // Agent als Setup-Begleiter
 
 Nach der Termux-Installation wird ein Agent wie `pi` eingerichtet. Er dient
 als interaktiver Setup-Begleiter und kann die nächsten Schritte erklären und
@@ -60,7 +50,7 @@ Der Agent begleitet den praktischen Installationsverlauf, ersetzt aber nicht
 die Freigabe des Nutzers. Passwörter, Tokens und andere private Zugangsdaten
 gehören nicht in öffentliche Dateien oder Chat-Ausgaben.
 
-## 07 // Öffentliche Sicherheitsgrenze
+## 06 // Öffentliche Sicherheitsgrenze
 
 - Keine Passwörter, Access-Tokens, Refresh-Tokens oder Service-Keys committen.
 - Keine lokalen IPs oder privaten Hostnamen in Issues, Dokumentation oder Logs
@@ -69,3 +59,185 @@ gehören nicht in öffentliche Dateien oder Chat-Ausgaben.
   Deployment geprüft.
 - Interne Übergaben, Agenten-Betriebsanweisungen und serverseitige Details
   bleiben außerhalb des öffentlichen Repositories.
+
+## 07 // Vollständige Befehlskette
+
+Die folgenden Blöcke werden in der angegebenen Reihenfolge kopiert und
+ausgeführt. Die Überschriften markieren, ob der Befehl in Termux oder im
+Ubuntu-Container läuft. Jeder GitHub-Codeblock ist separat kopierbar.
+
+### TEIL A — TERMUX: Paketbasis und Grundwerkzeuge
+
+```bash
+pkg update -y && pkg upgrade -y
+```
+
+```bash
+pkg install -y proot-distro git curl nodejs-lts
+```
+
+```bash
+termux-setup-storage
+```
+
+Android-Berechtigung bestätigen und für Termux den Akku-Modus
+„Nicht optimiert“ setzen.
+
+### TEIL B — TERMUX: Ubuntu-Container
+
+```bash
+proot-distro install ubuntu
+```
+
+```bash
+proot-distro login ubuntu
+```
+
+Ab hier laufen die nächsten Befehle im Container. Mit `exit` geht es zurück
+in Termux.
+
+### TEIL C — CONTAINER: Hermes und Gateway
+
+```bash
+apt update && apt install -y tmux curl
+```
+
+```bash
+curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash
+```
+
+```bash
+hermes setup
+```
+
+```bash
+hermes doctor
+```
+
+```bash
+tmux new-session -d -s hermes-gw -x 200 -y 40 'hermes gateway run'
+```
+
+```bash
+tmux ls
+```
+
+### TEIL C — CONTAINER: private Werte sicher eintragen
+
+Keys niemals in Befehle, Skripte, Chat-Ausgaben oder GitHub schreiben:
+
+```bash
+nano /root/.hermes/.env
+```
+
+Nur in der Datei, mit eigenen Werten und Platzhaltern ersetzt:
+
+```text
+TELEGRAM_BOT_TOKEN=<bot-token>
+TELEGRAM_ALLOWED_USERS=<deine-chat-id>
+OLLAMA_API_KEY=<ollama-cloud-key>
+```
+
+```bash
+chmod 600 /root/.hermes/.env
+```
+
+### TEIL C — CONTAINER: Obsidian-Ordner und Heartbeat
+
+```bash
+mkdir -p /storage/emulated/0/Documents/cyberdeck-log/"00 Inbox" \
+         /storage/emulated/0/Documents/cyberdeck-log/"02 Wissen" \
+         /storage/emulated/0/Documents/cyberdeck-log/"04 Tagesnotizen"
+```
+
+```bash
+hermes
+```
+
+In der Agenten-Session den stündlichen Heartbeat-Cron einrichten und danach
+den Telegram-Versand prüfen.
+
+### TEIL D — zurück in TERMUX: pi und Boot
+
+```bash
+exit
+```
+
+```bash
+npm install -g @earendil-works/pi-coding-agent
+```
+
+```bash
+pi --version
+```
+
+Die Boot-Dateien `~/.termux/boot/hermes-gateway.sh` und
+`~/.termux/boot/hermes-watchdog-termux.sh` anlegen und ausführbar machen:
+
+```bash
+chmod +x ~/.termux/boot/hermes-gateway.sh ~/.termux/boot/hermes-watchdog-termux.sh
+```
+
+Nach einem Neustart prüfen:
+
+```bash
+cat ~/.termux/boot/boot-log.txt
+```
+
+### TEIL D — TERMUX: herdr
+
+```bash
+mkdir -p ~/.local/bin
+```
+
+```bash
+curl -fsSL <herdr-release-url> -o ~/.local/bin/herdr && chmod +x ~/.local/bin/herdr
+```
+
+```bash
+herdr status
+```
+
+```bash
+herdr agent start pi --kind pi --pane <pane-id>
+```
+
+```bash
+herdr pane run <pane-id> "proot-distro login ubuntu -- bash -lc 'hermes'"
+```
+
+### TEIL E — optional: opencode im CONTAINER
+
+```bash
+proot-distro login ubuntu
+```
+
+```bash
+npm install -g opencode-ai@latest
+```
+
+```bash
+opencode auth login
+```
+
+```bash
+opencode
+```
+
+### Schnellreferenz: Ebene prüfen
+
+| Befehl | Ebene |
+|---|---|
+| `pkg ...`, `termux-setup-storage` | TERMUX |
+| `proot-distro install/login` | TERMUX |
+| `apt ...`, `hermes ...`, `tmux ...` | CONTAINER |
+| `nano /root/.hermes/.env` | CONTAINER |
+| `npm i -g @earendil-works/pi-coding-agent` | TERMUX |
+| `herdr ...` | TERMUX |
+| `opencode ...` | CONTAINER |
+
+Die ausführliche Variante mit Erläuterungen ist in
+[Cyberdeck-Befehle-Termux-vs-Container.md](Cyberdeck-Befehle-Termux-vs-Container.md)
+und ebenfalls als kopierbare Schritt-für-Schritt-Datei in
+[Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md](Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md)
+verfügbar.

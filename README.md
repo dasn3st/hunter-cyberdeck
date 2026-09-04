@@ -9,14 +9,6 @@ Public source repository for the HUNTER CYBERDECK open-build project and its edi
 - Product photos, 3D previews and downloadable print files
 - GitHub Discussions entry point for community feedback
 
-## Run locally
-
-Serve this directory with any static web server and open `index.html` in a browser. No build step is required.
-
-```bash
-python3 -m http.server 4173
-```
-
 The public website is deployed at [hunter-cyberdeck.d4sn3st.dev](https://hunter-cyberdeck.d4sn3st.dev/).
 
 ## Installationsverlauf
@@ -57,17 +49,7 @@ The public website is deployed at [hunter-cyberdeck.d4sn3st.dev](https://hunter-
 - Die öffentliche Quelle liegt in diesem Repository und läuft lokal ohne
   Build-Schritt mit einem statischen Webserver.
 
-### 05 // Lokaler Start
-
-```bash
-git clone https://github.com/dasn3st/hunter-cyberdeck.git
-cd hunter-cyberdeck
-python3 -m http.server 4173
-```
-
-Danach ist die Startseite unter `http://127.0.0.1:4173/` erreichbar.
-
-### 06 // Agent als Setup-Begleiter
+### 05 // Agent als Setup-Begleiter
 
 Nach der Termux-Installation wird ein Agent wie `pi` eingerichtet. Er dient
 als interaktiver Setup-Begleiter und kann:
@@ -81,7 +63,7 @@ Der Agent übernimmt damit den praktischen Installationsverlauf, ersetzt aber
 nicht die Freigabe des Nutzers. Passwörter, Tokens und andere private
 Zugangsdaten gehören nicht in öffentliche Dateien oder Chat-Ausgaben.
 
-### 07 // Öffentliche Sicherheitsgrenze
+### 06 // Öffentliche Sicherheitsgrenze
 
 - Keine Passwörter, Access-Tokens, Refresh-Tokens oder Service-Keys committen.
 - Keine lokalen IPs oder privaten Hostnamen in Issues, Dokumentation oder Logs
