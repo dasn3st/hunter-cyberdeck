@@ -21,6 +21,8 @@ The public website is deployed at [hunter-cyberdeck.d4sn3st.dev](https://hunter-
 
 The public setup history is documented in [INSTALLATIONSVERLAUF.md](INSTALLATIONSVERLAUF.md).
 
+The complete copy-paste command chain is documented in [Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md](Cyberdeck-Befehlskette-Schritt-fuer-Schritt.md).
+
 ## Scope and safety
 
 This repository contains the public project and frontend source only. Private operations, credentials, agent handover notes and server-side administration remain outside the public repository.
