@@ -17,7 +17,9 @@ Serve this directory with any static web server and open `index.html` in a brows
 python3 -m http.server 4173
 ```
 
-The public website is deployed at [hunter-cyberdeck.netlify.app](https://hunter-cyberdeck.netlify.app/).
+The public website is deployed at [hunter-cyberdeck.d4sn3st.dev](https://hunter-cyberdeck.d4sn3st.dev/).
+
+The public setup history is documented in [INSTALLATIONSVERLAUF.md](INSTALLATIONSVERLAUF.md).
 
 ## Scope and safety
 

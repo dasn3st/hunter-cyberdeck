@@ -12,6 +12,7 @@
     { path: "code.html", group: "root", label: "code.html", lang: "HTML" },
     { path: "github.html", group: "root", label: "github.html", lang: "HTML" },
     { path: "index.html", group: "root", label: "index.html", lang: "HTML" },
+    { path: "INSTALLATIONSVERLAUF.md", group: "root", label: "INSTALLATIONSVERLAUF.md", lang: "Markdown" },
     { path: "makerworld.html", group: "root", label: "makerworld.html", lang: "HTML" },
     { path: "post.html", group: "root", label: "post.html", lang: "HTML" },
     { path: "tech.html", group: "root", label: "tech.html", lang: "HTML" },
@@ -30,7 +31,7 @@
     de: {
       eyebrow: "SOURCE CODE // LIVE REPOSITORY MAP",
       title: "CODE-STRUKTUR IM TERMINAL.",
-      description: "Die öffentlichen HUNTER-Dateien direkt in der Seite: auswählbar, lesbar und mit einem Klick kopierbar. Interne Betriebs- und Übergabedokumente bleiben bewusst außerhalb der öffentlichen Ansicht.",
+      description: "Die öffentlichen HUNTER-Dateien und der Installationsverlauf direkt in der Seite: auswählbar, lesbar und mit einem Klick kopierbar. Interne Betriebs- und Übergabedokumente bleiben bewusst außerhalb der öffentlichen Ansicht.",
       tree: "REPOSITORY // HIERARCHIE",
       code: "DATEI // CODE-VORSCHAU",
       copy: "CODE KOPIEREN",
@@ -44,7 +45,7 @@
     en: {
       eyebrow: "SOURCE CODE // LIVE REPOSITORY MAP",
       title: "CODE STRUCTURE IN TERMINAL.",
-      description: "The public HUNTER files directly on the page: selectable, readable and copyable with one click. Internal operations and handover documents stay outside the public view.",
+      description: "The public HUNTER files and setup history directly on the page: selectable, readable and copyable with one click. Internal operations and handover documents stay outside the public view.",
       tree: "REPOSITORY // HIERARCHY",
       code: "FILE // CODE PREVIEW",
       copy: "COPY CODE",
