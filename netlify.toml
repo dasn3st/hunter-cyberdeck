@@ -2,6 +2,12 @@
   publish = "."
 
 [[redirects]]
+  from = "/sitemap.xml"
+  to = "/.netlify/functions/sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/HUNTER_AGENT_EINWEISUNG.md"
   to = "/404.html"
   status = 404

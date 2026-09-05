@@ -23,6 +23,68 @@
     return "";
   };
 
+  const absoluteUrl = (value = "") => {
+    const url = safeUrl(value);
+    if (!url) return "";
+    try { return new URL(url, window.location.href).href; } catch { return ""; }
+  };
+
+  const setMeta = (key, content, attribute = "property") => {
+    if (!content) return;
+    let node = document.head.querySelector(`meta[${attribute}="${key}"]`);
+    if (!node) {
+      node = document.createElement("meta");
+      node.setAttribute(attribute, key);
+      document.head.appendChild(node);
+    }
+    node.setAttribute("content", String(content));
+  };
+
+  const validIsoDate = (value) => {
+    if (!value) return "";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? "" : date.toISOString();
+  };
+
+  const updatePostSeo = (post, slug) => {
+    const canonicalUrl = `${window.location.origin}/post.html?slug=${encodeURIComponent(slug)}`;
+    const canonical = document.querySelector('link[rel="canonical"]') || document.head.appendChild(Object.assign(document.createElement("link"), { rel: "canonical" }));
+    canonical.href = canonicalUrl;
+    const imageUrl = absoluteUrl(post.hero_image);
+    setMeta("description", post.excerpt, "name");
+    setMeta("og:title", post.title);
+    setMeta("og:description", post.excerpt);
+    setMeta("og:url", canonicalUrl);
+    setMeta("og:type", "article");
+    setMeta("og:image", imageUrl);
+    setMeta("og:image:alt", post.hero_alt || post.title);
+    setMeta("twitter:card", "summary_large_image", "name");
+    setMeta("twitter:title", post.title, "name");
+    setMeta("twitter:description", post.excerpt, "name");
+    setMeta("twitter:image", imageUrl, "name");
+
+    document.querySelector('script[data-post-schema="blogposting"]')?.remove();
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.title,
+      author: { "@type": "Person", name: "Marcel", url: "https://d4sn3st.dev" },
+      publisher: { "@type": "Organization", name: "HUNTER Cyberdeck", url: "https://hunter-cyberdeck.d4sn3st.dev" },
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+    };
+    if (post.excerpt) schema.description = post.excerpt;
+    if (imageUrl) schema.image = [imageUrl];
+    const published = validIsoDate(post.published_at);
+    const modified = validIsoDate(post.updated_at);
+    if (published) schema.datePublished = published;
+    if (modified) schema.dateModified = modified;
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.dataset.postSchema = "blogposting";
+    schemaScript.textContent = JSON.stringify(schema).replace(/[<>&]/g, (character) => ({ "<": "\\u003c", ">": "\\u003e", "&": "\\u0026" })[character]);
+    document.head.appendChild(schemaScript);
+  };
+
   const postLanguage = (post = {}) => {
     const explicit = String(post.language || post.lang || post.locale || "").toLowerCase();
     if (explicit.startsWith("en")) return "en";
@@ -304,6 +366,7 @@
       const post = posts[0];
       if (!post) throw new Error("not found");
       document.title = `${post.title} – HUNTER Cyberdeck`;
+      updatePostSeo(post, slug);
       const reference = String(post.slug || "live").split("-").filter(Boolean).slice(0, 2).join("-").toUpperCase() || "LIVE";
       const revisionDate = post.updated_at || post.created_at || post.published_at;
       shell.querySelector("[data-post-reference]")?.replaceChildren(document.createTextNode(reference));
