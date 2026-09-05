@@ -3,4 +3,4 @@ Allow: /
 Disallow: /assets/archive/docs/
 Disallow: /assets/downloads/
 
-Sitemap: https://hunter-cyberdeck.netlify.app/sitemap.xml
+Sitemap: https://hunter-cyberdeck.d4sn3st.dev/sitemap.xml
