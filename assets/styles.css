@@ -4072,6 +4072,38 @@ body[data-page="blog"] .filter-button:hover, body[data-page="blog"] .filter-butt
 body[data-page="blog"] .story-card { color: var(--ink); background: var(--paper); }
 body[data-page="blog"] .story-excerpt { color: #5d514b; }
 
+/* Keep the blog overview compact: landscape previews make the archive scannable. */
+body[data-page="blog"] .story-card,
+body[data-page="blog"] .story-card.featured {
+  grid-column: span 4;
+  min-height: 0;
+}
+body[data-page="blog"] .story-visual,
+body[data-page="blog"] .featured .story-visual {
+  aspect-ratio: 16 / 9;
+  min-height: 0;
+}
+body[data-page="blog"] .story-visual > img {
+  min-height: 0;
+  object-fit: cover;
+}
+body[data-page="blog"] .story-content { padding: 20px; }
+body[data-page="blog"] .story-title {
+  margin: 12px 0 10px;
+  font-size: clamp(26px, 2.4vw, 36px);
+}
+body[data-page="blog"] .story-excerpt { margin-bottom: 18px; }
+
+@media (max-width: 900px) {
+  body[data-page="blog"] .story-card,
+  body[data-page="blog"] .story-card.featured { grid-column: span 6; }
+}
+
+@media (max-width: 640px) {
+  body[data-page="blog"] .story-card,
+  body[data-page="blog"] .story-card.featured { grid-column: span 12; }
+}
+
 body[data-page="tech"] main > .section { color: var(--ink); background: var(--paper); }
 .docs-layout { grid-template-columns: minmax(180px, 3fr) minmax(0, 9fr); gap: clamp(28px, 6vw, 90px); }
 .docs-nav { border-color: var(--rule-light); }
