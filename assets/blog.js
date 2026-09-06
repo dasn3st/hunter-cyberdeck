@@ -10,7 +10,9 @@
     "assets/hunter-gallery/hunter-cyberdeck-04.jpg", "assets/hunter-gallery/hunter-cyberdeck-06.jpg",
     "assets/hunter-gallery/hunter-cyberdeck-03.jpg", "assets/hunter-gallery/hunter-cyberdeck-05.jpg",
     "assets/hunter-gallery/hunter-cyberdeck-09.jpg", "assets/hunter-gallery/hunter-cyberdeck-07.jpg",
-    "assets/hunter-gallery/hunter-cyberdeck-01.jpg",
+    "assets/hunter-gallery/hunter-cyberdeck-01.jpg", "assets/hunter-gallery/hunter-cyberdeck-02.jpg",
+    "assets/hunter-gallery/hunter-cyberdeck-08.jpg", "assets/hunter-gallery/hunter-cyberdeck-10.jpg",
+    "assets/hunter-gallery/hunter-cyberdeck-11.jpg", "assets/hunter-gallery/hunter-cyberdeck-12.jpg",
   ];
 
   const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (character) => ({
@@ -177,7 +179,7 @@
     const category = categoryLabels[post.category] ? post.category : "agent";
     // Use the supplied field photography for the public index cards. A post's
     // own hero image remains available inside its detail page.
-    const image = suppliedGallery[index] || firstImage(post);
+    const image = suppliedGallery[index % suppliedGallery.length] || firstImage(post);
     const visual = image
       ? `<div class="story-visual">${imageMarkup(image, post.title)}</div>`
       : `<div class="story-visual visual-${category}"></div>`;
