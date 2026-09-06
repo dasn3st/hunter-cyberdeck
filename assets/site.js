@@ -338,7 +338,7 @@ const renderAgentLogs = (events) => {
 const fetchAgentLogs = async () => {
   if (!agentLogsTarget) return [];
   try {
-    const response = await fetch(`${hunterSupabase.url}/rest/v1/agent_events?select=id,event_type,emoji,message,metadata,created_at&order=created_at.desc&limit=16`, {
+    const response = await fetch(`${hunterSupabase.url}/rest/v1/agent_events?select=id,event_type,emoji,message,metadata,created_at&event_type=eq.heartbeat&order=created_at.desc&limit=16`, {
       headers: { apikey: hunterSupabase.key, Authorization: `Bearer ${hunterSupabase.key}` },
       cache: "no-store",
     });
