@@ -226,12 +226,18 @@ const hunterSupabase = {
   key: "sb_publishable_sihx39p63ZEO4M3I1APVlw_GhySEcfu",
 };
 
-const formatUptime = (seconds) => {
+const formatUptime = (seconds, heartbeat) => {
   const total = Math.max(0, Number(seconds) || 0);
-  const days = Math.floor(total / 86400);
-  const hours = Math.floor((total % 86400) / 3600);
-  const minutes = Math.floor((total % 3600) / 60);
-  return days > 0 ? `${days}d ${hours}h` : `${hours}h ${minutes}m`;
+  const english = window.HUNTER_LANG === "en";
+  const hours = (total / 3600).toFixed(1).replace(".", english ? "." : ",");
+  const reference = Date.parse(heartbeat);
+  const startedAt = new Date((Number.isFinite(reference) ? reference : Date.now()) - total * 1000);
+  const pad = (value) => String(value).padStart(2, "0");
+  const time = `${pad(startedAt.getHours())}:${pad(startedAt.getMinutes())}`;
+  const date = english
+    ? startedAt.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+    : `${pad(startedAt.getDate())}.${pad(startedAt.getMonth() + 1)}.`;
+  return english ? `${hours} h since ${date}, ${time}` : `${hours} h seit ${date} ${time}`;
 };
 
 const formatRam = (mb) => {
@@ -261,7 +267,7 @@ const applyHunterStatus = (status) => {
   if (!status) return;
   renderInstalledAgents(status.installed_agents || agentStack);
   const values = {
-    uptime: `$ ${formatUptime(status.uptime_seconds)} // live`,
+    uptime: `$ ${formatUptime(status.uptime_seconds, status.last_heartbeat)} // live`,
     record: `$ ${status.record_uptime || "88h+ ohne Unterbrechung // 28.08.–01.09."}`,
     cron: `$ ${status.cron_jobs_ok ?? 0}/${status.cron_jobs_total ?? 0} aktiv // ${status.cron_jobs_failed ?? 0} fehlgeschlagen`,
     oom: `$ ${status.oom_kills ?? 0} kills // seit Härtung`,
