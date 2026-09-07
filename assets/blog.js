@@ -49,7 +49,7 @@
   };
 
   const updatePostSeo = (post, slug) => {
-    const canonicalUrl = `${window.location.origin}/post.html?slug=${encodeURIComponent(slug)}`;
+    const canonicalUrl = `${window.location.origin}/blog/${encodeURIComponent(slug)}/`;
     const canonical = document.querySelector('link[rel="canonical"]') || document.head.appendChild(Object.assign(document.createElement("link"), { rel: "canonical" }));
     canonical.href = canonicalUrl;
     const imageUrl = absoluteUrl(post.hero_image);
@@ -183,7 +183,7 @@
     const visual = image
       ? `<div class="story-visual">${imageMarkup(image, post.title)}</div>`
       : `<div class="story-visual visual-${category}"></div>`;
-    return `<a class="story-card ${index === 0 ? "featured" : ""} blog-dynamic-card" data-category="${category}" data-blog-language="${postLanguage(post)}" href="post.html?slug=${encodeURIComponent(post.slug)}">
+    return `<a class="story-card ${index === 0 ? "featured" : ""} blog-dynamic-card" data-category="${category}" data-blog-language="${postLanguage(post)}" href="/blog/${encodeURIComponent(post.slug)}/">
       ${visual}
       <div class="story-content">
         <span class="meta" style="color:var(--green)">${categoryLabel(category)} // ${escapeHtml(post.template || (window.HUNTER_LANG === "en" ? "Build log" : "Build Log"))}</span>

@@ -1,5 +1,9 @@
 [build]
-  publish = "."
+  command = "node scripts/prerender-blog.mjs"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
 
 [[redirects]]
   from = "/sitemap.xml"

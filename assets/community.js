@@ -8,7 +8,7 @@
     giscusCategoryId: "DIC_kwDOUKx3IM4DEpRA",
   };
 
-  const slug = new URLSearchParams(window.location.search).get("slug") || "";
+  const slug = new URLSearchParams(window.location.search).get("slug") || document.querySelector("[data-post-page]")?.dataset.postSlug || "";
   const isEnglish = () => window.HUNTER_LANG === "en";
   const reviewTargets = [...document.querySelectorAll("[data-community-reviews]")];
   const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (character) => ({

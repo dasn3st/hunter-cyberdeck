@@ -1,13 +1,13 @@
 const page = document.body.dataset.page || "home";
 
 const navigation = [
-  { id: "home", label: "Start", href: "index.html" },
-  { id: "blog", label: "Blog", href: "blog.html" },
-  { id: "tech", label: "Tech", href: "tech.html" },
-  { id: "github", label: "GitHub", href: "github.html", external: true },
-  { id: "makerworld", label: "MakerWorld", href: "makerworld.html", external: true },
-  { id: "archive", label: "Archiv", href: "archive.html" },
-  { id: "about", label: "Über HUNTER", href: "about.html" },
+  { id: "home", label: "Start", href: "/index.html" },
+  { id: "blog", label: "Blog", href: "/blog.html" },
+  { id: "tech", label: "Tech", href: "/tech.html" },
+  { id: "github", label: "GitHub", href: "/github.html", external: true },
+  { id: "makerworld", label: "MakerWorld", href: "/makerworld.html", external: true },
+  { id: "archive", label: "Archiv", href: "/archive.html" },
+  { id: "about", label: "Über HUNTER", href: "/about.html" },
 ];
 
 const headerTarget = document.querySelector("[data-site-header]");
@@ -22,8 +22,8 @@ if (headerTarget) {
   headerTarget.outerHTML = `
     <header class="site-header">
       <div class="header-inner">
-        <a class="brand" href="index.html" aria-label="HUNTER Startseite" data-i18n-aria="brand.home">
-          <img class="brand-logo" src="assets/hunter-logo-white.png" width="1536" height="1024" alt="HUNTER CYBERDECK">
+        <a class="brand" href="/index.html" aria-label="HUNTER Startseite" data-i18n-aria="brand.home">
+          <img class="brand-logo" src="/assets/hunter-logo-white.png" width="1536" height="1024" alt="HUNTER CYBERDECK">
         </a>
         <nav class="main-nav" id="main-navigation" aria-label="Hauptnavigation" data-i18n-aria="nav.label">${links}</nav>
         <div class="header-status"><span class="status-dot"></span>Build 01 // <span data-i18n="status.active">aktiv</span></div>
@@ -38,16 +38,16 @@ if (footerTarget) {
     <footer class="site-footer">
       <div class="footer-inner">
         <div class="footer-brand">
-          <a class="footer-wordmark" href="index.html" aria-label="HUNTER Cyberdeck Startseite"><img class="footer-logo" src="assets/hunter-logo-white.png" width="1440" height="560" alt="HUNTER Cyberdeck"></a>
+          <a class="footer-wordmark" href="/index.html" aria-label="HUNTER Cyberdeck Startseite"><img class="footer-logo" src="/assets/hunter-logo-white.png" width="1440" height="560" alt="HUNTER Cyberdeck"></a>
           <p data-i18n="footer.tagline">Cyberdeck Development Journal<br>Made in Berlin // Open Build</p>
         </div>
         <nav class="footer-links" aria-label="Fußnavigation" data-i18n-aria="footer.label">
-          <a href="blog.html"><span data-i18n="footer.blog">Build Log</span></a>
-          <a href="tech.html"><span data-i18n="footer.tech">Tech-Dokumentation</span></a>
-          <a href="github.html"><span data-i18n="footer.github">GitHub</span> ↗</a>
-          <a href="makerworld.html"><span data-i18n="footer.makerworld">MakerWorld</span> ↗</a>
-          <a href="archive.html"><span data-i18n="footer.archive">Forschungsarchiv</span></a>
-          <a href="about.html"><span data-i18n="footer.about">Über HUNTER</span></a>
+          <a href="/blog.html"><span data-i18n="footer.blog">Build Log</span></a>
+          <a href="/tech.html"><span data-i18n="footer.tech">Tech-Dokumentation</span></a>
+          <a href="/github.html"><span data-i18n="footer.github">GitHub</span> ↗</a>
+          <a href="/makerworld.html"><span data-i18n="footer.makerworld">MakerWorld</span> ↗</a>
+          <a href="/archive.html"><span data-i18n="footer.archive">Forschungsarchiv</span></a>
+          <a href="/about.html"><span data-i18n="footer.about">Über HUNTER</span></a>
           <a href="mailto:hello@hunter.local"><span data-i18n="footer.contact">Kontakt</span></a>
         </nav>
       </div>

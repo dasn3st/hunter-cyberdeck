@@ -57,7 +57,7 @@ exports.handler = async () => {
     postEntries = posts
       .filter((post) => post && /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(String(post.slug || "")))
       .map((post) => [
-        `/post.html?slug=${encodeURIComponent(post.slug)}`,
+        `/blog/${encodeURIComponent(post.slug)}/`,
         validIsoDate(post.updated_at) || validIsoDate(post.published_at),
         "0.7",
       ]);

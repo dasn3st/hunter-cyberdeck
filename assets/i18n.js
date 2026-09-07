@@ -249,6 +249,10 @@
     }
     const map = pages[page] || {};
     Object.entries(map).forEach(([selector, value]) => {
+      // Generated /blog/<slug>/ pages already contain the complete, authored
+      // article. Interface translation must not replace that server-rendered
+      // title or lead with the generic loading placeholder.
+      if (document.querySelector("[data-post-page][data-post-slug]") && ["[data-post-title]", "[data-post-excerpt]", "[data-post-loading]"].includes(selector)) return;
       document.querySelectorAll(selector).forEach((node) => {
         if (node.matches("input, textarea")) node.setAttribute("placeholder", text(value));
         else if (node.matches("select")) node.setAttribute("aria-label", text(value));
@@ -276,6 +280,9 @@
     return `${url.pathname.split("/").pop() || "index.html"}${url.search}${url.hash}`;
   };
   const updateSeo = () => {
+    // The static blog generator owns canonical, social metadata and article
+    // schema. Keep those exact published values intact after i18n initializes.
+    if (document.querySelector("[data-post-page][data-post-slug]")) return;
     const base = new URL(window.location.href);
     base.search = "";
     const pageQuery = page === "blog-post" && params.get("slug") ? `?slug=${encodeURIComponent(params.get("slug"))}&lang=` : "?lang=";
@@ -309,7 +316,7 @@
     document.querySelectorAll("a[href]").forEach((link) => {
       const raw = link.getAttribute("href");
       if (!raw || raw.startsWith("#") || raw.startsWith("mailto:") || raw.startsWith("http") || raw.startsWith("assets/") || raw.includes("download")) return;
-      try { const url = new URL(raw, window.location.href); if (url.origin !== window.location.origin) return; url.searchParams.set("lang", language); link.setAttribute("href", `${url.pathname.split("/").pop()}${url.search}${url.hash}`); } catch (_) {}
+      try { const url = new URL(raw, window.location.href); if (url.origin !== window.location.origin) return; url.searchParams.set("lang", language); link.setAttribute("href", `${url.pathname}${url.search}${url.hash}`); } catch (_) {}
     });
   };
 
