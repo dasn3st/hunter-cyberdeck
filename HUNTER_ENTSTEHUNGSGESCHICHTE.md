@@ -10,7 +10,7 @@ Dabei muss ich gleich am Anfang etwas erwähnen, das für die ganze Geschichte z
 
 Ich bin kein Programmierer.
 
-Ich beherrsche keine Programmiersprache, kann selbst keinen Code schreiben und spreche nicht Englisch.
+Ich beherrsche keine Programmiersprache und kann selbst keinen Code schreiben.
 
 Mein eigentlicher Hintergrund ist ein völlig anderer. Ich bin Künstler und beschäftige mich seit Jahren aus eigener Neugier mit digitalen Werkzeugen, Technik und inzwischen sehr intensiv mit künstlicher Intelligenz.
 
