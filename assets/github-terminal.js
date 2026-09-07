@@ -132,7 +132,18 @@
     flow.className = "github-origin-flow";
     const nodes = [...content.childNodes];
     let chapter;
+    let context;
+    let introParagraphs = 0;
     nodes.forEach((node) => {
+      if (!firstChapter || node !== firstChapter && !chapter && node.nodeType === Node.ELEMENT_NODE && node.tagName === "P" && introParagraphs >= 4) {
+        if (!context) {
+          context = document.createElement("section");
+          context.className = "github-origin-chapter github-origin-context";
+          flow.appendChild(context);
+        }
+        context.appendChild(node);
+        return;
+      }
       if (node === firstChapter || (chapter && node.nodeType === Node.ELEMENT_NODE)) {
         if (node.tagName === "H3") {
           chapter = document.createElement("section");
@@ -143,6 +154,7 @@
         return;
       }
       leadCopy.appendChild(node);
+      if (node.tagName === "P") introParagraphs += 1;
     });
     lead.append(figure, leadCopy);
     content.replaceChildren(lead, flow);

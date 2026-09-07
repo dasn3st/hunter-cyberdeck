@@ -4675,6 +4675,7 @@ html, body { overflow-x: hidden; }
   grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
   gap: clamp(28px, 4vw, 64px);
   align-items: stretch;
+  min-height: max(620px, calc(100svh - var(--header-height) - 150px));
 }
 .github-origin-lead-copy { min-width: 0; }
 .github-origin-lead-copy {
@@ -4693,6 +4694,9 @@ html, body { overflow-x: hidden; }
   padding: 28px 24px 22px;
   border-top: 1px solid var(--line-bright);
   background: rgba(0, 0, 0, .1);
+}
+.github-origin-context {
+  background: rgba(57, 36, 90, .2);
 }
 .github-origin-chapter h3 { margin-top: 0; }
 .github-origin-story-content h2,
