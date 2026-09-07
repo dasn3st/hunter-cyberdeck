@@ -172,68 +172,137 @@
       }
     });
     leadCopy.append(...leadNodes);
-    const splitParagraph = (paragraph, limit = 900) => {
-      const source = paragraph.textContent.trim();
-      if (source.length <= limit) return [paragraph.cloneNode(true)];
-      const sentences = source.split(/(?<=[.!?])\s+/);
-      const chunks = [];
-      let chunk = "";
-      sentences.forEach((sentence) => {
-        if (chunk && chunk.length + sentence.length + 1 > limit) {
-          chunks.push(chunk.trim());
-          chunk = sentence;
-        } else {
-          chunk = `${chunk} ${sentence}`.trim();
-        }
-      });
-      if (chunk) chunks.push(chunk.trim());
-      return chunks.map((text) => {
-        const node = document.createElement("p");
-        node.textContent = text;
-        return node;
-      });
-    };
-    const splitNodes = (items) => items.flatMap((node) => (
-      node.tagName === "P" ? splitParagraph(node) : [node.cloneNode(true)]
-    ));
-    const makeCard = (items, heading, continuation = false, context = false) => {
+    const makeCard = (items, heading, chapterIndex, context = false) => {
       const card = document.createElement("section");
-      card.className = `github-origin-chapter${context ? " github-origin-context" : ""}${continuation ? " github-origin-continuation" : ""}`;
+      const chapterNumber = String(chapterIndex).padStart(2, "0");
+      card.className = `github-origin-chapter${context ? " github-origin-context" : ""}`;
+      card.dataset.chapter = chapterNumber;
+      const meta = document.createElement("div");
+      meta.className = "github-origin-card-meta";
+      const chapterLabel = document.createElement("span");
+      chapterLabel.textContent = context ? "PROLOG // HUNTER" : `KAPITEL ${chapterNumber} // ORIGIN LOG`;
+      const storyLabel = document.createElement("span");
+      storyLabel.textContent = "ENTSTEHUNGSGESCHICHTE // 2026";
+      meta.append(chapterLabel, storyLabel);
+      card.appendChild(meta);
       if (heading) {
         const title = heading.cloneNode(true);
-        if (continuation) title.textContent += " // FORTSETZUNG";
+        title.id = `origin-chapter-${chapterNumber}`;
         card.appendChild(title);
+        card.setAttribute("aria-labelledby", title.id);
       }
-      card.append(...items);
+      const body = document.createElement("div");
+      body.className = "github-origin-card-body";
+      body.append(...items);
+      card.appendChild(body);
       return card;
     };
-    const cards = [];
-    if (contextNodes.length) cards.push(makeCard(splitNodes(contextNodes), null, false, true));
-    chapters.forEach(({ heading, nodes: chapterNodes }) => {
-      let bucket = [];
-      let bucketLength = 0;
-      const pieces = splitNodes(chapterNodes);
-      pieces.forEach((node) => {
-        const length = node.textContent.length;
-        if (bucket.length && bucketLength + length > 900) {
-          cards.push(makeCard(bucket, heading, cards.some((card) => card.querySelector("h3")?.textContent === heading.textContent)));
-          bucket = [];
-          bucketLength = 0;
-        }
-        bucket.push(node);
-        bucketLength += length;
-      });
-      if (bucket.length) {
-        cards.push(makeCard(bucket, heading, cards.some((card) => card.querySelector("h3")?.textContent === heading.textContent)));
-      }
+    const pages = [];
+    if (contextNodes.length) {
+      const contextBody = [...contextNodes];
+      const firstParagraph = contextBody.find((node) => node.tagName === "P");
+      const contextHeading = document.createElement("h3");
+      contextHeading.textContent = firstParagraph?.textContent || "AUSGANGSLAGE";
+      if (firstParagraph) contextBody.splice(contextBody.indexOf(firstParagraph), 1);
+      pages.push({ card: makeCard(contextBody, contextHeading, 0, true), chapterIndex: 0, headingText: contextHeading.textContent });
+    }
+    chapters.forEach(({ heading, nodes: chapterNodes }, chapterIndex) => {
+      pages.push({ card: makeCard(chapterNodes, heading, chapterIndex + 1), chapterIndex: chapterIndex + 1, headingText: heading.textContent });
     });
-    for (let index = 0; index < cards.length; index += 2) {
+    const storyMedia = [
+      ["assets/hunter-gallery/hunter-cyberdeck-02.jpg", "Draufsicht auf Pixel 6a, Rii K06 und Case-Teile", "02 // COMPONENTS"],
+      ["assets/hunter-gallery/hunter-cyberdeck-11.jpg", "Vollständiger Teileaufbau des Cyberdecks", "11 // RELEASE SET"],
+      ["assets/hunter-gallery/hunter-cyberdeck-01.jpg", "HUNTER Cyberdeck mit geöffnetem Display und Ringstand", "01 // FIELD NODE"],
+      ["assets/hunter-gallery/hunter-cyberdeck-05.jpg", "Nahaufnahme von Rii K06 und Pixel 6a", "05 // INPUT"],
+      ["assets/hunter-gallery/hunter-cyberdeck-04.jpg", "HUNTER Cyberdeck als vollständiges mobiles System", "04 // SYSTEM ONLINE"],
+      ["assets/hunter-gallery/hunter-cyberdeck-03.jpg", "Seitliche Ansicht von Pixel 6a und Rii K06 im Case", "03 // INTERFACE"],
+      ["assets/hunter-gallery/hunter-cyberdeck-06.jpg", "Ringstand und Gehäuse im Testaufbau", "06 // STAND MODULE"],
+      ["assets/hunter-gallery/hunter-cyberdeck-07.jpg", "Montageübersicht mit Case-Hälften und Komponenten", "07 // ASSEMBLY"],
+      ["assets/hunter-gallery/hunter-cyberdeck-08.jpg", "Cyberdeck-Rückseite mit Hexgitter und Ringstand", "08 // CASE BACK"],
+      ["assets/hunter-gallery/hunter-cyberdeck-09.jpg", "Geöffnete Case-Komponente mit Ringmechanik", "09 // MECHANICS"],
+      ["assets/hunter-gallery/hunter-cyberdeck-10.jpg", "Ringstand-Modul in der Draufsicht", "10 // TOLERANCE"],
+      ["assets/hunter-gallery/hunter-cyberdeck-12.jpg", "Detailaufnahme des HUNTER Cyberdecks im Feld", "12 // FIELD ARCHIVE"],
+    ];
+    const makeMedia = (media, screenIndex) => {
+      const [src, alt, caption] = media;
+      const figure = document.createElement("figure");
+      figure.className = "github-origin-media";
+      const image = document.createElement("img");
+      image.src = src;
+      image.alt = alt;
+      image.loading = screenIndex < 2 ? "eager" : "lazy";
+      image.decoding = "async";
+      const label = document.createElement("figcaption");
+      label.textContent = caption;
+      figure.append(image, label);
+      return figure;
+    };
+    const brandStories = [
+      { match: /UBUNTU|EIGENTLICHE SYSTEM/, label: "TERMUX // MOBILE LINUX", logos: [["assets/brands/termux-x11.png", "Termux X11"]] },
+      { match: /AGENT WURDE ZUM SCHLÜSSEL/, label: "PI // CODING AGENT", logos: [["assets/brands/pi.svg", "Pi Coding Agent"]] },
+      { match: /AB JETZT BAUTEN DIE AGENTEN MIT/, label: "ACTIVE AGENT STACK", logos: [["assets/brands/opencode.svg", "OpenCode"], ["assets/brands/claude.svg", "Claude Code"], ["assets/brands/codex.svg", "Codex"], ["assets/brands/pi.svg", "Pi Coding Agent"]] },
+      { match: /NICHT INSTALLIEREN WOLLTE/, label: "HERMES // SELF-HOSTED AGENT", logos: [["assets/brands/hermes.svg", "Hermes Agent"]] },
+      { match: /OHNE ROOT/, kind: "terminal", label: "HERMES // LIVE SYSTEM VIEW" },
+      { match: /ANDERE KIS/, label: "CROSS-MODEL RESEARCH", logos: [["assets/brands/codex.svg", "Codex"], ["assets/brands/claude.svg", "Claude Code"]] },
+      { match: /STAND HEUTE/, label: "HUNTER // MULTI-AGENT SYSTEM", logos: [["assets/brands/opencode.svg", "OpenCode"], ["assets/brands/codex.svg", "Codex"], ["assets/brands/pi.svg", "Pi Coding Agent"]] },
+    ];
+    const makeBrandMedia = ({ label, logos = [], kind }, screenIndex) => {
+      const figure = document.createElement("figure");
+      figure.className = "github-origin-media github-origin-brandstage";
+      if (kind === "terminal") {
+        figure.classList.add("is-terminal");
+        const terminal = document.createElement("div");
+        terminal.className = "github-origin-agent-terminal";
+        terminal.innerHTML = `
+          <div class="github-origin-agent-terminal-bar"><span>● ● ●</span><span>HUNTER@PIXEL6A // HERMES</span></div>
+          <div class="github-origin-agent-terminal-body">
+            <p><span>$</span> hermes gateway status</p>
+            <p class="is-success">● GATEWAY ONLINE</p>
+            <p><span>$</span> hermes doctor</p>
+            <dl>
+              <div><dt>RUNTIME</dt><dd>TERMUX // ARM64</dd></div>
+              <div><dt>PLATFORM</dt><dd>TELEGRAM // CONNECTED</dd></div>
+              <div><dt>WATCHDOG</dt><dd>ARMED // RECOVERY READY</dd></div>
+              <div><dt>HEARTBEAT</dt><dd>HOURLY // ACTIVE</dd></div>
+            </dl>
+            <p class="is-prompt"><span>›</span> HUNTER wartet auf den nächsten Auftrag_</p>
+          </div>`;
+        const caption = document.createElement("figcaption");
+        caption.textContent = label;
+        figure.append(terminal, caption);
+        return figure;
+      }
+      const grid = document.createElement("div");
+      grid.className = `github-origin-brand-grid${logos.length > 1 ? " is-multi" : ""}`;
+      logos.forEach(([src, name]) => {
+        const tile = document.createElement("div");
+        tile.className = "github-origin-brand-tile";
+        const image = document.createElement("img");
+        image.src = src;
+        image.alt = `${name} Logo`;
+        image.loading = screenIndex < 2 ? "eager" : "lazy";
+        const text = document.createElement("span");
+        text.textContent = name;
+        tile.append(image, text);
+        grid.appendChild(tile);
+      });
+      const caption = document.createElement("figcaption");
+      caption.textContent = label;
+      figure.append(grid, caption);
+      return figure;
+    };
+    pages.forEach(({ card, chapterIndex, headingText }, index) => {
       const screen = document.createElement("section");
       screen.className = "github-origin-screen";
-      screen.append(cards[index]);
-      if (cards[index + 1]) screen.append(cards[index + 1]);
+      const storyLength = card.querySelector(".github-origin-card-body")?.textContent.length || 0;
+      const searchableHeading = headingText.toLocaleUpperCase("de-DE");
+      const brandStory = brandStories.find(({ match }) => match.test(searchableHeading));
+      screen.dataset.layout = brandStory?.kind === "terminal" ? "balanced" : storyLength > 1500 ? "copy-focus" : storyLength < 780 ? "balanced" : "media-focus";
+      screen.dataset.screen = String(index + 1).padStart(2, "0");
+      const mediaIndex = (chapterIndex * 2) % storyMedia.length;
+      screen.append(card, brandStory ? makeBrandMedia(brandStory, index) : makeMedia(storyMedia[mediaIndex], index));
       flow.appendChild(screen);
-    }
+    });
     lead.append(figure, leadCopy);
     content.replaceChildren(lead, flow);
   };
@@ -286,7 +355,7 @@
           <p>DER ÖFFENTLICHE URSPRUNGSBERICHT WIRD GELADEN …</p>
         </div>
         <figure class="github-origin-portrait">
-          <img src="assets/hunter-origin-portrait-sharp-cropped.png" alt="Marcel, Entwickler und Erbauer von HUNTER" loading="lazy" decoding="async">
+          <img src="assets/hunter-origin-portrait-workshop.jpg" alt="Marcel in seiner Werkstatt mit einem Bauteil des HUNTER Cyberdecks" loading="lazy" decoding="async">
           <figcaption>MARCEL // BUILDER OF HUNTER</figcaption>
         </figure>
       </div>

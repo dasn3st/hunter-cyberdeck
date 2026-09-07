@@ -109,7 +109,7 @@ const gallerySelection = {
 };
 const galleryNumbers = gallerySelection[page] || gallerySelection.home;
 const galleryHost = document.querySelector("main.shell");
-if (galleryHost && !document.querySelector("[data-hunter-gallery]")) {
+if (page !== "github" && galleryHost && !document.querySelector("[data-hunter-gallery]")) {
   const gallery = document.createElement("section");
   gallery.className = "hunter-gallery section compact";
   gallery.dataset.hunterGallery = "";
