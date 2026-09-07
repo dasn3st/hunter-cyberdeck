@@ -247,6 +247,14 @@ async function main() {
     await mkdir(directory, { recursive: true });
     await writeFile(path.join(directory, "index.html"), renderPost(post), "utf8");
   }));
+  await mkdir(path.join(outputDir, "blog"), { recursive: true });
+  await writeFile(path.join(outputDir, "blog", "_manifest.json"), `${JSON.stringify({
+    generated_at: new Date().toISOString(),
+    posts: publishedPosts.map((post) => ({
+      slug: post.slug,
+      updated_at: validIsoDate(post.updated_at || post.published_at || post.created_at),
+    })),
+  })}\n`, "utf8");
   console.log(`Generated ${publishedPosts.length} static blog posts.`);
 }
 
