@@ -172,6 +172,30 @@
       }
     });
     leadCopy.append(...leadNodes);
+    const compactParagraphs = (items, limit = 520) => {
+      const compact = [];
+      let paragraph;
+      const flush = () => {
+        if (paragraph) compact.push(paragraph);
+        paragraph = undefined;
+      };
+      items.forEach((node) => {
+        if (node.tagName !== "P") {
+          flush();
+          compact.push(node.cloneNode(true));
+          return;
+        }
+        const clone = node.cloneNode(true);
+        if (!paragraph || paragraph.textContent.length + clone.textContent.length > limit) {
+          flush();
+          paragraph = clone;
+          return;
+        }
+        paragraph.append(document.createTextNode(" "), ...clone.childNodes);
+      });
+      flush();
+      return compact;
+    };
     const makeCard = (items, heading, chapterIndex, context = false) => {
       const card = document.createElement("section");
       const chapterNumber = String(chapterIndex).padStart(2, "0");
@@ -193,7 +217,7 @@
       }
       const body = document.createElement("div");
       body.className = "github-origin-card-body";
-      body.append(...items);
+      body.append(...compactParagraphs(items));
       card.appendChild(body);
       return card;
     };
