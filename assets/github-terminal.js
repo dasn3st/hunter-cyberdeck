@@ -196,7 +196,7 @@
           <p>DER ÖFFENTLICHE URSPRUNGSBERICHT WIRD GELADEN …</p>
         </div>
         <figure class="github-origin-portrait">
-          <img src="assets/hunter-origin-portrait-sharp.png" alt="Marcel, Entwickler und Erbauer von HUNTER" loading="lazy" decoding="async">
+          <img src="assets/hunter-origin-portrait-sharp-cropped.png" alt="Marcel, Entwickler und Erbauer von HUNTER" loading="lazy" decoding="async">
           <figcaption>MARCEL // BUILDER OF HUNTER</figcaption>
         </figure>
       </div>
