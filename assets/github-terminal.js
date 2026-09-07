@@ -122,9 +122,8 @@
     content.innerHTML = output.join("");
 
     const figure = host.querySelector(".github-origin-portrait");
-    const profile = host.querySelector(".github-origin-profile");
     const firstChapter = content.querySelector("h3");
-    if (!figure || !profile || !firstChapter) return;
+    if (!figure || !firstChapter) return;
     const lead = document.createElement("div");
     const leadCopy = document.createElement("div");
     const flow = document.createElement("div");
@@ -145,10 +144,7 @@
       }
       leadCopy.appendChild(node);
     });
-    const side = document.createElement("div");
-    side.className = "github-origin-story-side";
-    side.append(figure, profile);
-    lead.append(leadCopy, side);
+    lead.append(figure, leadCopy);
     content.replaceChildren(lead, flow);
   };
 
@@ -203,11 +199,6 @@
           <img src="assets/hunter-origin-portrait.jpg" alt="Marcel, Entwickler und Erbauer von HUNTER" loading="lazy" decoding="async">
           <figcaption>MARCEL // BUILDER OF HUNTER</figcaption>
         </figure>
-        <aside class="github-origin-profile">
-          <span class="github-origin-profile-label">BUILDER NOTE // 01</span>
-          <blockquote>„Wenn das jetzt funktioniert: Was geht dann noch?“</blockquote>
-          <p>MARCEL NÜRNBERG<br>BERLIN // OPEN BUILD<br>HUNTER CYBERDECK</p>
-        </aside>
       </div>
     </article>
     <div class="github-terminal-heading">
