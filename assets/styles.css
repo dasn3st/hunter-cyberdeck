@@ -4684,20 +4684,29 @@ html, body { overflow-x: hidden; }
   background: rgba(57, 36, 90, .24);
 }
 .github-origin-flow {
+  display: block;
+  margin-top: clamp(52px, 8vw, 100px);
+}
+.github-origin-screen {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px clamp(28px, 5vw, 76px);
-  margin-top: clamp(52px, 8vw, 100px);
+  gap: clamp(28px, 5vw, 76px);
+  min-height: max(620px, calc(100svh - var(--header-height) - 90px));
+  padding-block: 26px;
+  scroll-margin-top: var(--header-height);
 }
 .github-origin-chapter {
   min-width: 0;
+  align-self: start;
   padding: 28px 24px 22px;
-  border-top: 1px solid var(--line-bright);
+  border: 1px solid var(--line-bright);
   background: rgba(0, 0, 0, .1);
+  box-shadow: 8px 8px 0 rgba(0, 0, 0, .14);
 }
 .github-origin-context {
   background: rgba(57, 36, 90, .2);
 }
+.github-origin-continuation h3 { color: #c8b6d1; }
 .github-origin-chapter h3 { margin-top: 0; }
 .github-origin-story-content h2,
 .github-origin-story-content h3 {
@@ -4937,8 +4946,8 @@ html, body { overflow-x: hidden; }
 .github-terminal-status .status-dot { width: 6px; height: 6px; background: var(--signal-green); }
 @media (max-width: 860px) {
   .github-origin-story { padding: 24px 18px; }
-  .github-origin-lead,
-  .github-origin-flow { grid-template-columns: 1fr; }
+  .github-origin-lead { grid-template-columns: 1fr; min-height: 0; }
+  .github-origin-screen { grid-template-columns: 1fr; min-height: 0; padding-block: 16px; }
   .github-origin-portrait { width: min(360px, 84vw); }
   .github-terminal-heading { grid-template-columns: 1fr; gap: 18px; }
   .github-terminal-shell { grid-template-columns: 1fr; }

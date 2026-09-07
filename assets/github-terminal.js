@@ -131,31 +131,109 @@
     leadCopy.className = "github-origin-lead-copy";
     flow.className = "github-origin-flow";
     const nodes = [...content.childNodes];
-    let chapter;
-    let context;
+    const leadNodes = [];
+    const contextNodes = [];
+    const chapters = [];
+    let mode = "lead";
+    let currentChapter;
     let introParagraphs = 0;
     nodes.forEach((node) => {
-      if (!firstChapter || node !== firstChapter && !chapter && node.nodeType === Node.ELEMENT_NODE && node.tagName === "P" && introParagraphs >= 4) {
-        if (!context) {
-          context = document.createElement("section");
-          context.className = "github-origin-chapter github-origin-context";
-          flow.appendChild(context);
-        }
-        context.appendChild(node);
+      if (node === firstChapter) {
+        mode = "chapter";
+        currentChapter = { heading: node, nodes: [] };
+        chapters.push(currentChapter);
         return;
       }
-      if (node === firstChapter || (chapter && node.nodeType === Node.ELEMENT_NODE)) {
+      if (mode === "lead") {
+        if (node.tagName === "P" && introParagraphs >= 4) mode = "context";
+        if (mode === "lead") {
+          leadNodes.push(node);
+          if (node.tagName === "P") introParagraphs += 1;
+        } else {
+          contextNodes.push(node);
+        }
+        return;
+      }
+      if (mode === "context") {
         if (node.tagName === "H3") {
-          chapter = document.createElement("section");
-          chapter.className = "github-origin-chapter";
-          flow.appendChild(chapter);
+          mode = "chapter";
+          currentChapter = { heading: node, nodes: [] };
+          chapters.push(currentChapter);
+        } else {
+          contextNodes.push(node);
         }
-        if (chapter) chapter.appendChild(node);
         return;
       }
-      leadCopy.appendChild(node);
-      if (node.tagName === "P") introParagraphs += 1;
+      if (node.tagName === "H3") {
+        currentChapter = { heading: node, nodes: [] };
+        chapters.push(currentChapter);
+      } else if (currentChapter) {
+        currentChapter.nodes.push(node);
+      }
     });
+    leadCopy.append(...leadNodes);
+    const splitParagraph = (paragraph, limit = 900) => {
+      const source = paragraph.textContent.trim();
+      if (source.length <= limit) return [paragraph.cloneNode(true)];
+      const sentences = source.split(/(?<=[.!?])\s+/);
+      const chunks = [];
+      let chunk = "";
+      sentences.forEach((sentence) => {
+        if (chunk && chunk.length + sentence.length + 1 > limit) {
+          chunks.push(chunk.trim());
+          chunk = sentence;
+        } else {
+          chunk = `${chunk} ${sentence}`.trim();
+        }
+      });
+      if (chunk) chunks.push(chunk.trim());
+      return chunks.map((text) => {
+        const node = document.createElement("p");
+        node.textContent = text;
+        return node;
+      });
+    };
+    const splitNodes = (items) => items.flatMap((node) => (
+      node.tagName === "P" ? splitParagraph(node) : [node.cloneNode(true)]
+    ));
+    const makeCard = (items, heading, continuation = false, context = false) => {
+      const card = document.createElement("section");
+      card.className = `github-origin-chapter${context ? " github-origin-context" : ""}${continuation ? " github-origin-continuation" : ""}`;
+      if (heading) {
+        const title = heading.cloneNode(true);
+        if (continuation) title.textContent += " // FORTSETZUNG";
+        card.appendChild(title);
+      }
+      card.append(...items);
+      return card;
+    };
+    const cards = [];
+    if (contextNodes.length) cards.push(makeCard(splitNodes(contextNodes), null, false, true));
+    chapters.forEach(({ heading, nodes: chapterNodes }) => {
+      let bucket = [];
+      let bucketLength = 0;
+      const pieces = splitNodes(chapterNodes);
+      pieces.forEach((node) => {
+        const length = node.textContent.length;
+        if (bucket.length && bucketLength + length > 900) {
+          cards.push(makeCard(bucket, heading, cards.some((card) => card.querySelector("h3")?.textContent === heading.textContent)));
+          bucket = [];
+          bucketLength = 0;
+        }
+        bucket.push(node);
+        bucketLength += length;
+      });
+      if (bucket.length) {
+        cards.push(makeCard(bucket, heading, cards.some((card) => card.querySelector("h3")?.textContent === heading.textContent)));
+      }
+    });
+    for (let index = 0; index < cards.length; index += 2) {
+      const screen = document.createElement("section");
+      screen.className = "github-origin-screen";
+      screen.append(cards[index]);
+      if (cards[index + 1]) screen.append(cards[index + 1]);
+      flow.appendChild(screen);
+    }
     lead.append(figure, leadCopy);
     content.replaceChildren(lead, flow);
   };
