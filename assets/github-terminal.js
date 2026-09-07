@@ -6,6 +6,7 @@
 
   const files = [
     { path: "DESIGN.md", group: "root", label: "DESIGN.md", lang: "Markdown" },
+    { path: "HUNTER_ENTSTEHUNGSGESCHICHTE.md", group: "root", label: "HUNTER_ENTSTEHUNGSGESCHICHTE.md", lang: "Markdown" },
     { path: "about.html", group: "root", label: "about.html", lang: "HTML" },
     { path: "archive.html", group: "root", label: "archive.html", lang: "HTML" },
     { path: "blog.html", group: "root", label: "blog.html", lang: "HTML" },
@@ -78,6 +79,75 @@
     });
   };
 
+  const inlineMarkdown = (value) => escapeHtml(value)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*]+)\*/g, "<em>$1</em>");
+
+  const renderOriginStory = (source) => {
+    const lines = source.split(/\r?\n/);
+    const output = [];
+    let paragraph = [];
+    let list = [];
+
+    const flushParagraph = () => {
+      if (!paragraph.length) return;
+      output.push(`<p>${paragraph.map((line) => inlineMarkdown(line)).join(" ")}</p>`);
+      paragraph = [];
+    };
+    const flushList = () => {
+      if (!list.length) return;
+      output.push(`<ul>${list.map((item) => `<li>${inlineMarkdown(item)}</li>`).join("")}</ul>`);
+      list = [];
+    };
+    const flush = () => { flushParagraph(); flushList(); };
+
+    lines.forEach((line) => {
+      if (!line.trim()) { flush(); return; }
+      const heading = line.match(/^(#{1,3})\s+(.+)/);
+      if (heading) {
+        flush();
+        const level = heading[1].length === 1 ? 2 : 3;
+        output.push(`<h${level}>${inlineMarkdown(heading[2].trim())}</h${level}>`);
+        return;
+      }
+      const item = line.match(/^\s*[-*]\s+(.+)/);
+      if (item) { flushParagraph(); list.push(item[1].trim()); return; }
+      flushList();
+      paragraph.push(line.trim());
+    });
+    flush();
+    const content = host.querySelector("[data-origin-story-content]");
+    if (!content) return;
+    content.innerHTML = output.join("");
+
+    const figure = host.querySelector(".github-origin-portrait");
+    const firstChapter = content.querySelector("h3");
+    if (!figure || !firstChapter) return;
+    const lead = document.createElement("div");
+    const leadCopy = document.createElement("div");
+    const flow = document.createElement("div");
+    lead.className = "github-origin-lead";
+    leadCopy.className = "github-origin-lead-copy";
+    flow.className = "github-origin-flow";
+    const nodes = [...content.childNodes];
+    let chapter;
+    nodes.forEach((node) => {
+      if (node === firstChapter || (chapter && node.nodeType === Node.ELEMENT_NODE)) {
+        if (node.tagName === "H3") {
+          chapter = document.createElement("section");
+          chapter.className = "github-origin-chapter";
+          flow.appendChild(chapter);
+        }
+        if (chapter) chapter.appendChild(node);
+        return;
+      }
+      leadCopy.appendChild(node);
+    });
+    lead.append(leadCopy, figure);
+    content.replaceChildren(lead, flow);
+  };
+
   const commandBlocks = (source) => {
     const entries = [];
     const lines = source.split(/\r?\n/);
@@ -118,6 +188,19 @@
   let activeSource = "";
 
   host.innerHTML = `
+    <article class="github-origin-story" data-origin-story aria-label="HUNTER: Wie das Projekt entstanden ist">
+      <div class="github-origin-story-kicker">BUILD ORIGIN // HUNTER</div>
+      <div class="github-origin-story-layout">
+        <div class="github-origin-story-content" data-origin-story-content>
+          <h2>HUNTER: WIE DAS PROJEKT ENTSTANDEN IST</h2>
+          <p>DER ÖFFENTLICHE URSPRUNGSBERICHT WIRD GELADEN …</p>
+        </div>
+        <figure class="github-origin-portrait">
+          <img src="assets/hunter-origin-portrait.jpg" alt="Marcel, Entwickler und Erbauer von HUNTER" loading="lazy" decoding="async">
+          <figcaption>MARCEL // BUILDER OF HUNTER</figcaption>
+        </figure>
+      </div>
+    </article>
     <div class="github-terminal-heading">
       <div>
         <span class="section-index" data-terminal-label="eyebrow"></span>
@@ -212,6 +295,16 @@
     }
   };
 
+  const loadOriginStory = async () => {
+    try {
+      const response = await fetch("HUNTER_ENTSTEHUNGSGESCHICHTE.md", { cache: "no-store" });
+      if (!response.ok) throw new Error(`story ${response.status}`);
+      renderOriginStory(await response.text());
+    } catch (error) {
+      console.info("HUNTER Ursprungsbericht konnte nicht geladen werden.", error);
+    }
+  };
+
   host.addEventListener("click", async (event) => {
     const fileButton = event.target.closest("[data-file]");
     if (fileButton) { await loadFile(fileButton.dataset.file); return; }
@@ -234,6 +327,7 @@
   });
 
   setLabels();
+  loadOriginStory();
   loadFile(activeFile.path);
   window.addEventListener("hunter-language-change", setLabels);
 })();
