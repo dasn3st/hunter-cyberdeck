@@ -7,6 +7,12 @@
   const categoryLabelsEn = { hardware: "Hardware", case: "Case", software: "Software", agent: "Agent" };
   const categoryLabel = (category) => (window.HUNTER_LANG === "en" ? categoryLabelsEn : categoryLabels)[category] || "Build Log";
   const suppliedGallery = [
+    "assets/hunter-gallery/repack/hunter-cyberdeck-repack-01.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-02.webp",
+    "assets/hunter-gallery/repack/hunter-cyberdeck-repack-03.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-04.webp",
+    "assets/hunter-gallery/repack/hunter-cyberdeck-repack-05.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-06.webp",
+    "assets/hunter-gallery/repack/hunter-cyberdeck-repack-07.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-08.webp",
+    "assets/hunter-gallery/repack/hunter-cyberdeck-repack-09.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-10.webp",
+    "assets/hunter-gallery/repack/hunter-cyberdeck-repack-11.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-12.webp",
     "assets/hunter-gallery/hunter-cyberdeck-04.jpg", "assets/hunter-gallery/hunter-cyberdeck-06.jpg",
     "assets/hunter-gallery/hunter-cyberdeck-03.jpg", "assets/hunter-gallery/hunter-cyberdeck-05.jpg",
     "assets/hunter-gallery/hunter-cyberdeck-09.jpg", "assets/hunter-gallery/hunter-cyberdeck-07.jpg",
@@ -21,6 +27,7 @@
 
   const safeUrl = (value = "") => {
     const url = String(value).trim();
+    if (url.startsWith("assets/")) return `/${url}`;
     if (/^(https?:\/\/|\/|assets\/)/i.test(url) && !/^javascript:/i.test(url)) return url;
     return "";
   };
@@ -70,7 +77,7 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       headline: post.title,
-      author: { "@type": "Person", name: "Marcel", url: "https://d4sn3st.dev" },
+      author: { "@type": "Person", name: "Marcel", url: "https://d4sn3st.dev", sameAs: ["https://www.linkedin.com/in/marcelnuernberg", "https://x.com/d4sn3st"] },
       publisher: { "@type": "Organization", name: "HUNTER Cyberdeck", url: "https://hunter-cyberdeck.d4sn3st.dev" },
       mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
     };
@@ -102,7 +109,7 @@
   const imageMarkup = (src, alt, className = "") => {
     const url = safeUrl(src);
     return url
-      ? `<img class="${className}" src="${escapeHtml(url)}" alt="${escapeHtml(alt || "HUNTER Blogbild")}" loading="lazy" decoding="async">`
+      ? `<img class="${className}" src="${escapeHtml(url)}" alt="${escapeHtml(alt || "HUNTER Blogbild")}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='/assets/hunter-gallery/hunter-cyberdeck-04.jpg'">`
       : "";
   };
 

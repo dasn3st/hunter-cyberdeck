@@ -17,7 +17,7 @@
 
   const common = {
     "nav.home": ["Start", "Home"], "nav.blog": ["Blog", "Blog"],
-    "nav.tech": ["Tech", "Tech"], "nav.github": ["GitHub", "GitHub"],
+    "nav.tech": ["Tech", "Tech"], "nav.hardware": ["Hardware", "Hardware"], "nav.github": ["GitHub", "GitHub"],
     "nav.makerworld": ["MakerWorld", "MakerWorld"], "nav.archive": ["Archiv", "Archive"],
     "nav.about": ["Über HUNTER", "About HUNTER"],
     "brand.home": ["HUNTER Startseite", "HUNTER home"],
@@ -27,10 +27,16 @@
     "status.active": ["aktiv", "active"], "status.degraded": ["eingeschränkt", "degraded"],
     "status.offline": ["offline", "offline"],
     "footer.tagline": ["Cyberdeck Development Journal<br>Made in Berlin // Open Build", "Cyberdeck development journal<br>Made in Berlin // open build"],
-    "footer.blog": ["Build Log", "Build log"], "footer.tech": ["Tech-Dokumentation", "Tech documentation"],
+    "footer.blog": ["Build Log", "Build log"], "footer.tech": ["Tech-Dokumentation", "Tech documentation"], "footer.hardware": ["Hardware", "Hardware"],
     "footer.github": ["GitHub", "GitHub"], "footer.makerworld": ["MakerWorld", "MakerWorld"],
     "footer.archive": ["Forschungsarchiv", "Research archive"], "footer.about": ["Über HUNTER", "About HUNTER"],
     "footer.contact": ["Kontakt", "Contact"],
+    "footer.social.label": ["Öffentliche Profile", "Public profiles"],
+    "footer.linkedin": ["LinkedIn", "LinkedIn"], "footer.x": ["X / @d4sn3st", "X / @d4sn3st"],
+    "about.profile.eyebrow": ["03 // ÖFFENTLICHE PROFILE", "03 // PUBLIC PROFILES"],
+    "about.profile.title": ["Marcel<br><em>online</em>.", "Marcel<br><em>online</em>."],
+    "about.profile.description": ["Die öffentlichen Profile gehören zum Build: dort gibt es Einblicke in Projekte, Fortschritt und den Austausch rund um HUNTER.", "The public profiles are part of the build: project notes, progress and the exchange around HUNTER live there."],
+    "about.profile.open": ["Profil öffnen ↗", "Open profile ↗"],
     "gallery.eyebrow": ["05 // VISUELLES FELDPROTOKOLL", "05 // VISUAL FIELD NOTES"],
     "gallery.title": ["Im Feld<br>gesehen.", "Seen<br>in the field."],
     "gallery.description": ["Die fotografische Spur des Builds: echte Hardware, echte Teststände und die Teile, aus denen HUNTER entsteht.", "The photographic trail of the build: real hardware, real test setups and the parts that make HUNTER."],
@@ -41,11 +47,15 @@
   const pages = {
     home: {
       ".hero .visual-tag.one": ["Google Pixel 6a // Local Node", "Google Pixel 6a // local node"],
-      ".hero .visual-tag.two": ["Agent Runtime // Online", "Agent runtime // online"],
+      ".hero .visual-tag.two": ["Agent Runtime // Status lädt", "Agent runtime // loading status"],
       ".terminal-title": ["AGENT STATUS", "AGENT STATUS"],
       ".terminal-switcher": ["Agentenmonitor Ansicht", "Agent monitor view"],
       '[data-terminal-tab="status"]': ["Status", "Status"],
       '[data-terminal-tab="logs"]': ["Logs", "Logs"],
+      '[data-terminal-tab="hardware"]': ["Hardware", "Hardware"],
+      ".terminal-hardware-panel .hardware-status-head a": ["Alle öffnen ↗", "Open all ↗"],
+      ".terminal-hardware-panel .hardware-status-node p": ["Security-Tooling via SSH — ferngesteuert aus dem Cyberdeck.", "Security tooling via SSH — remotely operated from the cyberdeck."],
+      ".terminal-hardware-panel .hardware-status-note": ["Weitere Hardware-Knoten und Ergänzungen liegen im Hardware-Reiter.", "More hardware nodes and additions live in the Hardware tab."],
       ".terminal-row:nth-of-type(1) > span": ["Uptime", "Uptime"],
       ".terminal-row:nth-of-type(2) > span": ["Rekord", "Record"],
       ".terminal-row:nth-of-type(3) > span": ["Cron", "Cron"],
@@ -55,6 +65,10 @@
       ".terminal-row:nth-of-type(7) > span": ["ChatGPT", "ChatGPT"],
       ".terminal-row:nth-of-type(8) > span": ["Prompt", "Prompt"],
       ".installed-agents-head > span:first-child": ["Agenten", "Agents"],
+      ".status-hardware-head > span:first-child": ["Hardware", "Hardware"],
+      ".status-hardware-head a": ["Reiter öffnen ↗", "Open tab ↗"],
+      ".status-hardware-item small": ["Raspberry Pi 3 Model B+ · Kali Linux", "Raspberry Pi 3 Model B+ · Kali Linux"],
+      ".status-hardware-item em": ["Security-Tooling via SSH — ferngesteuert aus dem Cyberdeck.", "Security tooling via SSH — remotely operated from the cyberdeck."],
       ".log-panel-head > span": ["SESSION LOG // LETZTE EREIGNISSE", "SESSION LOG // LAST EVENTS"],
       ".log-refresh": ["Logs aktualisieren", "Refresh logs"],
       ".hero-copy .eyebrow": ["Open Cyberdeck Project", "Open cyberdeck project"],
@@ -62,7 +76,7 @@
       ".hero-copy .lead": ["HUNTER ist ein offenes mobiles KI-System auf einem 45-EUR-Pixel — gebaut, dokumentiert und zum Nachbauen freigegeben. Ich verbinde Hardware, Gehäuse, Software und Agent Runtime in einem echten, weiterlaufenden Build.", "HUNTER is an open mobile AI system on a €45 Pixel — built, documented and ready to rebuild. It connects hardware, case, software and agent runtime in a real, continuously evolving build."],
       ".hero-proof span:nth-child(1) small": ["Basis", "Base"],
       ".hero-proof span:nth-child(2) small": ["RAM", "RAM"],
-      ".hero-proof span:nth-child(3) small": ["Uptime", "Uptime"],
+      ".hero-proof span:nth-child(3) small": ["Rekord", "Record"],
       ".hero-proof span:nth-child(4) small": ["STL-Dateien", "STL files"],
       ".hero-copy .button-row .button:first-child": ["Build Log lesen", "Read the build log"],
       ".hero-copy .button-row .button.secondary": ["Code ansehen ↗", "View code ↗"],
@@ -115,6 +129,23 @@
       ".review-form input[name=device_model]": ["Google Pixel 6a", "Google Pixel 6a"],
       ".review-form input[name=project_url]": ["https://…", "https://…"],
       ".review-form > .button": ["Review einreichen ↗", "Submit review ↗"],
+    },
+    hardware: {
+      ".page-hero .eyebrow": ["Hardware Nodes // Field Fleet", "Hardware nodes // field fleet"],
+      ".page-hero .page-title": ["Die <em>Flotte</em>", "The <em>fleet</em>"],
+      ".page-hero .technical-label": ["HUNTER HARDWARE // 01", "HUNTER HARDWARE // 01"],
+      ".page-hero-aside p": ["Die physischen Knoten hinter HUNTER: ein mobiler Host und die Werkzeuge, die aus dem Cyberdeck ein arbeitsfähiges Feldsystem machen.", "The physical nodes behind HUNTER: a mobile host and the tools that turn the cyberdeck into a capable field system."],
+      ".hardware-section .section-index": ["01 // AGENTEN-HARDWARE", "01 // AGENT HARDWARE"],
+      ".hardware-section .section-title": ["Werkzeuge<br>im <em>Feld</em>.", "Tools<br>in the <em>field</em>."],
+      ".hardware-section .section-description": ["Software und Hardware bleiben getrennt lesbar. Hier stehen die Knoten, die HUNTER betreibt, anbindet oder für konkrete Aufgaben nutzt.", "Software and hardware stay separate and legible. These are the nodes HUNTER runs, connects to or uses for specific tasks."],
+      "#pixel-6a .eyebrow": ["00 // HOST NODE", "00 // HOST NODE"],
+      "#pixel-6a h2": ["Google Pixel 6a", "Google Pixel 6a"],
+      "#pixel-6a .hardware-node-role": ["Mobiler HUNTER-Host — Runtime, Interface und zentrale Bedienebene.", "Mobile HUNTER host — runtime, interface and central control layer."],
+      "#kali-linux-lab .eyebrow": ["01 // REMOTE TOOL NODE", "01 // REMOTE TOOL NODE"],
+      "#kali-linux-lab h2": ["Kali Linux Lab", "Kali Linux Lab"],
+      "#kali-linux-lab .hardware-node-role": ["Security-Tooling via SSH — ferngesteuert aus dem Cyberdeck.", "Security tooling via SSH — remotely operated from the cyberdeck."],
+      "#pixel-6a .hardware-node-label": ["Cyberdeck-Host", "Cyberdeck host"],
+      "#kali-linux-lab .hardware-node-label": ["Werkzeug-Schnittstelle", "Tool interface"],
     },
     blog: {
       ".page-hero .eyebrow": ["Development Journal", "Development journal"],
@@ -187,23 +218,26 @@
     },
     makerworld: {
       ".page-hero .page-title": ["3D-Dateien", "3D files"],
-      ".page-hero .technical-label": ["9 finale STL // 4 Baugruppen", "9 final STL files // 4 assemblies"],
-      ".page-hero-aside p": ["Das ist HUNTERs Körper — in 23 Teilen. Jedes Gehäuse-Element schützt, trägt oder verbindet das System. Ich habe die Teile designt, gedruckt, getestet und wieder verworfen, bis sie passten. Die Toleranzen in diesen Dateien sind keine Theorie — sie sind aus meinen Testdrucken gelernt.", "This is HUNTER's body — in 23 parts. Every case element protects, carries or connects the system. I designed, printed, tested and revised the parts until they fit. The tolerances come from real test prints."],
-      ".section-heading .section-description": ["Maus ziehen zum Drehen, Scrollrad zum Zoomen. Das Gesamtmodell dient ausschließlich als interaktive Montagevorschau; zum Download stehen nur die freigegebenen finalen Einzelteile.", "Drag to rotate, scroll to zoom. The full model is an interactive assembly preview; only approved final parts are available for download."],
-      ".section:nth-of-type(2) .section-title": ["Cyberdeck<br>V14.", "Cyberdeck<br>V14."],
-      ".section:nth-of-type(2) .section-description": ["Maus ziehen zum Drehen, Scrollrad zum Zoomen. Das Gesamtmodell dient ausschließlich als interaktive Montagevorschau; zum Download stehen nur die freigegebenen finalen Einzelteile.", "Drag to rotate, scroll to zoom. The full model is an interactive assembly preview; only approved final parts are available for download."],
-      ".section:nth-of-type(3) .section-title": ["Drei Erweiterungen.", "Three extensions."],
-      ".section:nth-of-type(3) .section-description": ["Montagevorschauen zeigen Funktion und Position. Darunter liegen ausschließlich die freigegebenen finalen Druckdateien.", "Assembly previews show function and position. Only approved final print files are listed below."],
-      ".section:nth-of-type(4) .section-title": ["Druckbare<br>Einzelteile.", "Printable<br>parts."],
-      ".section:nth-of-type(4) .section-description": ["Bei den Clips immer zuerst den Einzeltest drucken. Die Montagevorschauen aus den Viewern sind bewusst nicht in dieser Liste enthalten.", "Always print a single clip test first. Viewer assembly previews are intentionally not included in this download list."],
-      ".section:nth-of-type(5) .section-title": ["Vor dem<br>ersten Layer.", "Before the<br>first layer."],
-      ".section:nth-of-type(5) .section-description": ["Die wichtigsten Hinweise aus dem geprüften Paket. Detaillierte Dokumente liegen zusätzlich im vollständigen ZIP.", "The key notes from the checked package. Detailed documents are also included in the complete ZIP."],
-      ".section:nth-of-type(6) .section-title": ["Geprüfte<br>Ansichten.", "Verified<br>views."],
-      ".section:nth-of-type(6) .section-description": ["Die Renderings stammen direkt aus dem Druckpaket und zeigen Innenraum, Montage und mechanische Arbeitsstellung.", "These renderings come directly from the print package and show interior, assembly and mechanical working positions."],
+      ".page-hero .technical-label": ["V18 // 5 Druckdateien // 2× M8-Reibscharnier", "V18 // 5 print files // 2× M8 friction hinge"],
+      ".page-hero-aside p": ["Der aktuelle HUNTER-Release: zwei getrennte M8-Reibscharniere, vier gekürzte äußere Kantenleisten und ein vollständiges 3MF-Modell. V18 ist geometrisch geprüft, aber noch nicht physisch testgedruckt.", "The current HUNTER release: two separate M8 friction hinges, four trimmed outer rail ends and a complete 3MF model. V18 is geometrically checked, but has not yet been physically test-printed."],
+      ".v18-release .section-title": ["Cyberdeck<br>V18.", "Cyberdeck<br>V18."],
+      ".v18-release .section-description": ["V18 entspricht dem nachstellbaren V17-Scharnier, entfernt aber die vier äußeren Überstände vor der Gehäuserundung. Das Handyfach bleibt auf Pixel-6a-Maß, das K06-Passfach bleibt unverändert. Geometrisch geprüft von 0 bis 180 Grad; physischer Testdruck noch offen.", "V18 follows the adjustable V17 hinge, but removes the four outer overhangs before the case radius. The phone bay remains sized for Pixel 6a and the K06 fit remains unchanged. Geometry checked from 0 to 180 degrees; physical test print still open."],
+      ".v18-proof-section .section-title": ["V18 in<br>sechs Ansichten.", "V18 in<br>six views."],
+      ".v18-proof-section .section-description": ["Die sechs Prüfrenderings dokumentieren den aktuellen Stand: geschlossen, geöffnet, flach bei 180 Grad, Scharnierwurzeln und die gekürzten Kantenenden.", "Six proof renders document the current state: closed, open, flat at 180 degrees, hinge roots and the trimmed edge ends."],
+      ".legacy-assembly-section .section-title": ["Legacy<br>V14 / V6 / V2.", "Legacy<br>V14 / V6 / V2."],
+      ".legacy-assembly-section .section-description": ["Die älteren interaktiven Montagevorschauen bleiben als Referenz erhalten. Der aktuelle veröffentlichte Stand ist V18; V14, V6 und V2 sind historische Entwicklungsstände.", "The older interactive assembly previews remain as reference. The current published release is V18; V14, V6 and V2 are historical development states."],
+      ".legacy-modules-section .section-title": ["Drei Erweiterungen.", "Three extensions."],
+      ".legacy-modules-section .section-description": ["Montagevorschauen zeigen Funktion und Position. Darunter liegen ausschließlich die freigegebenen historischen Druckdateien.", "Assembly previews show function and position. The approved historical print files are listed below."],
+      ".legacy-downloads-section .section-title": ["Historische<br>Einzelteile.", "Historical<br>parts."],
+      ".legacy-downloads-section .section-description": ["Diese Dateien gehören zu den älteren V14-, V6-, V2- und +1-mm-Ständen. Für den aktuellen Build bitte den V18-Download oben verwenden.", "These files belong to the older V14, V6, V2 and +1 mm states. Use the V18 download above for the current build."],
+      ".legacy-print-notes-section .section-title": ["Vor dem<br>ersten Layer.", "Before the<br>first layer."],
+      ".legacy-print-notes-section .section-description": ["Die wichtigsten Hinweise aus dem historischen Druckpaket. Die V18-spezifischen Hinweise stehen im aktuellen Release oben.", "The key notes from the historical print package. V18-specific notes are listed in the current release above."],
+      ".legacy-render-section .section-title": ["Historische<br>Ansichten.", "Historical<br>views."],
+      ".legacy-render-section .section-description": ["Diese Renderings stammen aus den älteren V14-, V6- und V2-Ständen und bleiben als Entwicklungsreferenz verfügbar.", "These renderings come from the older V14, V6 and V2 states and remain available as development reference."],
       ".viewer-help": ["Ziehen // Drehen   ·  Scrollen // Zoom", "Drag // rotate   ·  Scroll // zoom"],
       ".viewer-fallback": ["3D-Viewer lädt – das Vorschaubild bleibt verfügbar.", "3D viewer loading – the preview image remains available."],
-      ".file-link small": ["V14 // M5 · 137 KB", "V14 // M5 · 137 KB"],
-      ".button-row .button.secondary": ["Forschungsarchiv ansehen ↗", "View research archive ↗"],
+      ".legacy-downloads-section .file-link small": ["Legacy // V14 / V6 / V2", "Legacy // V14 / V6 / V2"],
+      ".legacy-print-notes-section .button.secondary": ["Forschungsarchiv ansehen ↗", "View research archive ↗"],
     },
     archive: {
       ".page-hero .page-title": ["<em>Forschungsarchiv</em>", "<em>Research archive</em>"],
@@ -224,8 +258,8 @@
       ".page-hero .technical-label": ["45 € statt 2.600 €", "€45 instead of €2,600"],
       ".page-hero-aside p": ["Ein persönliches Agent-System muss nicht perfekt oder gerootet sein. Es muss ehrlich dokumentiert, nachvollziehbar und widerstandsfähig gebaut werden.", "A personal agent system does not need to be perfect or rooted. It needs to be documented honestly, understandable and built to be resilient."],
       ".about-grid p:first-of-type": ["HUNTER entsteht aus einem gebrauchten Pixel 6a für 45 €. Im Termux-Umfeld betreibt es einen Hermes-Agenten – bewusst ohne Root, in einem PRoot-Ubuntu-Container und mit einem Gateway in tmux.", "HUNTER starts with a used Pixel 6a for €45. In Termux it runs a Hermes agent — deliberately without root, inside a PRoot-Ubuntu container with a tmux gateway."],
-      ".section-index": ["NÄCHSTER SCHRITT", "NEXT STEP"],
-      ".section-title": ["Den <em>Build</em><br>verfolgen.", "Follow<br>the <em>build</em>."],
+      ".section.compact .section-index": ["NÄCHSTER SCHRITT", "NEXT STEP"],
+      ".section.compact .section-title": ["Den <em>Build</em><br>verfolgen.", "Follow<br>the <em>build</em>."],
       ".button-row .button:first-child": ["Zum Build Log", "Open build log"],
       ".button-row .button.secondary": ["Tech ansehen", "View tech docs"],
     },
@@ -283,21 +317,26 @@
     // The static blog generator owns canonical, social metadata and article
     // schema. Keep those exact published values intact after i18n initializes.
     if (document.querySelector("[data-post-page][data-post-slug]")) return;
-    const base = new URL(window.location.href);
-    base.search = "";
-    const pageQuery = page === "blog-post" && params.get("slug") ? `?slug=${encodeURIComponent(params.get("slug"))}&lang=` : "?lang=";
     const canonical = document.querySelector('link[rel="canonical"]') || document.head.appendChild(Object.assign(document.createElement("link"), { rel: "canonical" }));
-    canonical.href = `${base.pathname}${pageQuery}${language}`;
+    const base = new URL(canonical.href || window.location.href);
+    base.search = "";
+    base.hash = "";
+    const canonicalPath = page === "home" ? "/" : base.pathname;
+    const pageQuery = page === "blog-post" && params.get("slug") ? `?slug=${encodeURIComponent(params.get("slug"))}` : "";
+    const germanUrl = `${canonicalPath}${pageQuery}`;
+    const englishUrl = `${germanUrl}${pageQuery ? "&" : "?"}lang=en`;
+    canonical.href = language === "en" ? englishUrl : germanUrl;
     ["de", "en"].forEach((lang) => {
       let link = document.querySelector(`link[rel="alternate"][hreflang="${lang}"]`);
       if (!link) { link = document.createElement("link"); link.rel = "alternate"; link.hreflang = lang; document.head.appendChild(link); }
-      link.href = `${base.pathname}${pageQuery}${lang}`;
+      link.href = lang === "en" ? englishUrl : germanUrl;
     });
     const meta = document.querySelector('meta[name="description"]');
     const titles = {
       home: ["HUNTER Cyberdeck – Mobiler KI-Agent auf Pixel 6a", "HUNTER Cyberdeck – Mobile AI agent on Pixel 6a"],
       blog: ["Build Log – HUNTER Cyberdeck Projekt", "Build log – HUNTER Cyberdeck project"],
       tech: ["Tech-Dokumentation – HUNTER Cyberdeck auf Pixel 6a", "Tech documentation – HUNTER Cyberdeck on Pixel 6a"],
+      hardware: ["Hardware – HUNTER Cyberdeck", "Hardware – HUNTER Cyberdeck"],
       github: ["GitHub & Open Source – HUNTER Cyberdeck", "GitHub & open source – HUNTER Cyberdeck"],
       makerworld: ["Finale 3D-Dateien – HUNTER Cyberdeck", "Final 3D files – HUNTER Cyberdeck"],
       archive: ["Forschungsarchiv – HUNTER Cyberdeck Daten & Verlauf", "Research archive – HUNTER Cyberdeck data & history"],
@@ -309,7 +348,7 @@
     if (meta) meta.content = language === "en" ? "Open build log for HUNTER, a mobile AI agent on a Google Pixel 6a: hardware, 3D case, software and resilient agent runtime." : meta.content;
     document.querySelectorAll('meta[property="og:locale"]').forEach((node) => { node.content = language === "en" ? "en_US" : "de_DE"; });
     document.querySelectorAll('meta[property="og:title"], meta[name="twitter:title"]').forEach((node) => { node.content = title[language === "en" ? 1 : 0]; });
-    document.querySelectorAll('script[type="application/ld+json"]').forEach((node) => { try { const data = JSON.parse(node.textContent); data.inLanguage = language === "en" ? "en-US" : "de-DE"; data.url = `${base.pathname}?lang=${language}`; node.textContent = JSON.stringify(data); } catch (_) {} });
+    document.querySelectorAll('script[type="application/ld+json"]').forEach((node) => { try { const data = JSON.parse(node.textContent); data.inLanguage = language === "en" ? "en-US" : "de-DE"; data.url = language === "en" ? englishUrl : germanUrl; node.textContent = JSON.stringify(data); } catch (_) {} });
   };
 
   const decorateLinks = () => {

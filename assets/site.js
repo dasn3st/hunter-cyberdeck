@@ -4,6 +4,7 @@ const navigation = [
   { id: "home", label: "Start", href: "/index.html" },
   { id: "blog", label: "Blog", href: "/blog.html" },
   { id: "tech", label: "Tech", href: "/tech.html" },
+  { id: "hardware", label: "Hardware", href: "/hardware.html" },
   { id: "github", label: "GitHub", href: "/github.html", external: true },
   { id: "makerworld", label: "MakerWorld", href: "/makerworld.html", external: true },
   { id: "archive", label: "Archiv", href: "/archive.html" },
@@ -26,7 +27,7 @@ if (headerTarget) {
           <img class="brand-logo" src="/assets/hunter-logo-white.png" width="1536" height="1024" alt="HUNTER CYBERDECK">
         </a>
         <nav class="main-nav" id="main-navigation" aria-label="Hauptnavigation" data-i18n-aria="nav.label">${links}</nav>
-        <div class="header-status"><span class="status-dot"></span>Build 01 // <span data-i18n="status.active">aktiv</span></div>
+        <div class="header-status"><span class="status-dot"></span>Build 01 // <span>Status lädt</span></div>
         <button class="menu-button" type="button" aria-controls="main-navigation" aria-expanded="false" aria-label="Menü öffnen" data-i18n-aria="menu.open"><span></span></button>
       </div>
     </header>`;
@@ -41,17 +42,62 @@ if (footerTarget) {
           <a class="footer-wordmark" href="/index.html" aria-label="HUNTER Cyberdeck Startseite"><img class="footer-logo" src="/assets/hunter-logo-white.png" width="1440" height="560" alt="HUNTER Cyberdeck"></a>
           <p data-i18n="footer.tagline">Cyberdeck Development Journal<br>Made in Berlin // Open Build</p>
         </div>
-        <nav class="footer-links" aria-label="Fußnavigation" data-i18n-aria="footer.label">
-          <a href="/blog.html"><span data-i18n="footer.blog">Build Log</span></a>
-          <a href="/tech.html"><span data-i18n="footer.tech">Tech-Dokumentation</span></a>
-          <a href="/github.html"><span data-i18n="footer.github">GitHub</span> ↗</a>
-          <a href="/makerworld.html"><span data-i18n="footer.makerworld">MakerWorld</span> ↗</a>
-          <a href="/archive.html"><span data-i18n="footer.archive">Forschungsarchiv</span></a>
-          <a href="/about.html"><span data-i18n="footer.about">Über HUNTER</span></a>
-          <a href="mailto:hello@hunter.local"><span data-i18n="footer.contact">Kontakt</span></a>
-        </nav>
+        <div class="footer-utility">
+          <nav class="footer-links" aria-label="Fußnavigation" data-i18n-aria="footer.label">
+            <a href="/blog.html"><span data-i18n="footer.blog">Build Log</span></a>
+            <a href="/tech.html"><span data-i18n="footer.tech">Tech-Dokumentation</span></a>
+            <a href="/github.html"><span data-i18n="footer.github">GitHub</span> ↗</a>
+            <a href="/makerworld.html"><span data-i18n="footer.makerworld">MakerWorld</span> ↗</a>
+            <a href="/archive.html"><span data-i18n="footer.archive">Forschungsarchiv</span></a>
+            <a href="/about.html"><span data-i18n="footer.about">Über HUNTER</span></a>
+            <a href="mailto:d4sn3st@gmail.com"><span data-i18n="footer.contact">Kontakt</span></a>
+          </nav>
+          <div class="footer-social" aria-label="Öffentliche Profile" data-i18n-aria="footer.social.label">
+            <span class="footer-social-label" data-i18n="footer.social.label">Öffentliche Profile</span>
+            <a href="https://www.linkedin.com/in/marcelnuernberg" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.linkedin">LinkedIn</span> ↗</a>
+            <a href="https://x.com/d4sn3st" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.x">X / @d4sn3st</span> ↗</a>
+          </div>
+        </div>
       </div>
     </footer>`;
+}
+
+// The three public projects share one small edge navigation. It stays dormant
+// as three LEDs and only expands after hover, keyboard focus, or a tap.
+const projectNodes = [
+  { id: "d4sn3st", name: "d4sn3st.dev", label: "Studio & Archiv", href: "https://d4sn3st.dev/" },
+  { id: "mockup-paint", name: "Mockup Paint", label: "Browser Studio", href: "https://mockup-paint.d4sn3st.dev/" },
+  { id: "hunter", name: "HUNTER", label: "Field Build", href: "https://hunter-cyberdeck.d4sn3st.dev/" },
+];
+
+const nodeHost = window.location.hostname;
+const activeProjectNode = nodeHost.startsWith("mockup-paint.")
+  ? "mockup-paint"
+  : nodeHost.startsWith("hunter-cyberdeck.") ? "hunter" : "d4sn3st";
+
+if (!document.querySelector(".project-nodes")) {
+  document.body.insertAdjacentHTML("beforeend", `
+    <aside class="project-nodes project-nodes--hunter" aria-label="Projekt-Navigation">
+      <button class="project-nodes__rail" type="button" aria-expanded="false" aria-label="Projekt-Navigation öffnen">
+        <span class="project-nodes__dots" aria-hidden="true">${projectNodes.map((node) => `<i class="${node.id === activeProjectNode ? "is-active" : ""}"></i>`).join("")}</span>
+        <span class="project-nodes__rail-label">NODES</span>
+      </button>
+      <div class="project-nodes__panel">
+        <p>PROJECT NODES // 03</p>
+        <nav>${projectNodes.map((node) => `<a href="${node.href}"${node.id === activeProjectNode ? ' aria-current="page"' : ""}><span class="project-nodes__signal" aria-hidden="true"></span><span><strong>${node.name}</strong><small>${node.label}</small></span><b aria-hidden="true">↗</b></a>`).join("")}</nav>
+      </div>
+    </aside>`);
+
+  const nodeSwitcher = document.querySelector(".project-nodes");
+  const nodeButton = nodeSwitcher?.querySelector(".project-nodes__rail");
+  const setNodeSwitcher = (open) => {
+    nodeSwitcher?.classList.toggle("is-open", open);
+    nodeButton?.setAttribute("aria-expanded", String(open));
+  };
+  nodeButton?.addEventListener("click", () => setNodeSwitcher(!nodeSwitcher.classList.contains("is-open")));
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setNodeSwitcher(false);
+  });
 }
 
 const agentStack = [
@@ -102,13 +148,38 @@ const hunterGalleryImages = {
   10: ["assets/hunter-gallery/hunter-cyberdeck-10.jpg", "Ringstand-Modul in der Draufsicht", "Ring stand module from above", "10 // TOLERANCE"],
   11: ["assets/hunter-gallery/hunter-cyberdeck-11.jpg", "Vollständiger Teileaufbau des Cyberdecks", "Complete cyberdeck parts layout", "11 // RELEASE SET"],
   12: ["assets/hunter-gallery/hunter-cyberdeck-12.jpg", "Detailaufnahme des HUNTER Cyberdecks im Feld", "Close-up of the HUNTER cyberdeck in the field", "12 // FIELD ARCHIVE"],
+  13: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-01.webp", "HUNTER Cyberdeck im Transportcase mit geöffneter Rii K06 Tastatur", "HUNTER cyberdeck in its transport case with the Rii K06 keyboard open", "13 // REPACK // SYSTEM FRAME", 1022, 1050],
+  14: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-02.webp", "HUNTER Cyberdeck im Hartschalenkoffer mit geöffnetem Display", "HUNTER cyberdeck in a hard case with the display open", "14 // REPACK // FIELD NODE", 1024, 1034],
+  15: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-03.webp", "HUNTER Cyberdeck wird im Feld mit schwarzem Handschuh bedient", "HUNTER cyberdeck operated in the field with a black glove", "15 // REPACK // FIELD TEST", 1015, 941],
+  16: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-04.webp", "Seitliche Nahaufnahme der roten Cyberdeck-Scharniermechanik", "Side close-up of the red cyberdeck hinge mechanism", "16 // REPACK // HINGE", 1024, 1078],
+  17: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-05.webp", "HUNTER Cyberdeck seitlich zwischen Koffer und Komponenten", "HUNTER cyberdeck beside its case and components", "17 // REPACK // HARDWARE", 1017, 1156],
+  18: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-06.webp", "Displaymodul und Elektronik des Cyberdecks im geöffneten Transportcase", "Cyberdeck display module and electronics in the open transport case", "18 // REPACK // COMPONENTS", 1012, 1063],
+  19: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-07.webp", "Geöffnetes HUNTER Cyberdeck mit hochgestelltem Ringstand", "Open HUNTER cyberdeck with raised ring stand", "19 // REPACK // STAND MODULE", 1013, 1165],
+  20: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-08.webp", "Rückseite des Cyberdecks und separates Displaymodul im Koffer", "Cyberdeck rear and separate display module in the case", "20 // REPACK // SERVICE", 1022, 1098],
+  21: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-09.webp", "Detailaufnahme des roten Cyberdeck-Ringstands", "Close-up of the red cyberdeck ring stand", "21 // REPACK // DETAIL", 1024, 1536],
+  22: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-10.webp", "Nahaufnahme des Ringstands auf dem roten HUNTER Gehäuse", "Close-up of the ring stand on the red HUNTER case", "22 // REPACK // MECHANICS", 1536, 1024],
+  23: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-11.webp", "Nahaufnahme von Pixel 6a Terminal und Rii K06 Tastatur", "Close-up of the Pixel 6a terminal and Rii K06 keyboard", "23 // REPACK // INTERFACE", 1536, 1024],
+  24: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-12.webp", "Offenes Elektronikmodul mit Display und freiliegender Platine", "Open electronics module with display and exposed board", "24 // REPACK // INTERNALS", 1536, 1024],
+  25: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-13.webp", "Geöffnetes HUNTER Cyberdeck mit sichtbarer Tastatur und Displayhalterung", "Open HUNTER cyberdeck with visible keyboard and display mount", "25 // REPACK // ASSEMBLY", 1536, 1024],
+  26: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-14.webp", "HUNTER Cyberdeck mit Terminal und Rii K06 aus schräger Perspektive", "HUNTER cyberdeck with terminal and Rii K06 from an angled view", "26 // REPACK // ANGLE", 1536, 1024],
+  27: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-15.webp", "Cyberdeck mit aktivem Terminal in der Hand im Werkstattaufbau", "Cyberdeck with active terminal held in a workshop setup", "27 // REPACK // OPERATOR", 1536, 1024],
+  28: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-16.webp", "HUNTER Cyberdeck und Zubehör als geordnetes mobiles Field Kit", "HUNTER cyberdeck and accessories arranged as a mobile field kit", "28 // REPACK // FIELD KIT", 1016, 1146],
+  29: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-17.webp", "Komponenten, Werkzeug und HUNTER Cyberdeck als Draufsicht", "Components, tools and HUNTER cyberdeck in a top-down view", "29 // REPACK // LOADOUT", 1536, 1024],
+  30: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-18.webp", "Detail des gedruckten HUNTER Gehäusedeckels mit Ringhalterung", "Detail of the printed HUNTER case lid with ring mount", "30 // REPACK // PRINT DETAIL", 1536, 1024],
+  31: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-19.webp", "HUNTER Cyberdeck und separates Displaymodul im Werkstatt-Layout", "HUNTER cyberdeck and separate display module in the workshop layout", "31 // REPACK // BENCH", 1024, 1536],
+  32: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-20.webp", "Cyberdeck mit aufgeklapptem Ringstand und Displaymodul auf der Arbeitsfläche", "Cyberdeck with open ring stand and display module on the work surface", "32 // REPACK // CONFIGURATION", 1536, 1024],
+  33: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-21.webp", "Geöffnetes HUNTER Case mit violett beleuchtetem Displaymodul", "Open HUNTER case with a violet-lit display module", "33 // REPACK // CASE OPEN", 1536, 1024],
+  34: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-22.webp", "Vollständiges HUNTER Field Kit mit Cyberdeck, Werkzeug und Cases", "Complete HUNTER field kit with cyberdeck, tools and cases", "34 // REPACK // FULL KIT", 1536, 1024],
+  35: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-23.webp", "Draufsicht auf das vollständige Cyberdeck- und Zubehör-Setup", "Top view of the complete cyberdeck and accessory setup", "35 // REPACK // INVENTORY", 1536, 1024],
+  36: ["assets/hunter-gallery/repack/hunter-cyberdeck-repack-24.webp", "HUNTER Cyberdeck mit Werkzeugen und Komponenten im offenen Transportcase", "HUNTER cyberdeck with tools and components beside the open transport case", "36 // REPACK // ARCHIVE", 1536, 1024],
 };
 const gallerySelection = {
-  home: [4, 1, 6, 11, 7], blog: [4, 3, 5, 8, 7], "blog-post": [1, 3, 9, 4, 5], tech: [2, 5, 7, 8, 10],
-  github: [1, 4, 11, 7, 12], makerworld: [6, 8, 10, 11, 4], archive: [...Object.keys(hunterGalleryImages).map(Number), 4], about: [4, 1, 7, 6, 11],
+  home: [13, 14, 19, 34, 35], blog: [13, 15, 23, 33, 28], "blog-post": [14, 17, 21, 26, 31], tech: [18, 20, 24, 25, 30],
+  github: [13, 16, 34, 29, 36], makerworld: [19, 22, 30, 32, 33], archive: [...Object.keys(hunterGalleryImages).map(Number), 4], about: [13, 14, 28, 34, 35],
 };
 const galleryNumbers = gallerySelection[page] || gallerySelection.home;
 const galleryHost = document.querySelector("main.shell");
+const galleryAssetUrl = (value) => String(value || "").startsWith("assets/") ? `/${value}` : value;
 if (page !== "github" && galleryHost && !document.querySelector("[data-hunter-gallery]")) {
   const gallery = document.createElement("section");
   gallery.className = "hunter-gallery section compact";
@@ -117,8 +188,10 @@ if (page !== "github" && galleryHost && !document.querySelector("[data-hunter-ga
   const cards = galleryNumbers.map((number, index) => {
     const item = hunterGalleryImages[number];
     if (!item) return "";
-    const [src, altDe, altEn, caption] = item;
-    return `<figure class="hunter-photo ${index === 0 ? "hunter-photo-featured" : ""}"><img src="${src}" width="${[2,7,11].includes(number) ? 1536 : 1024}" height="${[2,7,11].includes(number) ? 1024 : 1536}" loading="eager" decoding="async" data-alt-de="${altDe}" data-alt-en="${altEn}" alt="${altDe}"><figcaption>${caption}</figcaption></figure>`;
+    const [src, altDe, altEn, caption, width, height] = item;
+    const fallbackWidth = [2, 7, 11].includes(number) ? 1536 : 1024;
+    const fallbackHeight = [2, 7, 11].includes(number) ? 1024 : 1536;
+    return `<figure class="hunter-photo ${index === 0 ? "hunter-photo-featured" : ""}"><img src="${galleryAssetUrl(src)}" width="${width || fallbackWidth}" height="${height || fallbackHeight}" loading="eager" decoding="async" data-alt-de="${altDe}" data-alt-en="${altEn}" alt="${altDe}"><figcaption>${caption}</figcaption></figure>`;
   }).join("");
   gallery.innerHTML = `<div class="section-heading"><div><span class="section-index" data-i18n="gallery.eyebrow">05 // VISUELLES FELDPROTOKOLL</span><h2 id="hunter-gallery-title" class="section-title" data-i18n="gallery.title">Im Feld<br>gesehen.</h2></div><p class="section-description" data-i18n="gallery.description">Die fotografische Spur des Builds: echte Hardware, echte Teststände und die Teile, aus denen HUNTER entsteht.</p></div><div class="hunter-photo-grid">${cards}</div>`;
   galleryHost.appendChild(gallery);
@@ -386,10 +459,21 @@ const fetchHunterStatus = async () => {
     });
     if (!response.ok) throw new Error(`status ${response.status}`);
     const rows = await response.json();
-    if (rows[0]) { currentHunterStatus = rows[0]; applyHunterStatus(rows[0]); }
+    if (!rows[0]) throw new Error("No HUNTER status row");
+    currentHunterStatus = rows[0];
+    applyHunterStatus(rows[0]);
     return rows[0] || null;
   } catch (error) {
-    console.info("HUNTER live status unavailable; showing local fallback.", error);
+    console.info("HUNTER live status unavailable.", error);
+    const message = window.HUNTER_LANG === "en" ? "$ Live status unavailable" : "$ Live-Status nicht verfügbar";
+    hunterStatusFields.forEach((target) => { target.textContent = message; });
+    document.querySelectorAll(".header-status").forEach((target) => {
+      target.innerHTML = `<span class="status-dot"></span>Build 01 // <span>${window.HUNTER_LANG === "en" ? "status unavailable" : "Status unbekannt"}</span>`;
+      target.dataset.agentState = "unknown";
+    });
+    document.querySelectorAll(".visual-tag.two").forEach((target) => {
+      target.textContent = "Agent Runtime // STATUS UNKNOWN";
+    });
     return null;
   }
 };

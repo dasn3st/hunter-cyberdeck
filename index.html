@@ -9,19 +9,19 @@
   <meta name="theme-color" content="#ff5a1f">
   <link rel="canonical" href="./">
   <link rel="alternate" hreflang="de" href="./">
-  <link rel="alternate" hreflang="en" href="index.html?lang=en">
+  <link rel="alternate" hreflang="en" href="/?lang=en">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="de_DE">
   <meta property="og:site_name" content="HUNTER Cyberdeck">
   <meta property="og:title" content="HUNTER Cyberdeck – Mobiler KI-Agent auf Pixel 6a">
   <meta property="og:description" content="Offenes Build Log für Hardware, 3D-Case, lokale Agenten und die Software dahinter.">
   <meta property="og:url" content="./">
-  <meta property="og:image" content="assets/hunter-gallery/hunter-cyberdeck-04.jpg">
-  <meta property="og:image:alt" content="HUNTER Cyberdeck Logo">
+  <meta property="og:image" content="assets/hunter-gallery/repack/hunter-cyberdeck-repack-02.webp">
+  <meta property="og:image:alt" content="HUNTER Cyberdeck mit aktivem Terminal im neu verpackten Field Kit">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="HUNTER Cyberdeck – Mobiler KI-Agent auf Pixel 6a">
   <meta name="twitter:description" content="Offenes Build Log für Hardware, 3D-Case, lokale Agenten und die Software dahinter.">
-  <meta name="twitter:image" content="assets/hunter-gallery/hunter-cyberdeck-04.jpg">
+  <meta name="twitter:image" content="assets/hunter-gallery/repack/hunter-cyberdeck-repack-02.webp">
   <title>HUNTER Cyberdeck – Mobiler KI-Agent auf Pixel 6a</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,7 +30,7 @@
   <link rel="icon" type="image/png" href="assets/hunter-logo-white.png">
   <link rel="manifest" href="site.webmanifest">
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"HUNTER Cyberdeck","url":"./","inLanguage":"de-DE","description":"Offenes Build Log für einen mobilen KI-Agenten auf dem Google Pixel 6a."}
+  {"@context":"https://schema.org","@type":"WebSite","name":"HUNTER Cyberdeck","url":"./","inLanguage":"de-DE","description":"Offenes Build Log für einen mobilen KI-Agenten auf dem Google Pixel 6a.","publisher":{"@type":"Person","name":"Marcel","url":"https://d4sn3st.dev/","sameAs":["https://www.linkedin.com/in/marcelnuernberg","https://x.com/d4sn3st"]}}
   </script>
   <script src="assets/site.js" defer></script>
   <script src="assets/i18n.js" defer></script>
@@ -41,9 +41,9 @@
     <section class="hero">
       <div class="hero-visual" aria-label="Technische Darstellung des HUNTER Cyberdecks">
         <span class="visual-tag one">Google Pixel 6a // Local Node</span>
-        <span class="visual-tag two">Agent Runtime // Online</span>
+        <span class="visual-tag two">Agent Runtime // Status lädt</span>
         <figure class="hero-photo-card">
-          <img src="assets/hunter-gallery/hunter-cyberdeck-04.jpg" width="1024" height="1536" loading="eager" decoding="async" alt="HUNTER Cyberdeck mit Google Pixel 6a und Rii K06 im realen Testaufbau">
+          <img src="assets/hunter-gallery/repack/hunter-cyberdeck-repack-02.webp" width="1024" height="1034" loading="eager" decoding="async" alt="HUNTER Cyberdeck mit aktivem Terminal im neu verpackten Field Kit">
           <figcaption>FIELD CAPTURE // 04</figcaption>
         </figure>
         <div class="deck pixel-status-device" aria-label="Google Pixel 6a mit HUNTER Agent Status">
@@ -53,24 +53,44 @@
             <div class="terminal-switcher" role="tablist" aria-label="Agentenmonitor Ansicht">
               <button class="terminal-tab is-active" type="button" role="tab" aria-selected="true" data-terminal-tab="status">Status</button>
               <button class="terminal-tab" type="button" role="tab" aria-selected="false" data-terminal-tab="logs">Logs <span class="terminal-tab-count" data-agent-log-count>--</span></button>
+              <button class="terminal-tab" type="button" role="tab" aria-selected="false" data-terminal-tab="hardware">Hardware</button>
             </div>
             <div class="terminal-panel is-active" data-terminal-panel="status" role="tabpanel">
-              <div class="terminal-row"><span>Uptime</span><div data-agent-field="uptime">$ läuft // seit 01.09. 12:18</div></div>
-              <div class="terminal-row"><span>Rekord</span><div data-agent-field="record">$ 88h+ ohne Unterbrechung // 28.08.–01.09.</div></div>
-              <div class="terminal-row"><span>Cron</span><div data-agent-field="cron">$ 8 aktiv // 0 fehlgeschlagen</div></div>
-              <div class="terminal-row"><span>OOM</span><div data-agent-field="oom">$ 0 kills // seit Härtung</div></div>
-              <div class="terminal-row"><span>RAM</span><div data-agent-field="ram">$ 1,2 GB frei</div></div>
-              <div class="terminal-row"><span>Ollama</span><div data-agent-field="ollama_plan">$ Pro // aktiv</div></div>
-              <div class="terminal-row"><span>ChatGPT</span><div data-agent-field="chatgpt_plan">$ Pro // aktiv</div></div>
-              <div class="terminal-row"><span>Prompt</span><div data-agent-field="prompt">&gt; HUNTER läuft seit 83+ Stunden. Ohne Unterbrechung._</div></div>
+              <div class="terminal-row"><span>Uptime</span><div data-agent-field="uptime">$ Status wird geladen …</div></div>
+              <div class="terminal-row"><span>Rekord</span><div data-agent-field="record">$ Status wird geladen …</div></div>
+              <div class="terminal-row"><span>Cron</span><div data-agent-field="cron">$ Status wird geladen …</div></div>
+              <div class="terminal-row"><span>OOM</span><div data-agent-field="oom">$ Status wird geladen …</div></div>
+              <div class="terminal-row"><span>RAM</span><div data-agent-field="ram">$ Status wird geladen …</div></div>
+              <div class="terminal-row"><span>Ollama</span><div data-agent-field="ollama_plan">$ Status wird geladen …</div></div>
+              <div class="terminal-row"><span>ChatGPT</span><div data-agent-field="chatgpt_plan">$ Status wird geladen …</div></div>
+              <div class="terminal-row"><span>Prompt</span><div data-agent-field="prompt">&gt; Live-Status wird geladen …_</div></div>
               <div class="installed-agents" aria-label="Installierte Agenten">
                 <div class="installed-agents-head"><span>Agenten</span><span data-agent-installed-count>-- installiert</span></div>
                 <div class="installed-agent-list" data-installed-agents><span class="installed-agent-empty">Lade Agenten …</span></div>
+              </div>
+              <div class="status-hardware" aria-label="Hardware-Knoten">
+                <div class="status-hardware-head"><span>Hardware</span><a href="hardware.html">Reiter öffnen ↗</a></div>
+                <div class="status-hardware-item">
+                  <span class="status-hardware-icon"><img src="assets/brands/kali.svg" width="18" height="18" alt="Kali Linux Dragon Logo"></span>
+                  <span><strong>Kali Linux Lab</strong><small>Raspberry Pi 3 Model B+ · Kali Linux</small><em>Security-Tooling via SSH — ferngesteuert aus dem Cyberdeck.</em></span>
+                </div>
               </div>
             </div>
             <div class="terminal-panel terminal-log-panel" data-terminal-panel="logs" role="tabpanel" hidden>
               <div class="log-panel-head"><span>SESSION LOG // LAST EVENTS</span><button type="button" class="log-refresh" data-agent-log-refresh aria-label="Logs aktualisieren">↻</button></div>
               <div class="agent-log-list" data-agent-logs aria-live="polite"><p class="agent-log-empty">Verbinde mit Session-Archiv …</p></div>
+            </div>
+            <div class="terminal-panel terminal-hardware-panel" data-terminal-panel="hardware" role="tabpanel" hidden>
+              <div class="hardware-status-head"><span>HARDWARE // FIELD NODES</span><a href="hardware.html">Alle öffnen ↗</a></div>
+              <article class="hardware-status-node">
+                <div class="hardware-status-icon"><img src="assets/brands/kali.svg" width="32" height="32" alt="Kali Linux Dragon Logo"></div>
+                <div>
+                  <strong>Kali Linux Lab</strong>
+                  <p>Security-Tooling via SSH — ferngesteuert aus dem Cyberdeck.</p>
+                  <span>Raspberry Pi 3 Model B+ · Kali Linux · 2 Monitor-Sticks · BT-Dongle</span>
+                </div>
+              </article>
+              <p class="hardware-status-note">Weitere Hardware-Knoten und Ergänzungen liegen im Hardware-Reiter.</p>
             </div>
           </div>
           <div class="deck-controls"><span class="deck-control"></span><span class="deck-control"></span><span class="deck-control"></span></div>
@@ -83,7 +103,7 @@
         <div class="hero-proof" aria-label="HUNTER Kennzahlen">
           <span><strong>45 €</strong><small data-i18n="home.proof.base">Basis</small></span>
           <span><strong>6 GB</strong><small data-i18n="home.proof.ram">RAM</small></span>
-          <span><strong>83+ h</strong><small data-i18n="home.proof.uptime">Uptime</small></span>
+          <span><strong>361 h</strong><small data-i18n="home.proof.uptime">Rekord</small></span>
           <span><strong>9</strong><small data-i18n="home.proof.files">STL-Dateien</small></span>
         </div>
         <div class="button-row">

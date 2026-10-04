@@ -5,15 +5,16 @@ const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || "sb_pub
 const staticEntries = [
   ["/", "2026-09-01", "1.0"],
   ["/blog.html", "2026-09-01", "0.9"],
-  ["/post.html", "2026-09-01", "0.8"],
   ["/tech.html", "2026-09-01", "0.8"],
+  ["/hardware", "2026-09-12", "0.8"],
   ["/makerworld.html", "2026-09-01", "0.8"],
   ["/archive.html", "2026-09-01", "0.7"],
   ["/github.html", "2026-09-01", "0.7"],
   ["/about.html", "2026-09-01", "0.6"],
-  ["/index.html?lang=en", "2026-09-01", "1.0"],
+  ["/?lang=en", "2026-09-01", "1.0"],
   ["/blog.html?lang=en", "2026-09-01", "0.9"],
   ["/tech.html?lang=en", "2026-09-01", "0.8"],
+  ["/hardware?lang=en", "2026-09-12", "0.8"],
   ["/makerworld.html?lang=en", "2026-09-01", "0.8"],
   ["/archive.html?lang=en", "2026-09-01", "0.7"],
   ["/github.html?lang=en", "2026-09-01", "0.7"],
@@ -72,7 +73,8 @@ exports.handler = async () => {
     statusCode: 200,
     headers: {
       "Content-Type": "application/xml; charset=UTF-8",
-      "Cache-Control": "public, max-age=300, s-maxage=300",
+      "Cache-Control": "public, max-age=0, s-maxage=60, must-revalidate",
+      "Netlify-CDN-Cache-Control": "public, max-age=0, must-revalidate",
     },
     body: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`,
   };

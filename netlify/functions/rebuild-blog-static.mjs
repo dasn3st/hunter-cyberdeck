@@ -14,7 +14,7 @@ const hasChanged = (posts, manifest) => {
 };
 
 export default async () => {
-  const hookUrl = process.env.HUNTER_NETLIFY_BUILD_HOOK || "";
+  const hookUrl = Netlify.env.get("HUNTER_NETLIFY_BUILD_HOOK") || "";
   if (!hookUrl) return new Response("Build hook is not configured.", { status: 500 });
   try {
     const [postsResponse, manifestResponse] = await Promise.all([
