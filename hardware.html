@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Hardware-Knoten des HUNTER Cyberdecks: Google Pixel 6a und Kali Linux Lab auf Raspberry Pi 3 Model B+.">
+  <meta name="author" content="HUNTER Cyberdeck Project">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#ff5a1f">
+  <link rel="canonical" href="https://hunter-cyberdeck.d4sn3st.dev/hardware">
+  <link rel="alternate" hreflang="de" href="https://hunter-cyberdeck.d4sn3st.dev/hardware">
+  <link rel="alternate" hreflang="en" href="https://hunter-cyberdeck.d4sn3st.dev/hardware?lang=en">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="de_DE">
+  <meta property="og:site_name" content="HUNTER Cyberdeck">
+  <meta property="og:title" content="Hardware – HUNTER Cyberdeck">
+  <meta property="og:description" content="Die Hardware-Knoten hinter HUNTER: mobiler Host und ferngesteuertes Kali Linux Lab.">
+  <meta property="og:url" content="https://hunter-cyberdeck.d4sn3st.dev/hardware">
+  <meta property="og:image" content="https://hunter-cyberdeck.d4sn3st.dev/assets/hardware/hunter-field-kit.webp">
+  <meta property="og:image:alt" content="HUNTER Cyberdeck mit Google Pixel 6a und Rii K06 im Field Kit">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hardware – HUNTER Cyberdeck">
+  <meta name="twitter:description" content="Die Hardware-Knoten hinter HUNTER: mobiler Host und ferngesteuertes Kali Linux Lab.">
+  <meta name="twitter:image" content="https://hunter-cyberdeck.d4sn3st.dev/assets/hardware/hunter-field-kit.webp">
+  <title>Hardware – HUNTER Cyberdeck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="icon" type="image/png" href="assets/hunter-logo-white.png">
+  <link rel="manifest" href="site.webmanifest">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"HUNTER Hardware","url":"https://hunter-cyberdeck.d4sn3st.dev/hardware","inLanguage":"de-DE","description":"Die Hardware-Knoten hinter dem HUNTER Cyberdeck."}
+  </script>
+  <script src="assets/site.js" defer></script>
+  <script src="assets/i18n.js" defer></script>
+</head>
+<body data-page="hardware">
+  <div data-site-header></div>
+  <main class="shell">
+    <section class="page-hero hardware-page-hero">
+      <div class="page-hero-copy">
+        <div class="eyebrow">Hardware Nodes // Field Fleet</div>
+        <h1 class="page-title">Die <em>Flotte</em></h1>
+      </div>
+      <div class="page-hero-aside">
+        <span class="technical-label" style="color:var(--green)">HUNTER HARDWARE // 01</span>
+        <p>Die physischen Knoten hinter HUNTER: ein mobiler Host und die Werkzeuge, die aus dem Cyberdeck ein arbeitsfähiges Feldsystem machen.</p>
+      </div>
+    </section>
+
+    <section class="section hardware-section">
+      <div class="section-heading">
+        <div>
+          <span class="section-index">01 // AGENTEN-HARDWARE</span>
+          <h2 class="section-title">Werkzeuge<br>im <em>Feld</em>.</h2>
+        </div>
+        <p class="section-description">Software und Hardware bleiben getrennt lesbar. Hier stehen die Knoten, die HUNTER betreibt, anbindet oder für konkrete Aufgaben nutzt.</p>
+      </div>
+
+      <div class="hardware-node-grid" aria-label="Hardware-Knoten des HUNTER Cyberdecks">
+        <article class="hardware-node-card" id="pixel-6a">
+          <div class="hardware-node-media">
+            <img src="assets/hardware/hunter-field-kit.webp" width="1086" height="1448" loading="eager" decoding="async" alt="HUNTER Cyberdeck mit Google Pixel 6a und Rii K06 im Field Kit">
+            <span class="hardware-node-label">Cyberdeck-Host</span>
+          </div>
+          <div class="hardware-node-copy">
+            <span class="eyebrow">00 // HOST NODE</span>
+            <h2>Google Pixel 6a</h2>
+            <p class="hardware-node-role">Mobiler HUNTER-Host — Runtime, Interface und zentrale Bedienebene.</p>
+            <dl class="hardware-spec-list">
+              <div><dt>Runtime</dt><dd>Termux / PRoot-Ubuntu</dd></div>
+              <div><dt>Input</dt><dd>Rii K06</dd></div>
+              <div><dt>Compute</dt><dd>6 GB RAM · 128 GB</dd></div>
+            </dl>
+          </div>
+        </article>
+
+        <article class="hardware-node-card hardware-node-card--kali" id="kali-linux-lab">
+          <div class="hardware-node-media hardware-node-icon-media">
+            <img src="assets/hardware/kali-linux-lab.webp" width="1086" height="1448" loading="eager" decoding="async" alt="Kali-Linux-Gerät im HUNTER-Testaufbau mit Zubehör">
+            <span class="hardware-node-label">Werkzeug-Schnittstelle</span>
+          </div>
+          <div class="hardware-node-copy">
+            <span class="eyebrow">01 // REMOTE TOOL NODE</span>
+            <h2>Kali Linux Lab</h2>
+            <p class="hardware-node-role">Security-Tooling via SSH — ferngesteuert aus dem Cyberdeck.</p>
+            <dl class="hardware-spec-list">
+              <div><dt>Board</dt><dd>Raspberry Pi 3 Model B+</dd></div>
+              <div><dt>System</dt><dd>Kali Linux</dd></div>
+              <div><dt>Interface</dt><dd>SSH-Schnittstelle</dd></div>
+              <div><dt>Radio</dt><dd>2 Monitor-Sticks · BT-Dongle</dd></div>
+            </dl>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section hardware-notes-section" data-agent-sections hidden></section>
+  </main>
+  <div data-site-footer></div>
+</body>
+</html>

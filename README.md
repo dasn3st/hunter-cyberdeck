@@ -46,8 +46,15 @@ The public website is deployed at [hunter-cyberdeck.d4sn3st.dev](https://hunter-
   und Community-Komponenten.
 - Netlify veröffentlicht die Website unter
   [hunter-cyberdeck.d4sn3st.dev](https://hunter-cyberdeck.d4sn3st.dev/).
-- Die öffentliche Quelle liegt in diesem Repository und läuft lokal ohne
-  Build-Schritt mit einem statischen Webserver.
+- Für den Netlify-Deploy erzeugt `node scripts/prerender-blog.mjs` aus den
+  veröffentlichten Supabase-Beiträgen statische Artikelseiten in `dist/`.
+  `/sitemap.xml` wird live von der Netlify-Funktion generiert.
+- Stand 04.10.2026: Der lokale Website-Ordner ist kein eigenes Git-Checkout;
+  Netlify ist für diese Site nicht mit dem öffentlichen GitHub-Repository
+  verbunden. Änderungen müssen deshalb explizit gebaut und deployt werden;
+  ein GitHub-Commit allein aktualisiert die Live-Seite nicht.
+- Wartungs- und Search-Console-Befund vom 04.10.2026:
+  [SITE_MAINTENANCE_2026-10-04.md](SITE_MAINTENANCE_2026-10-04.md).
 
 ### 05 // Agent als Setup-Begleiter
 

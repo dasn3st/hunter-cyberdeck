@@ -1,12 +1,22 @@
-import { cp, mkdir, readdir, rm, writeFile } from "node:fs/promises";
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const sourceDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outputDir = path.join(sourceDir, "dist");
 const siteUrl = "https://hunter-cyberdeck.d4sn3st.dev";
+const hunterOrigins = new Set([siteUrl, "https://hunter-cyberdeck.netlify.app"]);
 const supabaseUrl = process.env.SUPABASE_URL || "https://ocgirjlfdugiaieynbnl.supabase.co";
 const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY || "sb_publishable_sihx39p63ZEO4M3I1APVlw_GhySEcfu";
+const suppliedGallery = [
+  "assets/hunter-gallery/repack/hunter-cyberdeck-repack-01.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-02.webp",
+  "assets/hunter-gallery/repack/hunter-cyberdeck-repack-03.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-04.webp",
+  "assets/hunter-gallery/repack/hunter-cyberdeck-repack-05.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-06.webp",
+  "assets/hunter-gallery/repack/hunter-cyberdeck-repack-07.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-08.webp",
+  "assets/hunter-gallery/repack/hunter-cyberdeck-repack-09.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-10.webp",
+  "assets/hunter-gallery/repack/hunter-cyberdeck-repack-11.webp", "assets/hunter-gallery/repack/hunter-cyberdeck-repack-12.webp",
+];
+const categoryLabels = { hardware: "Hardware", case: "Case", software: "Software", agent: "Agent" };
 
 const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (character) => ({
   "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;",
@@ -18,15 +28,19 @@ const safeUrl = (value = "") => {
   return "";
 };
 const publicUrl = (value = "") => {
-  const url = safeUrl(value);
-  if (!url) return "";
+  const raw = String(value).trim();
+  // Articles used to be linked as post.html?slug=… . Resolve that legacy
+  // shape before the regular URL allowlist so both relative and absolute
+  // links are emitted as the crawlable, pre-rendered article URL.
   try {
-    const parsed = new URL(url, siteUrl);
+    const parsed = new URL(raw, siteUrl);
     const slug = parsed.searchParams.get("slug");
-    if (parsed.origin === siteUrl && parsed.pathname === "/post.html" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(String(slug || ""))) {
+    if (hunterOrigins.has(parsed.origin) && parsed.pathname === "/post.html" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(String(slug || ""))) {
       return `/blog/${encodeURIComponent(slug)}/`;
     }
   } catch {}
+  const url = safeUrl(raw);
+  if (!url) return "";
   if (/^https?:\/\//i.test(url) || url.startsWith("/")) return url;
   return `/${url}`;
 };
@@ -138,7 +152,40 @@ const renderBlock = (block = {}) => {
   return { html: "", schemas: [] };
 };
 
-const renderPost = (post) => {
+const renderIndexCard = (post, index) => {
+  const category = Object.hasOwn(categoryLabels, post.category) ? post.category : "agent";
+  const language = String(post.language || post.lang || "de").toLowerCase().startsWith("en") ? "en" : "de";
+  const image = publicUrl(post.hero_image || post.cover_image || suppliedGallery[index % suppliedGallery.length]);
+  const href = `/blog/${encodeURIComponent(String(post.slug || ""))}/`;
+  const title = String(post.title || "HUNTER Build Log");
+  const excerpt = String(post.excerpt || (language === "en" ? "A new HUNTER entry." : "Ein neuer HUNTER-Eintrag."));
+  const template = String(post.template || (language === "en" ? "Build Log" : "Build Log"));
+  const tags = Array.isArray(post.tags) ? post.tags.filter(Boolean).slice(0, 2).join(" // ") : "HUNTER";
+  const visual = image
+    ? `<div class="story-visual"><img src="${escapeHtml(image)}" alt="${escapeHtml(title)}" loading="lazy" decoding="async"></div>`
+    : `<div class="story-visual visual-${escapeHtml(category)}"></div>`;
+  return `<a class="story-card${index === 0 ? " featured" : ""} blog-dynamic-card" data-category="${escapeHtml(category)}" data-blog-language="${language}" href="${escapeHtml(href)}">
+    ${visual}
+    <div class="story-content">
+      <span class="meta" style="color:var(--green)">${escapeHtml(categoryLabels[category])} // ${escapeHtml(template)}</span>
+      <h2 class="story-title">${escapeHtml(title)}</h2>
+      <p class="story-excerpt">${escapeHtml(excerpt)}</p>
+      <div class="story-footer"><span>${escapeHtml(tags)}</span><span>${escapeHtml(String(post.reading_time_minutes || 5))} min. ↗</span></div>
+    </div>
+  </a>`;
+};
+
+async function renderBlogIndex(posts) {
+  const indexPath = path.join(outputDir, "blog.html");
+  const source = await readFile(indexPath, "utf8");
+  const marker = /<!-- BLOG_INDEX_START -->[\s\S]*?<!-- BLOG_INDEX_END -->/;
+  if (!marker.test(source)) throw new Error("blog.html is missing BLOG_INDEX markers.");
+  const cards = posts.map(renderIndexCard).join("\n");
+  const rendered = source.replace(marker, `<!-- BLOG_INDEX_START -->\n${cards}\n        <!-- BLOG_INDEX_END -->`);
+  await writeFile(indexPath, rendered, "utf8");
+}
+
+const renderPost = (post, postSlugs = new Set()) => {
   const slug = String(post.slug || "");
   const canonical = `${siteUrl}/blog/${encodeURIComponent(slug)}/`;
   const language = String(post.language || post.lang || "de").toLowerCase().startsWith("en") ? "en" : "de";
@@ -148,6 +195,7 @@ const renderPost = (post) => {
   const revision = validIsoDate(post.updated_at || post.created_at || post.published_at);
   const published = validIsoDate(post.published_at || post.created_at);
   const blocks = Array.isArray(post.blocks) && post.blocks.length ? post.blocks : [{ type: "rich_text", text: post.content || "" }];
+  const requiresModelViewer = blocks.some((block) => block?.type === "model");
   const rendered = blocks.map(renderBlock);
   const articleSchema = {
     "@context": "https://schema.org", "@type": "BlogPosting", headline: title,
@@ -163,6 +211,12 @@ const renderPost = (post) => {
   const reference = slug.split("-").filter(Boolean).slice(0, 2).join("-").toUpperCase() || "LIVE";
   const category = String(post.category || "Build Log");
   const hero = publicUrl(post.hero_image);
+  const germanSlug = language === "en" ? slug.replace(/-en$/i, "") : slug;
+  const englishSlug = language === "en" ? slug : `${slug}-en`;
+  const languageLinks = [
+    postSlugs.has(germanSlug) ? `<link rel="alternate" hreflang="de" href="${siteUrl}/blog/${encodeURIComponent(germanSlug)}/">` : "",
+    postSlugs.has(englishSlug) ? `<link rel="alternate" hreflang="en" href="${siteUrl}/blog/${encodeURIComponent(englishSlug)}/">` : "",
+  ].filter(Boolean).join("\n  ");
   const metaDate = published ? new Intl.DateTimeFormat(language === "en" ? "en-US" : "de-DE").format(new Date(published)) : "live";
   return `<!doctype html>
 <html lang="${language}">
@@ -174,6 +228,7 @@ const renderPost = (post) => {
   <meta name="robots" content="index,follow,max-image-preview:large">
   <meta name="theme-color" content="#ff5a1f">
   <link rel="canonical" href="${escapeHtml(canonical)}">
+  ${languageLinks}
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="HUNTER Cyberdeck">
   <meta property="og:title" content="${escapeHtml(title)}">
@@ -192,7 +247,7 @@ const renderPost = (post) => {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"></script>
+  ${requiresModelViewer ? '<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"></script>' : ""}
   <script src="/assets/site.js" defer></script>
   <script src="/assets/i18n.js" defer></script>
   <script src="/assets/blog.js" defer></script>
@@ -223,14 +278,20 @@ const renderPost = (post) => {
 </html>`;
 };
 
-const ignored = new Set([".git", ".netlify", "dist", "node_modules", "scripts"]);
-const copyFilter = (source) => !source.split(path.sep).some((part) => ignored.has(part));
-
 const copyWebsite = async () => {
-  const entries = await readdir(sourceDir, { withFileTypes: true });
-  await Promise.all(entries
-    .filter((entry) => !ignored.has(entry.name))
-    .map((entry) => cp(path.join(sourceDir, entry.name), path.join(outputDir, entry.name), { recursive: true, filter: copyFilter })));
+  // Publish an explicit allowlist. Internal notes and local working files must
+  // never become downloadable just because they exist beside the site source.
+  const publicFiles = [
+    "404.html", "about.html", "archive.html", "blog.html", "code.html",
+    "github.html", "hardware.html", "index.html", "makerworld.html",
+    "post.html", "tech.html", "_headers", "robots.txt", "site.webmanifest",
+    "sitemap.xml",
+  ];
+  await Promise.all(publicFiles.map((filename) => cp(path.join(sourceDir, filename), path.join(outputDir, filename))));
+  await cp(path.join(sourceDir, "assets"), path.join(outputDir, "assets"), {
+    recursive: true,
+    filter: (source) => !path.basename(source).startsWith("."),
+  });
 };
 
 async function main() {
@@ -242,10 +303,12 @@ async function main() {
   if (!response.ok) throw new Error(`Supabase ${response.status}: published posts could not be generated.`);
   const posts = await response.json();
   const publishedPosts = posts.filter((post) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(String(post?.slug || "")));
+  const postSlugs = new Set(publishedPosts.map((post) => String(post.slug || "")));
+  await renderBlogIndex(publishedPosts);
   await Promise.all(publishedPosts.map(async (post) => {
     const directory = path.join(outputDir, "blog", post.slug);
     await mkdir(directory, { recursive: true });
-    await writeFile(path.join(directory, "index.html"), renderPost(post), "utf8");
+    await writeFile(path.join(directory, "index.html"), renderPost(post, postSlugs), "utf8");
   }));
   await mkdir(path.join(outputDir, "blog"), { recursive: true });
   await writeFile(path.join(outputDir, "blog", "_manifest.json"), `${JSON.stringify({

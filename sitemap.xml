@@ -2,15 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/</loc><lastmod>2026-09-01</lastmod><priority>1.0</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/blog.html</loc><lastmod>2026-09-01</lastmod><priority>0.9</priority></url>
-  <url><loc>https://hunter-cyberdeck.d4sn3st.dev/post.html</loc><lastmod>2026-09-01</lastmod><priority>0.8</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/tech.html</loc><lastmod>2026-09-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://hunter-cyberdeck.d4sn3st.dev/hardware</loc><lastmod>2026-09-12</lastmod><priority>0.8</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/makerworld.html</loc><lastmod>2026-09-01</lastmod><priority>0.8</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/archive.html</loc><lastmod>2026-09-01</lastmod><priority>0.7</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/github.html</loc><lastmod>2026-09-01</lastmod><priority>0.7</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/about.html</loc><lastmod>2026-09-01</lastmod><priority>0.6</priority></url>
-  <url><loc>https://hunter-cyberdeck.d4sn3st.dev/index.html?lang=en</loc><lastmod>2026-09-01</lastmod><priority>1.0</priority></url>
+  <url><loc>https://hunter-cyberdeck.d4sn3st.dev/?lang=en</loc><lastmod>2026-09-01</lastmod><priority>1.0</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/blog.html?lang=en</loc><lastmod>2026-09-01</lastmod><priority>0.9</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/tech.html?lang=en</loc><lastmod>2026-09-01</lastmod><priority>0.8</priority></url>
+  <url><loc>https://hunter-cyberdeck.d4sn3st.dev/hardware?lang=en</loc><lastmod>2026-09-12</lastmod><priority>0.8</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/makerworld.html?lang=en</loc><lastmod>2026-09-01</lastmod><priority>0.8</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/archive.html?lang=en</loc><lastmod>2026-09-01</lastmod><priority>0.7</priority></url>
   <url><loc>https://hunter-cyberdeck.d4sn3st.dev/github.html?lang=en</loc><lastmod>2026-09-01</lastmod><priority>0.7</priority></url>

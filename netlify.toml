@@ -1,5 +1,5 @@
 [build]
-  command = "node scripts/prerender-blog.mjs"
+  command = "npm run build"
   publish = "dist"
 
 [build.environment]
@@ -8,6 +8,151 @@
 [[redirects]]
   from = "/sitemap.xml"
   to = "/.netlify/functions/sitemap"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/"
+  to = "/_en/index.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/index.html"
+  to = "/_en/index.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/blog.html"
+  to = "/_en/blog.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/blog"
+  to = "/_en/blog.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/tech.html"
+  to = "/_en/tech.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/tech"
+  to = "/_en/tech.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/hardware"
+  to = "/_en/hardware.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/hardware.html"
+  to = "/_en/hardware.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/hardware/"
+  to = "/_en/hardware.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/makerworld.html"
+  to = "/_en/makerworld.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/makerworld"
+  to = "/_en/makerworld.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/archive.html"
+  to = "/_en/archive.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/archive"
+  to = "/_en/archive.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/github.html"
+  to = "/_en/github.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/github"
+  to = "/_en/github.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/about.html"
+  to = "/_en/about.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/about"
+  to = "/_en/about.html"
+  status = 200
+  force = true
+  query = { lang = "en" }
+
+[[redirects]]
+  from = "/post.html"
+  to = "/blog/git-config-fallen-coding-agenten/"
+  status = 301
+  force = true
+  query = { slug = "git-config-kapert-agenten" }
+
+[[redirects]]
+  from = "/post.html"
+  to = "/blog/:slug/"
+  status = 301
+  force = true
+  query = { slug = ":slug" }
+
+[[redirects]]
+  from = "/hardware"
+  to = "/hardware.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/hardware/"
+  to = "/hardware.html"
   status = 200
   force = true
 

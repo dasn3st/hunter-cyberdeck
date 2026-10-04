@@ -1,0 +1,11 @@
+{
+  "name": "hunter-cyberdeck-website",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node scripts/prerender-blog.mjs && node scripts/prerender-en.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "24.1.3"
+  }
+}

@@ -14,6 +14,7 @@
     },
     blog: { hero_title: ".page-hero-copy .page-title", hero_description: ".page-hero-aside p" },
     tech: { hero_title: ".page-hero-copy .page-title", hero_description: ".page-hero-aside p" },
+    hardware: { hero_title: ".page-hero-copy .page-title", hero_description: ".page-hero-aside p" },
     github: { hero_title: ".coming-copy .display-title", hero_lead: ".coming-copy .lead" },
     makerworld: { hero_title: ".page-hero-copy .page-title", hero_description: ".page-hero-aside p" },
     archive: { hero_title: ".page-hero-copy .page-title", hero_description: ".page-hero-aside p" },
@@ -60,6 +61,7 @@
       host.dataset.agentSections = "";
       document.querySelector("main.shell")?.append(host);
     }
+    host.hidden = false;
     const fallback = (block) => {
       if (block?.type === "image") {
         const src = safeUrl(block.src || block.image);
