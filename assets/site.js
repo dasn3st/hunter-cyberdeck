@@ -62,18 +62,20 @@ if (footerTarget) {
     </footer>`;
 }
 
-// The three public projects share one small edge navigation. It stays dormant
-// as three LEDs and only expands after hover, keyboard focus, or a tap.
+// The public projects share one small edge navigation. It stays dormant
+// as LEDs and only expands after hover, keyboard focus, or a tap.
 const projectNodes = [
   { id: "d4sn3st", name: "d4sn3st.dev", label: "Studio & Archiv", href: "https://d4sn3st.dev/" },
   { id: "mockup-paint", name: "Mockup Paint", label: "Browser Studio", href: "https://mockup-paint.d4sn3st.dev/" },
   { id: "hunter", name: "HUNTER", label: "Field Build", href: "https://hunter-cyberdeck.d4sn3st.dev/" },
+  { id: "meshtastic", name: "T-Deck / Meshtastic", label: "Mesh & Feldnotizen", href: "https://meshtastic.d4sn3st.dev/" },
 ];
 
 const nodeHost = window.location.hostname;
 const activeProjectNode = nodeHost.startsWith("mockup-paint.")
   ? "mockup-paint"
-  : nodeHost.startsWith("hunter-cyberdeck.") ? "hunter" : "d4sn3st";
+  : nodeHost.startsWith("hunter-cyberdeck.") ? "hunter"
+  : nodeHost.startsWith("meshtastic.") || nodeHost.startsWith("mesh.") ? "meshtastic" : "d4sn3st";
 
 if (!document.querySelector(".project-nodes")) {
   document.body.insertAdjacentHTML("beforeend", `
@@ -83,7 +85,7 @@ if (!document.querySelector(".project-nodes")) {
         <span class="project-nodes__rail-label">NODES</span>
       </button>
       <div class="project-nodes__panel">
-        <p>PROJECT NODES // 03</p>
+        <p>PROJECT NODES // ${String(projectNodes.length).padStart(2, "0")}</p>
         <nav>${projectNodes.map((node) => `<a href="${node.href}"${node.id === activeProjectNode ? ' aria-current="page"' : ""}><span class="project-nodes__signal" aria-hidden="true"></span><span><strong>${node.name}</strong><small>${node.label}</small></span><b aria-hidden="true">↗</b></a>`).join("")}</nav>
       </div>
     </aside>`);
