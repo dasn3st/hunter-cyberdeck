@@ -35,7 +35,7 @@ const publicUrl = (value = "") => {
   try {
     const parsed = new URL(raw, siteUrl);
     const slug = parsed.searchParams.get("slug");
-    if (hunterOrigins.has(parsed.origin) && parsed.pathname === "/post.html" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(String(slug || ""))) {
+    if (hunterOrigins.has(parsed.origin) && ["/post.html", "/blog/post.html"].includes(parsed.pathname) && /^[a-z0-9]+(?:-[a-z0-9]+)*$/i.test(String(slug || ""))) {
       return `/blog/${encodeURIComponent(slug)}/`;
     }
   } catch {}

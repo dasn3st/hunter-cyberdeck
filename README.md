@@ -11,6 +11,9 @@ Public source repository for the HUNTER CYBERDECK open-build project and its edi
 
 The public website is deployed at [hunter-cyberdeck.d4sn3st.dev](https://hunter-cyberdeck.d4sn3st.dev/).
 
+Für die sichere technische Weiterarbeit in einem neuen Chat steht die kompakte
+[Übergabe-Dokumentation](HANDOFF.md) bereit.
+
 ## Installationsverlauf
 
 ### 01 // Hardware-Basis
