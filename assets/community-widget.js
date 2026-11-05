@@ -15,8 +15,10 @@
 
   const style = document.createElement('link');
   style.rel = 'stylesheet';
-  const currentScript = document.currentScript || document.querySelector('script[data-site-community],script[src$="/community-widget.js"]');
-  style.href = new URL('community-widget.css', currentScript?.src || `${location.origin}/community-widget.js`).href;
+  const currentScript = document.currentScript || document.querySelector('script[data-site-community],script[src*="/community-widget.js"]');
+  const styleUrl = new URL('community-widget.css', currentScript?.src || `${location.origin}/community-widget.js`);
+  if (currentScript?.src) styleUrl.search = new URL(currentScript.src).search;
+  style.href = styleUrl.href;
   document.head.append(style);
 
   const digest = (value) => {
@@ -27,6 +29,19 @@
   const cleanText = (node) => (node?.innerText || node?.textContent || '').replace(/\s+/g, ' ').trim();
   const excluded = 'header, nav, footer, aside, form, dialog, [role="dialog"], .project-nodes, .community-widget, .community-feedback__actions, [data-community-ignore], #searchOverlay';
   const visible = (node) => node instanceof HTMLElement && !node.closest(excluded) && node.getClientRects().length > 0;
+  const positionedWidgets = [];
+  const positionWidgets = () => {
+    positionedWidgets.forEach(({ widget, target }) => {
+      if (!target.isConnected) return;
+      const rect = target.getBoundingClientRect();
+      const onScreen = rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
+      widget.style.visibility = onScreen ? 'visible' : 'hidden';
+      widget.style.left = `${Math.max(4, Math.min(innerWidth - 48, rect.right - 48))}px`;
+      widget.style.top = `${Math.max(4, Math.min(innerHeight - 22, rect.bottom - 22))}px`;
+    });
+  };
+  window.addEventListener('scroll', positionWidgets, { passive: true, capture: true });
+  window.addEventListener('resize', positionWidgets, { passive: true });
   const currentPageKey = () => location.pathname.replace(/\/{2,}/g, '/').slice(0, 240) || '/';
   const itemFor = (node, kind, index) => {
     if (node.dataset.communityId) return `auto-${digest(`${siteKey}|${currentPageKey()}|named|${node.dataset.communityId}`)}`;
@@ -83,8 +98,9 @@
     thread.className = 'community-widget__thread';
     dialog.append(dialogHeader, thread);
     document.body.append(dialog);
-    if (node.matches('a, button')) node.after(widget);
-    else node.append(widget);
+    document.body.append(widget);
+    positionedWidgets.push({ widget, target: node });
+    positionWidgets();
 
     let state = { like_count: 0, comment_count: 0, viewer_liked: false, comments: [], authenticated: false };
     let busy = false;
