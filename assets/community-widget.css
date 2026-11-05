@@ -8,7 +8,7 @@
 .community-widget__button svg{display:block!important;width:14px!important;height:14px!important;flex:none!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .community-widget__like svg{color:#ff806d}
 .community-widget__like.is-active{color:#ff806d;opacity:1}
-.community-widget__like.is-active svg{fill:#ff806d}
+.community-widget__like.is-active svg{fill:#ff806d!important}
 .community-widget__count{display:block!important;min-width:0!important;margin:0!important;padding:0!important;color:inherit!important;font:600 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace!important}
 .community-widget__dialog{box-sizing:border-box;width:min(440px,calc(100vw - 24px));max-width:none;max-height:min(72vh,600px);margin:auto;padding:0;border:1px solid #465043;border-radius:12px;background:#10140f;color:#e9eee1;box-shadow:0 24px 80px #000a;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:hidden}
 .community-widget__dialog[open]{display:grid;grid-template-rows:auto minmax(0,1fr)}
