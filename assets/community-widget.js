@@ -127,7 +127,7 @@
     const summaryUrl = () => `${api}?page_key=${encodeURIComponent(pageKey)}&item_id=${encodeURIComponent(itemId)}`;
     const login = () => {
       const next = `${location.origin}${location.pathname}${location.search}${location.hash}`;
-      location.assign(`https://d4sn3st.dev/auth/google?next=${encodeURIComponent(next)}`);
+      window.top.location.assign(`https://d4sn3st.dev/auth/google?next=${encodeURIComponent(next)}`);
     };
     const render = () => {
       likeButton.disabled = busy;
