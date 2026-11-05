@@ -98,6 +98,7 @@
     dialog.setAttribute('aria-label', english ? `Comments for ${label}` : `Kommentare zu ${label}`);
     toggle.setAttribute('aria-controls', dialog.id);
     toggle.setAttribute('aria-haspopup', 'dialog');
+    const overlayRoot = node.closest('#menu') || document.body;
     const dialogHeader = document.createElement('header');
     dialogHeader.className = 'community-widget__dialog-header';
     const dialogTitle = document.createElement('h2');
@@ -111,8 +112,7 @@
     const thread = document.createElement('div');
     thread.className = 'community-widget__thread';
     dialog.append(dialogHeader, thread);
-    document.body.append(dialog);
-    const overlayRoot = node.closest('#menu') || document.body;
+    overlayRoot.append(dialog);
     overlayRoot.append(widget);
     positionedWidgets.push({ widget, target: node });
     positionWidgets();
