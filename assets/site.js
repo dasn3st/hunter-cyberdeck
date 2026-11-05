@@ -498,6 +498,14 @@ if (hunterStatusFields.length) {
     .catch(() => {});
 }
 
+if (!document.querySelector('script[data-site-community]')) {
+  const communityScript = document.createElement('script');
+  communityScript.src = '/assets/community-widget.js';
+  communityScript.dataset.siteCommunity = 'true';
+  communityScript.defer = true;
+  document.head.append(communityScript);
+}
+
 // Optional agent-managed content overrides for every page. Static HTML remains
 // the instant fallback when Supabase is unavailable or a slot is not defined.
 import("./content.js").catch(() => {});
