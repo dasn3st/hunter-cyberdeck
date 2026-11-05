@@ -500,7 +500,7 @@ if (hunterStatusFields.length) {
 
 if (!document.querySelector('script[data-site-community]')) {
   const communityScript = document.createElement('script');
-  communityScript.src = '/assets/community-widget.js?v=2026110504';
+  communityScript.src = '/assets/community-widget.js?v=2026110505';
   communityScript.dataset.siteCommunity = 'true';
   communityScript.defer = true;
   document.head.append(communityScript);

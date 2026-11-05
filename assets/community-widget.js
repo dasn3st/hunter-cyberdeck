@@ -30,32 +30,34 @@
   const excluded = 'header, nav, footer, aside, form, dialog, [role="dialog"], .project-nodes, .community-widget, .community-feedback__actions, [data-community-ignore], #searchOverlay';
   const visible = (node) => node instanceof HTMLElement && !node.closest(excluded) && node.getClientRects().length > 0;
   const positionedWidgets = [];
-  const positionWidgets = () => {
-    positionedWidgets.forEach(({ widget, target }) => {
-      if (!target.isConnected) return;
-      const rect = target.getBoundingClientRect();
-      const header = document.querySelector('header');
-      const headerRect = header?.getBoundingClientRect();
-      const headerPosition = header ? getComputedStyle(header).position : '';
-      const topBoundary = headerRect && (headerPosition === 'fixed' || headerPosition === 'sticky') && headerRect.top <= 0 ? headerRect.bottom : 0;
-      const onScreen = rect.width > 0 && rect.height > 0 && rect.bottom > topBoundary + 8 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
-      widget.style.visibility = onScreen ? 'visible' : 'hidden';
-      const widgetWidth = widget.getBoundingClientRect().width || 46;
-      const top = Math.max(topBoundary + 6, Math.min(innerHeight - 22, rect.bottom - 22));
-      let left = Math.max(4, Math.min(innerWidth - widgetWidth - 4, rect.right - widgetWidth - 8));
-      const rail = document.querySelector('.project-nodes');
-      if (rail) {
-        const railRect = rail.getBoundingClientRect();
-        const railPosition = getComputedStyle(rail).position;
-        const overlapsRail = (railPosition === 'fixed' || railPosition === 'sticky') && top < railRect.bottom && top + 18 > railRect.top && left < railRect.right && left + widgetWidth > railRect.left;
-        if (overlapsRail) left = Math.max(4, railRect.left - widgetWidth - 8);
-      }
-      widget.style.left = `${left}px`;
-      widget.style.top = `${top}px`;
+  let positionFrame = 0;
+  const positionWidgets = (reflow = false) => {
+    if (positionFrame) return;
+    positionFrame = requestAnimationFrame(() => {
+      positionFrame = 0;
+      positionedWidgets.forEach(({ widget, target, viewport }) => {
+        if (!target.isConnected) return;
+        const rect = target.getBoundingClientRect();
+        const header = document.querySelector('header');
+        const headerRect = header?.getBoundingClientRect();
+        const headerPosition = header ? getComputedStyle(header).position : '';
+        const topBoundary = headerRect && (headerPosition === 'fixed' || headerPosition === 'sticky') && headerRect.top <= 0 ? headerRect.bottom : 0;
+        const onScreen = rect.width > 0 && rect.height > 0 && rect.bottom > topBoundary + 8 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
+        widget.style.visibility = onScreen ? 'visible' : 'hidden';
+        if (!reflow && !viewport) return;
+        const widgetWidth = widget.getBoundingClientRect().width || 46;
+        const left = Math.max(4, Math.min((viewport ? innerWidth : document.documentElement.scrollWidth) - widgetWidth - 4,
+          rect.right + (viewport ? 0 : scrollX) - widgetWidth - 8));
+        const top = Math.max(viewport ? topBoundary + 6 : 4,
+          rect.bottom + (viewport ? 0 : scrollY) - 22);
+        widget.style.left = `${left}px`;
+        widget.style.top = `${top}px`;
+      });
     });
   };
-  window.addEventListener('scroll', positionWidgets, { passive: true, capture: true });
-  window.addEventListener('resize', positionWidgets, { passive: true });
+  window.addEventListener('scroll', () => positionWidgets(false), { passive: true, capture: true });
+  window.addEventListener('resize', () => positionWidgets(true), { passive: true });
+  const targetResizeObserver = new ResizeObserver(() => positionWidgets(true));
   const currentPageKey = () => location.pathname.replace(/\/{2,}/g, '/').slice(0, 240) || '/';
   const itemFor = (node, kind, index) => {
     if (node.dataset.communityId) return `auto-${digest(`${siteKey}|${currentPageKey()}|named|${node.dataset.communityId}`)}`;
@@ -73,7 +75,8 @@
     const pageKey = currentPageKey();
     const itemId = itemFor(node, scope === 'comments' ? 'discussion' : 'content', index);
     const widget = document.createElement('section');
-    widget.className = 'community-widget';
+    const viewport = Boolean(node.closest('#menu'));
+    widget.className = `community-widget${viewport ? ' community-widget--viewport' : ''}`;
     widget.dataset.scope = scope;
     widget.setAttribute('aria-label', english ? `Community for ${label}` : `Community: ${label}`);
     const actions = document.createElement('div');
@@ -114,8 +117,9 @@
     dialog.append(dialogHeader, thread);
     overlayRoot.append(dialog);
     overlayRoot.append(widget);
-    positionedWidgets.push({ widget, target: node });
-    positionWidgets();
+    positionedWidgets.push({ widget, target: node, viewport });
+    targetResizeObserver.observe(node);
+    positionWidgets(true);
 
     let state = { like_count: 0, comment_count: 0, viewer_liked: false, comments: [], authenticated: false };
     let busy = false;
