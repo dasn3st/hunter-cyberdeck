@@ -551,7 +551,7 @@ body[data-page="about"] main > .section { color: var(--paper); background: var(-
 .project-nodes {
   --node-accent: var(--hunter-orange);
   position: fixed;
-  z-index: 1100;
+  z-index: 2147483000;
   top: 50%;
   right: 0;
   width: 19rem;
