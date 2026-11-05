@@ -69,13 +69,15 @@ const projectNodes = [
   { id: "mockup-paint", name: "Mockup Paint", label: "Browser Studio", href: "https://mockup-paint.d4sn3st.dev/" },
   { id: "hunter", name: "HUNTER", label: "Field Build", href: "https://hunter-cyberdeck.d4sn3st.dev/" },
   { id: "meshtastic", name: "T-Deck / Meshtastic", label: "Mesh & Feldnotizen", href: "https://meshtastic.d4sn3st.dev/" },
+  { id: "violet-talon", name: "NESTIA: Violet Talon", label: "Browser-Spiel", href: "https://violet-talon.d4sn3st.dev/" },
 ];
 
 const nodeHost = window.location.hostname;
 const activeProjectNode = nodeHost.startsWith("mockup-paint.")
   ? "mockup-paint"
   : nodeHost.startsWith("hunter-cyberdeck.") ? "hunter"
-  : nodeHost.startsWith("meshtastic.") || nodeHost.startsWith("mesh.") ? "meshtastic" : "d4sn3st";
+  : nodeHost.startsWith("meshtastic.") || nodeHost.startsWith("mesh.") ? "meshtastic"
+  : nodeHost.startsWith("violet-talon.") ? "violet-talon" : "d4sn3st";
 
 if (!document.querySelector(".project-nodes")) {
   document.body.insertAdjacentHTML("beforeend", `
