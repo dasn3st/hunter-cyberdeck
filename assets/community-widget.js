@@ -46,15 +46,43 @@
     const widget = document.createElement('section');
     widget.className = 'community-widget';
     widget.dataset.scope = scope;
-    widget.setAttribute('aria-label', english ? `Comments and likes for ${label}` : `Likes und Kommentare: ${label}`);
-    widget.innerHTML = scope === 'comments'
-      ? `<div class="community-widget__bar"><span class="community-widget__title">${t.comments}</span><button class="community-widget__toggle" type="button" aria-expanded="false">${t.comments} <b>0</b> <span aria-hidden="true">＋</span></button></div>`
-      : `<div class="community-widget__bar"><span class="community-widget__title">${english ? 'COMMUNITY' : 'COMMUNITY'}</span><button class="community-widget__like" type="button" aria-pressed="false"><span aria-hidden="true">♡</span> ${t.like} <b>0</b></button><button class="community-widget__toggle" type="button" aria-expanded="false">${t.comments} <b>0</b> <span aria-hidden="true">＋</span></button></div>`;
-    if (!english && scope !== 'comments') widget.querySelector('.community-widget__title').textContent = 'COMMUNITY // MITREDEN';
+    widget.setAttribute('aria-label', english ? `Community for ${label}` : `Community: ${label}`);
+    const actions = document.createElement('div');
+    actions.className = 'community-widget__actions';
+    const likeButton = document.createElement('button');
+    likeButton.type = 'button';
+    likeButton.className = 'community-widget__button community-widget__like';
+    likeButton.setAttribute('aria-pressed', 'false');
+    likeButton.setAttribute('aria-label', english ? 'Like' : 'Gefällt mir');
+    likeButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"/></svg><span class="community-widget__count">0</span>';
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'community-widget__button community-widget__toggle';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', english ? 'Read or write comments' : 'Kommentare lesen oder schreiben');
+    toggle.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.5 8.8 8.8 0 0 1-3.5-.7L4 20l1.2-3.5A7 7 0 0 1 4 12c0-4.1 3.6-7.5 8-7.5s8 3.1 8 7Z"/></svg><span class="community-widget__count">0</span>';
+    actions.append(likeButton, toggle);
+    widget.append(actions);
+    const dialog = document.createElement('dialog');
+    dialog.className = 'community-widget__dialog';
+    dialog.id = `community-dialog-${itemId}`;
+    dialog.setAttribute('aria-label', english ? `Comments for ${label}` : `Kommentare zu ${label}`);
+    toggle.setAttribute('aria-controls', dialog.id);
+    toggle.setAttribute('aria-haspopup', 'dialog');
+    const dialogHeader = document.createElement('header');
+    dialogHeader.className = 'community-widget__dialog-header';
+    const dialogTitle = document.createElement('h2');
+    dialogTitle.textContent = english ? 'COMMENTS' : 'KOMMENTARE';
+    const closeButton = document.createElement('button');
+    closeButton.type = 'button';
+    closeButton.className = 'community-widget__close';
+    closeButton.setAttribute('aria-label', english ? 'Close comments' : 'Kommentare schließen');
+    closeButton.textContent = '×';
+    dialogHeader.append(dialogTitle, closeButton);
     const thread = document.createElement('div');
     thread.className = 'community-widget__thread';
-    thread.hidden = true;
-    widget.append(thread);
+    dialog.append(dialogHeader, thread);
+    document.body.append(dialog);
     if (node.matches('a, button')) node.after(widget);
     else node.append(widget);
 
@@ -67,17 +95,11 @@
       location.assign(`https://d4sn3st.dev/auth/google?next=${encodeURIComponent(next)}`);
     };
     const render = () => {
-      const likeButton = widget.querySelector('.community-widget__like');
-      if (likeButton) {
-        likeButton.disabled = busy;
-        likeButton.setAttribute('aria-pressed', String(state.viewer_liked));
-        likeButton.classList.toggle('is-active', state.viewer_liked);
-        likeButton.querySelector('span').textContent = state.viewer_liked ? '♥' : '♡';
-        likeButton.querySelector('b').textContent = String(state.like_count ?? 0);
-      }
-      const toggle = widget.querySelector('.community-widget__toggle');
-      toggle.querySelector('b').textContent = String(state.comment_count ?? 0);
-      toggle.querySelector('span').textContent = toggle.getAttribute('aria-expanded') === 'true' ? '−' : '＋';
+      likeButton.disabled = busy;
+      likeButton.setAttribute('aria-pressed', String(state.viewer_liked));
+      likeButton.classList.toggle('is-active', state.viewer_liked);
+      likeButton.querySelector('.community-widget__count').textContent = String(state.like_count ?? 0);
+      toggle.querySelector('.community-widget__count').textContent = String(state.comment_count ?? 0);
       thread.replaceChildren();
       const list = document.createElement('div');
       list.className = 'community-widget__list';
@@ -142,12 +164,14 @@
         localError = t.error;
       } finally { busy = false; render(); }
     }
-    widget.querySelector('.community-widget__toggle').addEventListener('click', () => {
-      const toggle = widget.querySelector('.community-widget__toggle');
-      const open = toggle.getAttribute('aria-expanded') !== 'true';
-      toggle.setAttribute('aria-expanded', String(open)); thread.hidden = !open; render();
+    toggle.addEventListener('click', () => {
+      if (typeof dialog.showModal === 'function' && !dialog.open) dialog.showModal();
+      toggle.setAttribute('aria-expanded', 'true');
     });
-    widget.querySelector('.community-widget__like')?.addEventListener('click', () => void update(state.viewer_liked ? 'unlike' : 'like'));
+    closeButton.addEventListener('click', () => dialog.close());
+    dialog.addEventListener('close', () => toggle.setAttribute('aria-expanded', 'false'));
+    dialog.addEventListener('click', (event) => { if (event.target === dialog) dialog.close(); });
+    likeButton.addEventListener('click', () => void update(state.viewer_liked ? 'unlike' : 'like'));
     widget.hidden = true;
     void load();
   }
@@ -155,7 +179,7 @@
   const root = document.querySelector('main:not(#menu)') || document.querySelector('#main') || document.querySelector('main') || document.body;
   const targets = [];
   const add = (node, kind) => { if (node instanceof HTMLElement && !targets.includes(node)) targets.push(node); };
-  root.querySelectorAll('[data-community-scope="comments"]').forEach((node) => add(node, 'comments'));
+  root.querySelectorAll('[data-community-scope]').forEach((node) => add(node, node.dataset.communityScope || 'all'));
   root.querySelectorAll('[data-community-item], figure').forEach((node) => {
     if (node.matches('figure') && !node.querySelector('figcaption') && (node.querySelector('img')?.alt || '').trim().length < 12) return;
     add(node, 'all');
