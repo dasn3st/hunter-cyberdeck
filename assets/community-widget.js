@@ -112,7 +112,8 @@
     thread.className = 'community-widget__thread';
     dialog.append(dialogHeader, thread);
     document.body.append(dialog);
-    document.body.append(widget);
+    const overlayRoot = node.closest('#menu') || document.body;
+    overlayRoot.append(widget);
     positionedWidgets.push({ widget, target: node });
     positionWidgets();
 
