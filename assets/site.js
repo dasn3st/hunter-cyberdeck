@@ -18,7 +18,7 @@ if (headerTarget) {
     const mark = item.external ? ' <span class="external-mark" aria-hidden="true">↗</span>' : "";
     const key = `nav.${item.id}`;
     return `<a class="nav-link" href="${item.href}"${active}><span data-i18n="${key}">${item.label}</span>${mark}</a>`;
-  }).join("");
+  }).join("") + '<a class="nav-link" href="https://d4sn3st.dev/login">Mit Google anmelden ↗</a>';
 
   headerTarget.outerHTML = `
     <header class="site-header">
