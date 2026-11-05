@@ -42,7 +42,7 @@
     node.dataset.communityBound = 'true';
     const label = cleanText(node.querySelector('h1,h2,h3,h4,figcaption,[data-community-label]')) || document.title;
     const pageKey = currentPageKey();
-    const itemId = node.dataset.communityId || itemFor(node, scope === 'comments' ? 'discussion' : 'content', index);
+    const itemId = itemFor(node, scope === 'comments' ? 'discussion' : 'content', index);
     const widget = document.createElement('section');
     widget.className = 'community-widget';
     widget.dataset.scope = scope;
@@ -55,7 +55,8 @@
     thread.className = 'community-widget__thread';
     thread.hidden = true;
     widget.append(thread);
-    node.append(widget);
+    if (node.matches('a, button')) node.after(widget);
+    else node.append(widget);
 
     let state = { like_count: 0, comment_count: 0, viewer_liked: false, comments: [], authenticated: false };
     let busy = false;
