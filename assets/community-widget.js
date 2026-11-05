@@ -30,6 +30,18 @@
   const excluded = 'header, nav, footer, aside, form, dialog, [role="dialog"], .project-nodes, .community-widget, .community-feedback__actions, [data-community-ignore], #searchOverlay';
   const visible = (node) => node instanceof HTMLElement && !node.closest(excluded) && node.getClientRects().length > 0;
   const positionedWidgets = [];
+  const sessionRefreshers = [];
+  let sessionRefreshTimer = 0;
+  const refreshSessions = () => {
+    if (document.visibilityState !== 'visible') return;
+    window.clearTimeout(sessionRefreshTimer);
+    sessionRefreshTimer = window.setTimeout(() => {
+      sessionRefreshers.forEach((refresh) => refresh());
+    }, 180);
+  };
+  window.addEventListener('focus', refreshSessions);
+  window.addEventListener('pageshow', refreshSessions);
+  document.addEventListener('visibilitychange', refreshSessions);
   let positionFrame = 0;
   const positionWidgets = (reflow = false) => {
     if (positionFrame) return;
@@ -172,7 +184,11 @@
         const note = document.createElement('p'); note.className = 'community-widget__error'; note.textContent = localError; thread.append(note);
       }
     };
-    async function load() {
+    let loadingSummary = false;
+    let lastSummaryLoad = 0;
+    async function load(force = false) {
+      if (loadingSummary || (force && Date.now() - lastSummaryLoad < 1200)) return;
+      loadingSummary = true;
       try {
         const response = await fetch(summaryUrl(), { credentials: 'include', cache: 'no-store' });
         if (!response.ok) throw new Error('LOAD_FAILED');
@@ -181,8 +197,12 @@
         render();
       } catch {
         widget.hidden = true;
+      } finally {
+        loadingSummary = false;
+        lastSummaryLoad = Date.now();
       }
     }
+    sessionRefreshers.push(() => { void load(true); });
     async function update(action, comment) {
       if (!state.authenticated) { login(); return; }
       busy = true; localError = ''; render();
