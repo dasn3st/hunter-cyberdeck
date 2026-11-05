@@ -34,10 +34,24 @@
     positionedWidgets.forEach(({ widget, target }) => {
       if (!target.isConnected) return;
       const rect = target.getBoundingClientRect();
-      const onScreen = rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
+      const header = document.querySelector('header');
+      const headerRect = header?.getBoundingClientRect();
+      const headerPosition = header ? getComputedStyle(header).position : '';
+      const topBoundary = headerRect && (headerPosition === 'fixed' || headerPosition === 'sticky') && headerRect.top <= 0 ? headerRect.bottom : 0;
+      const onScreen = rect.width > 0 && rect.height > 0 && rect.bottom > topBoundary + 8 && rect.top < innerHeight && rect.right > 0 && rect.left < innerWidth;
       widget.style.visibility = onScreen ? 'visible' : 'hidden';
-      widget.style.left = `${Math.max(4, Math.min(innerWidth - 48, rect.right - 48))}px`;
-      widget.style.top = `${Math.max(4, Math.min(innerHeight - 22, rect.bottom - 22))}px`;
+      const widgetWidth = widget.getBoundingClientRect().width || 46;
+      const top = Math.max(topBoundary + 6, Math.min(innerHeight - 22, rect.bottom - 22));
+      let left = Math.max(4, Math.min(innerWidth - widgetWidth - 4, rect.right - widgetWidth - 8));
+      const rail = document.querySelector('.project-nodes');
+      if (rail) {
+        const railRect = rail.getBoundingClientRect();
+        const railPosition = getComputedStyle(rail).position;
+        const overlapsRail = (railPosition === 'fixed' || railPosition === 'sticky') && top < railRect.bottom && top + 18 > railRect.top && left < railRect.right && left + widgetWidth > railRect.left;
+        if (overlapsRail) left = Math.max(4, railRect.left - widgetWidth - 8);
+      }
+      widget.style.left = `${left}px`;
+      widget.style.top = `${top}px`;
     });
   };
   window.addEventListener('scroll', positionWidgets, { passive: true, capture: true });
