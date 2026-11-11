@@ -8,6 +8,15 @@ Diese Datei ist der Einstieg für einen neuen Chat oder eine neue Person. Sie
 beschreibt ausschließlich die öffentliche Website und enthält keine privaten
 Zugänge, Tokens oder Betriebsdaten.
 
+## Hosting: Cloudflare Pages (11.11.2026)
+
+Die Seite läuft auf Cloudflare Pages statt Netlify (Netlify-Kosten). Build: `npm run build`, Ausgabe `dist`, `NODE_VERSION=20`.
+- `functions/_middleware.js` ersetzt die Netlify-Weiterleitungen mit Query (`?lang=en` → `/_en/…`, `post.html?slug=` → `/blog/<slug>/`) und liefert für interne Dateien (`HUNTER_*.md`, `scripts/`, `.git`, `.env`) die 404-Seite.
+- `functions/sitemap.xml.js` ist die Sitemap (statische Seiten plus Beiträge aus Supabase).
+- `_routes.json` begrenzt, welche Pfade durch die Functions laufen; Assets und `/blog/<slug>/` sind statisch.
+- Nicht übernommen (nichts davon wird von der öffentlichen Seite aufgerufen): Netlify-Funktionen `blog-post`, `rebuild-blog-static`, `trigger-blog-static` (Build-Hook). `netlify.toml` bleibt als Rückweg liegen.
+- Neue Beiträge erscheinen nach einem neuen Build (Push auf `main` oder „Retry deployment“ in Cloudflare).
+
 ## Kurzstatus
 
 - Die Website ist ein statisches HTML/CSS/JavaScript-Projekt auf Netlify.

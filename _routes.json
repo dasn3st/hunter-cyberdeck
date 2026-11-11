@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "include": ["/", "/index.html", "/blog", "/blog.html", "/tech", "/tech.html", "/hardware", "/hardware/", "/hardware.html", "/makerworld", "/makerworld.html", "/archive", "/archive.html", "/github", "/github.html", "/about", "/about.html", "/post.html", "/sitemap.xml", "/HUNTER_*", "/NOTEBOOKLM_*", "/BLOG_DELUXE_*", "/scripts/*", "/.git/*", "/.env*"],
+  "exclude": []
+}
