@@ -285,7 +285,7 @@ const copyWebsite = async () => {
     "404.html", "about.html", "archive.html", "blog.html", "code.html",
     "github.html", "hardware.html", "index.html", "makerworld.html",
     "post.html", "tech.html", "_headers", "robots.txt", "site.webmanifest",
-    "sitemap.xml",
+    "sitemap.xml", "_routes.json",
   ];
   await Promise.all(publicFiles.map((filename) => cp(path.join(sourceDir, filename), path.join(outputDir, filename))));
   await cp(path.join(sourceDir, "assets"), path.join(outputDir, "assets"), {
