@@ -1,4 +1,5 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
+import { statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -290,7 +291,8 @@ const copyWebsite = async () => {
   await Promise.all(publicFiles.map((filename) => cp(path.join(sourceDir, filename), path.join(outputDir, filename))));
   await cp(path.join(sourceDir, "assets"), path.join(outputDir, "assets"), {
     recursive: true,
-    filter: (source) => !path.basename(source).startsWith("."),
+    // Cloudflare Pages nimmt nur Dateien bis 25 MiB. Größere (Forschungsarchiv-ZIP) liegen im GitHub-Repo und werden von dort verlinkt.
+    filter: (source) => !path.basename(source).startsWith(".") && !(statSync(source).isFile() && statSync(source).size > 24 * 1024 * 1024),
   });
 };
 
